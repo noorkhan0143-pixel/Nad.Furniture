@@ -1,15 +1,29 @@
 [build]
-  # The app lives at the repository root (overrides the non-existent "project" base directory).
-  base = "."
-  # Install dependencies explicitly so vite is available even when no automatic install runs.
-  command = "npm install --include=dev && npm run build"
-  # Vite outputs the production build to dist/ (public/ holds static source assets).
   publish = "dist"
+  command = "npm run build"
 
-[build.environment]
-  NODE_VERSION = "22"
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
-# Single-page app fallback
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

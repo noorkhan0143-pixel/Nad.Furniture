@@ -88,7 +88,7 @@ export const BulkQuoteModal: React.FC<BulkQuoteModalProps> = ({
             </h2>
             <p className="text-sm text-[#4A5568] max-w-md mx-auto mb-6">
               Thank you, <span className="font-semibold text-[#1A202C]">{name}</span>. Our
-              commercial sales team in Ajman will review your requirements and contact you
+              commercial sales team in Dubai will review your requirements and contact you
               shortly with factory-direct pricing and delivery schedules.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

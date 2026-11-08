@@ -20,7 +20,11 @@ export interface ProductItem {
   fallbackImage: string;
   alt: string;
   specs: string[];
-  tag?: 'Best Seller' | 'New Arrival' | 'On Sale';
+  tag?: 'Best Seller' | 'New Arrival' | 'On Sale' | string;
+  price?: string;
+  originalPrice?: string;
+  minOrder?: string;
+  inStock?: boolean;
 }
 
 export const SITE_IMAGES = {
@@ -64,7 +68,6 @@ export const BUNK_BEDS: ProductItem[] = [
     image: 'https://nadfurniture.net/wp-content/uploads/2026/07/1-300x300.webp',
     fallbackImage: bunkBedImg,
     alt: 'Heavy-Duty Steel Bunk Bed',
-    tag: 'Best Seller',
     specs: [
       '27 KG heavy-gauge powder-coated steel frame',
       'Integrated safety guardrails & sturdy side ladder',
@@ -80,7 +83,6 @@ export const BUNK_BEDS: ProductItem[] = [
     image: 'https://nadfurniture.net/wp-content/uploads/2026/07/Bunk-Bed-with-Ladder-300x300.webp',
     fallbackImage: bunkBedImg,
     alt: 'Bunk Bed with Ladder',
-    tag: 'Best Seller',
     specs: [
       'Extra-reinforced 36 KG structural steel tubing',
       'Anti-rust electrostatic powder-coated finish',
@@ -144,7 +146,6 @@ export const STEEL_LOCKERS: ProductItem[] = [
     image: 'https://nadfurniture.net/wp-content/uploads/2026/08/4-300x300.webp',
     fallbackImage: steelLockerImg,
     alt: '2 Door Steel Cabinet With Locker',
-    tag: 'New Arrival',
     specs: [
       'Cold-rolled steel sheet with powder-coated finish',
       'Internal lockable safe compartment + hanging rod',
@@ -190,7 +191,6 @@ export const STEEL_LOCKERS: ProductItem[] = [
     image: 'https://nadfurniture.net/wp-content/uploads/2026/07/11-300x300.webp',
     fallbackImage: steelLockerImg,
     alt: '4-Tier Steel Locker Cabinet for Staff Accommodation & Hostels',
-    tag: 'New Arrival',
     specs: [
       '4-compartment vertical steel locker unit',
       'Padlock hasp or key lock options',
@@ -302,7 +302,6 @@ export const EXTRA_PRODUCTS: ProductItem[] = [
     image: 'https://nadfurniture.net/wp-content/uploads/2026/08/3-4.webp',
     fallbackImage: officeWorkspaceImg,
     alt: 'Office Table with Drawers',
-    tag: 'On Sale',
     specs: [
       '160 x 80 cm scratch-resistant worktop',
       'Lockable 3-drawer mobile pedestal',
@@ -318,7 +317,6 @@ export const EXTRA_PRODUCTS: ProductItem[] = [
     image: 'https://nadfurniture.net/wp-content/uploads/2026/07/office-furniture.jpg',
     fallbackImage: officeWorkspaceImg,
     alt: 'Modular 4-Person Office Workstation',
-    tag: 'On Sale',
     specs: [
       'Acoustic fabric desk dividers for focus',
       'Under-desk wire tray & power raceway',

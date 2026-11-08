@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Warehouse,
   Truck,
@@ -14,13 +14,11 @@ import {
   Landmark,
   HardHat,
   Building,
+  Play,
+  Lock,
 } from 'lucide-react';
 import {
   SITE_IMAGES,
-  BUNK_BEDS,
-  STEEL_LOCKERS,
-  WARDROBES,
-  ALL_PRODUCTS,
   ProductItem,
   ProductCategory,
   WHATSAPP_NUMBER,
@@ -30,6 +28,11 @@ import { BulkQuoteModal } from './components/BulkQuoteModal';
 import { ProductQuickViewModal } from './components/ProductQuickViewModal';
 import { WhatsAppIcon } from './components/WhatsAppIcon';
 import { AiAssistantChat } from './components/AiAssistantChat';
+import { CatalogProvider, useCatalog } from './context/CatalogContext';
+import { OwnerControlBar } from './components/OwnerControlBar';
+import { OwnerPortalModal } from './components/OwnerPortalModal';
+import { ProductEditorModal } from './components/ProductEditorModal';
+import { OwnerCatalogManagerModal } from './components/OwnerCatalogManagerModal';
 
 type FilterTab = 'all' | ProductCategory;
 
@@ -47,13 +50,25 @@ const NadBrandMark: React.FC = () => (
   </span>
 );
 
-export default function App() {
+function MainAppContent() {
+  const { products, openLoginModal } = useCatalog();
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [quoteProduct, setQuoteProduct] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleVideoPlay = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play().catch(() => {});
+    } else {
+      videoRef.current.pause();
+    }
+  };
 
   const openBulkQuote = (productTitle = '') => {
     setQuoteProduct(productTitle);
@@ -78,10 +93,14 @@ export default function App() {
     }
   };
 
+  const bunkBeds = products.filter((p) => p.category === 'bunk-beds');
+  const steelLockers = products.filter((p) => p.category === 'steel-lockers');
+  const wardrobes = products.filter((p) => p.category === 'wardrobe');
+
   const filteredProducts =
     activeFilter === 'all'
       ? []
-      : ALL_PRODUCTS.filter((item) => item.category === activeFilter);
+      : products.filter((item) => item.category === activeFilter);
 
   return (
     <div id="wrapper" className="min-h-screen flex flex-col bg-white text-[#2D3748]">
@@ -143,13 +162,13 @@ export default function App() {
 
             <div className="flex items-center gap-3 text-[15px] font-semibold whitespace-nowrap shrink-0">
               <a
-                href="mailto:Info@nad.furniture"
+                href="mailto:info@nad.furniture"
                 className="inline-flex items-center gap-1.5 text-[#EDF2F7] hover:text-white transition-colors"
               >
                 <span aria-hidden="true" className="text-[12px]">
                   ✉
                 </span>
-                <span>Info@nad.furniture</span>
+                <span>info@nad.furniture</span>
               </a>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
@@ -174,18 +193,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Mobile Top Promo Bar */}
-        <div
-          className="lg:hidden bg-[#131313] py-2 px-4 text-center"
-          style={{
-            backgroundImage: `url(${SITE_IMAGES.subtlePattern})`,
-          }}
-        >
-          <p className="text-[13px] uppercase leading-none text-[#EDF2F7]">
-            Free Shipping over Orders above 5000 AED
-          </p>
-        </div>
-
         {/* Main Header Bar */}
         <div className="bg-[#000000]">
           <div className="mx-auto flex min-h-[80px] max-w-[1290px] items-center justify-between px-6">
@@ -201,7 +208,7 @@ export default function App() {
             {/* Center: Primary Navigation (Desktop) */}
             <nav
               aria-label="Primary"
-              className="hidden lg:flex items-center gap-8 text-[18px] uppercase text-[#EDF2F7]"
+              className="hidden lg:flex items-center gap-7 text-[15px] xl:text-[16px] font-semibold tracking-wide uppercase text-[#EDF2F7]"
             >
               {/* Labour Camp Furniture Dropdown */}
               <div className="relative group py-3">
@@ -471,7 +478,7 @@ export default function App() {
             </div>
 
             <div className="pt-6 border-t border-white/10 space-y-3 text-xs text-[#CBD5E0]">
-              <p>Nazir Plaza Building, Ground Floor, Ajman, UAE</p>
+              <p>NAD Building, Naif Street, Dubai, UAE</p>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
@@ -498,13 +505,13 @@ export default function App() {
             backgroundRepeat: 'no-repeat',
           }}
         >
-          <div className="mx-auto max-w-[1290px] px-6 py-16 md:py-24">
+          <div className="mx-auto max-w-[1290px] px-6 py-10 sm:py-12 md:py-14 lg:py-16">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              <div className="lg:col-span-8 space-y-5 lg:pr-12">
-                <h1 className="text-[36px] sm:text-[42px] lg:text-[54px] font-bold leading-[1.25] text-white">
+              <div className="lg:col-span-8 space-y-4 lg:pr-8">
+                <h1 className="text-[28px] sm:text-[34px] md:text-[38px] lg:text-[42px] xl:text-[46px] font-bold leading-[1.2] text-white">
                   Direct-from-Factory Accommodation Furniture at Unbeatable Wholesale Rates
                 </h1>
-                <p className="text-[17px] lg:text-[18px] leading-relaxed text-white max-w-2xl">
+                <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#CBD5E0] max-w-2xl">
                   Cut out the middleman. We manufacture and supply heavy-duty bunk beds,
                   staff housing furniture, and bulk accommodation solutions across the
                   UAE.
@@ -513,7 +520,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => openBulkQuote()}
-                    className="inline-flex items-center gap-3 rounded-[6px] border-2 border-[#b82105] bg-[#191919] px-6 py-3.5 text-[18px] text-white hover:bg-[#b82105] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-3 rounded-[6px] border-2 border-[#b82105] bg-[#191919] px-6 py-3 text-[16px] font-semibold text-white hover:bg-[#b82105] transition-colors cursor-pointer"
                   >
                     <span>Request a Bulk Quote</span>
                     <ArrowRight className="h-4 w-4" />
@@ -534,7 +541,7 @@ export default function App() {
                       target.src = SITE_IMAGES.heroBunkBedsFallback;
                     }
                   }}
-                  className="w-full max-w-[440px] aspect-square object-contain"
+                  className="w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[420px] aspect-square object-contain"
                 />
               </div>
             </div>
@@ -542,51 +549,51 @@ export default function App() {
         </section>
 
         {/* 2. 4-Column Feature Strip */}
-        <section className="w-full bg-[#191919] text-white py-6">
+        <section className="w-full bg-[#191919] text-white py-5">
           <div className="mx-auto max-w-[1290px] px-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
               <div className="flex flex-col items-center">
-                <Warehouse className="h-[25px] w-[25px] text-white mb-2" aria-hidden="true" />
-                <h3 className="font-sans text-[20px] font-bold text-white">
+                <Warehouse className="h-[24px] w-[24px] text-white mb-2" aria-hidden="true" />
+                <h3 className="font-sans text-[17px] font-bold text-white">
                   UAE Manufactured
                 </h3>
-                <p className="text-[16px] text-white">Quality furniture made locally</p>
+                <p className="text-[14px] text-[#CBD5E0]">Quality furniture made locally</p>
               </div>
 
               <div className="flex flex-col items-center">
-                <Truck className="h-[25px] w-[25px] text-white mb-2" aria-hidden="true" />
-                <h3 className="font-sans text-[20px] font-bold text-white">
-                  Free Shipping
+                <Truck className="h-[24px] w-[24px] text-white mb-2" aria-hidden="true" />
+                <h3 className="font-sans text-[17px] font-bold text-white">
+                  Fast UAE Delivery
                 </h3>
-                <p className="text-[16px] text-white">On orders of 5000 AED or more</p>
+                <p className="text-[14px] text-[#CBD5E0]">Direct to your site or project</p>
               </div>
 
               <div className="flex flex-col items-center">
-                <Boxes className="h-[25px] w-[25px] text-white mb-2" aria-hidden="true" />
-                <h3 className="font-sans text-[20px] font-bold text-white">
+                <Boxes className="h-[24px] w-[24px] text-white mb-2" aria-hidden="true" />
+                <h3 className="font-sans text-[17px] font-bold text-white">
                   Bulk Order Supply
                 </h3>
-                <p className="text-[16px] text-white">For projects of all sizes</p>
+                <p className="text-[14px] text-[#CBD5E0]">For projects of all sizes</p>
               </div>
 
               <div className="flex flex-col items-center">
-                <LifeBuoy className="h-[25px] w-[25px] text-white mb-2" aria-hidden="true" />
-                <h3 className="font-sans text-[20px] font-bold text-white">
+                <LifeBuoy className="h-[24px] w-[24px] text-white mb-2" aria-hidden="true" />
+                <h3 className="font-sans text-[17px] font-bold text-white">
                   24/7 Customer Service
                 </h3>
-                <p className="text-[16px] text-white">Contact us anytime</p>
+                <p className="text-[14px] text-[#CBD5E0]">Contact us anytime</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* 3. About Us & YouTube Video Section */}
-        <section id="about-us" className="w-full pt-16 pb-6 bg-white">
+        <section id="about-us" className="w-full pt-12 md:pt-16 pb-6 bg-white">
           <div className="mx-auto max-w-[1290px] px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
               <div>
-                <h2 className="text-[32px] lg:text-[36px] font-bold text-[#1A202C]">About Us</h2>
-                <p className="mt-4 text-[17px] leading-relaxed text-[#2D3748]">
+                <h2 className="text-[28px] md:text-[32px] font-bold text-[#1A202C]">About Us</h2>
+                <p className="mt-4 text-[15px] sm:text-[16px] leading-relaxed text-[#2D3748]">
                   NAD Furniture is a leading{' '}
                   <a
                     href="#about-us"
@@ -609,7 +616,7 @@ export default function App() {
                   ].map((item) => (
                     <li
                       key={item}
-                      className="flex items-center gap-2.5 text-[17px] text-[#2D3748]"
+                      className="flex items-center gap-2.5 text-[15px] sm:text-[16px] text-[#2D3748]"
                     >
                       <span className="text-[#b82105] font-bold" aria-hidden="true">
                         ☞
@@ -621,16 +628,58 @@ export default function App() {
               </div>
 
               <div className="p-1">
-                <div className="aspect-video w-full overflow-hidden bg-[#131313]">
-                  <iframe
-                    loading="lazy"
-                    title="Staff Accommodation Furniture Supplier | Bunk Beds, Lockers & Mattresses UAE"
-                    src="https://www.youtube.com/embed/PI32LVIS2ko?feature=oembed"
-                    className="h-full w-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  />
+                <div className="overflow-hidden rounded-[8px] border border-[#2D3748] bg-[#131313] shadow-md">
+                  <div className="relative aspect-video w-full overflow-hidden bg-[#000000] flex items-center justify-center group">
+                    <video
+                      ref={videoRef}
+                      controls
+                      playsInline
+                      preload="metadata"
+                      poster="./videos/nad_video_poster.jpg"
+                      onPlay={() => setIsVideoPlaying(true)}
+                      onPause={() => setIsVideoPlaying(false)}
+                      onEnded={() => setIsVideoPlaying(false)}
+                      aria-label="NAD Furniture UAE Manufacturing & Accommodation Facility Tour"
+                      className="h-full w-full object-contain bg-black cursor-pointer"
+                    >
+                      <source src="./videos/nad_furniture_tour.mp4" type="video/mp4" />
+                      <source src="/videos/nad_furniture_tour.mp4" type="video/mp4" />
+                      <source src="./videos/nad_furniture_optimized.mp4" type="video/mp4" />
+                      <source src="./assets/aistudio/1107__2__a1ee38c1.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+
+                    {!isVideoPlaying && (
+                      <button
+                        type="button"
+                        onClick={toggleVideoPlay}
+                        aria-label="Play NAD Furniture UAE Tour"
+                        className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#b82105] text-white shadow-2xl hover:bg-[#8a1803] hover:scale-105 transition-all cursor-pointer z-10"
+                      >
+                        <Play className="h-8 w-8 ml-1 fill-white" />
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap items-center justify-between gap-3 bg-[#191919] px-4 py-3 text-sm text-white border-t border-white/10">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[#CBD5E0]">For orders:</span>
+                      <a
+                        href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-[#25D366] hover:text-[#1ebe5d] transition-colors tabular-nums"
+                      >
+                        +971 50 631 6560
+                      </a>
+                    </div>
+                    <a
+                      href="mailto:info@nad.furniture"
+                      className="inline-flex items-center gap-1.5 font-medium text-[#EDF2F7] hover:text-[#cf251d] transition-colors"
+                    >
+                      <span aria-hidden="true">✉</span>
+                      <span>info@nad.furniture</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -638,15 +687,15 @@ export default function App() {
         </section>
 
         {/* 4. 4-Column Category Showcase (1fr 1fr 1fr 2fr) */}
-        <section id="category-showcase" className="w-full py-20 md:py-28 bg-white">
+        <section id="category-showcase" className="w-full py-12 md:py-16 bg-white">
           <div className="mx-auto max-w-[1290px] px-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12 items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 items-center">
               <button
                 type="button"
                 onClick={() => handleCategorySelect('bunk-beds')}
                 className="group text-center cursor-pointer"
               >
-                <h3 className="text-[26px] font-bold text-[#1A202C] mb-3 group-hover:text-[#b82105] transition-colors">
+                <h3 className="text-[20px] md:text-[22px] font-bold text-[#1A202C] mb-3 group-hover:text-[#b82105] transition-colors">
                   Bunk Beds
                 </h3>
                 <div className="aspect-square w-full overflow-hidden bg-white">
@@ -671,7 +720,7 @@ export default function App() {
                 onClick={() => handleCategorySelect('wardrobe')}
                 className="group text-center cursor-pointer"
               >
-                <h3 className="text-[26px] font-bold text-[#1A202C] mb-3 group-hover:text-[#b82105] transition-colors">
+                <h3 className="text-[20px] md:text-[22px] font-bold text-[#1A202C] mb-3 group-hover:text-[#b82105] transition-colors">
                   Wardrobes
                 </h3>
                 <div className="aspect-square w-full overflow-hidden bg-white">
@@ -696,7 +745,7 @@ export default function App() {
                 onClick={() => handleCategorySelect('steel-lockers')}
                 className="group text-center cursor-pointer"
               >
-                <h3 className="text-[26px] font-bold text-[#1A202C] mb-3 group-hover:text-[#b82105] transition-colors">
+                <h3 className="text-[20px] md:text-[22px] font-bold text-[#1A202C] mb-3 group-hover:text-[#b82105] transition-colors">
                   Lockers
                 </h3>
                 <div className="aspect-square w-full overflow-hidden bg-white">
@@ -716,11 +765,11 @@ export default function App() {
                 </div>
               </button>
 
-              <div className="sm:col-span-2 lg:col-span-2 lg:pl-8 space-y-4">
-                <h2 className="text-[32px] lg:text-[36px] font-bold text-[#1A202C]">
+              <div className="sm:col-span-2 lg:col-span-2 lg:pl-6 space-y-3.5">
+                <h2 className="text-[26px] md:text-[30px] font-bold text-[#1A202C]">
                   Bedroom Furniture
                 </h2>
-                <p className="text-[17px] leading-relaxed text-[#2D3748]">
+                <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#2D3748]">
                   Create comfortable and practical bedrooms with furniture designed for
                   homes across the UAE. Explore beds, wardrobes and coordinated bedroom
                   solutions for master bedrooms, guest rooms and everyday spaces.
@@ -729,7 +778,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => handleCategorySelect('wardrobe')}
-                    className="inline-flex items-center gap-2.5 rounded-[6px] bg-[#b82105] px-6 py-[13px] text-[16px] text-white hover:bg-[#8a1803] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2.5 rounded-[6px] bg-[#b82105] px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-[#8a1803] transition-colors cursor-pointer"
                   >
                     <span>Explore Bedroom Furniture</span>
                     <ArrowRight className="h-4 w-4" />
@@ -741,11 +790,11 @@ export default function App() {
         </section>
 
         {/* 5. Featured Items Catalog */}
-        <section id="featured-items" className="w-full pb-24 bg-white">
+        <section id="featured-items" className="w-full pb-16 md:pb-20 bg-white">
           <div className="mx-auto max-w-[1290px] px-6">
             <div className="text-center max-w-[580px] mx-auto">
-              <h2 className="text-[32px] lg:text-[36px] font-bold text-[#1A202C]">Featured Items</h2>
-              <p className="mt-2 text-[17px] leading-relaxed text-[#2D3748]">
+              <h2 className="text-[26px] md:text-[30px] font-bold text-[#1A202C]">Featured Items</h2>
+              <p className="mt-2 text-[15px] sm:text-[16px] leading-relaxed text-[#2D3748]">
                 As a trusted UAE manufacturer of steel bunk beds and single beds, NAD
                 Furniture combines durable construction, modern designs, and exceptional
                 value to meet the needs of homes, staff accommodations, hostels, schools,
@@ -799,7 +848,7 @@ export default function App() {
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {BUNK_BEDS.map((product) => (
+                    {bunkBeds.map((product) => (
                       <ProductCard
                         key={product.id}
                         product={product}
@@ -826,7 +875,7 @@ export default function App() {
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {STEEL_LOCKERS.map((product) => (
+                    {steelLockers.map((product) => (
                       <ProductCard
                         key={product.id}
                         product={product}
@@ -851,7 +900,7 @@ export default function App() {
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {WARDROBES.map((product) => (
+                    {wardrobes.map((product) => (
                       <ProductCard
                         key={product.id}
                         product={product}
@@ -962,14 +1011,14 @@ export default function App() {
         </section>
 
         {/* 7. Beds & Accommodation Furniture Split Section */}
-        <section className="w-full py-24 bg-white">
+        <section className="w-full py-12 md:py-16 bg-white">
           <div className="mx-auto max-w-[1290px] px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <div className="lg:pr-16 space-y-4">
-                <h2 className="text-[32px] lg:text-[36px] font-bold text-[#1A202C]">
+              <div className="lg:pr-12 space-y-3.5">
+                <h2 className="text-[26px] md:text-[30px] font-bold text-[#1A202C]">
                   Beds &amp; Accommodation Furniture
                 </h2>
-                <p className="text-[17px] leading-relaxed text-[#2D3748]">
+                <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#2D3748]">
                   Durable beds, bunk beds and accommodation furniture for homes, labour
                   camps, staff housing, hotels and commercial projects across the UAE.
                   Available for individual orders and bulk project supply.
@@ -978,7 +1027,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => handleCategorySelect('beds')}
-                    className="inline-flex items-center gap-2.5 rounded-[6px] bg-[#b82105] px-6 py-[13px] text-[16px] text-white hover:bg-[#9e1c06] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2.5 rounded-[6px] bg-[#b82105] px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-[#9e1c06] transition-colors cursor-pointer"
                   >
                     <span>Shop Beds</span>
                     <ArrowRight className="h-4 w-4" />
@@ -987,7 +1036,7 @@ export default function App() {
               </div>
 
               <div className="grid grid-cols-2 gap-4 md:gap-0 items-start">
-                <div className="md:mt-[60px] md:-mr-[30px] md:ml-[30px] relative z-10 overflow-hidden rounded-[8px] border border-[#2D3748] bg-white">
+                <div className="md:mt-[40px] md:-mr-[20px] md:ml-[20px] relative z-10 overflow-hidden rounded-[8px] border border-[#2D3748] bg-white shadow-sm">
                   <img
                     src={SITE_IMAGES.kingBed2}
                     alt="king size bed"
@@ -1002,7 +1051,7 @@ export default function App() {
                     className="w-full h-auto object-cover"
                   />
                 </div>
-                <div className="overflow-hidden rounded-[8px] border border-[#2D3748] bg-white">
+                <div className="overflow-hidden rounded-[8px] border border-[#2D3748] bg-white shadow-sm">
                   <img
                     src={SITE_IMAGES.kingBed1}
                     alt="king size bed"
@@ -1023,17 +1072,17 @@ export default function App() {
         </section>
 
         {/* 8. Who We Serve */}
-        <section id="who-we-serve" className="w-full py-6 bg-white">
+        <section id="who-we-serve" className="w-full py-8 md:py-10 bg-white">
           <div className="mx-auto max-w-[1290px] px-6">
             <div className="text-center mb-6">
-              <h2 className="text-[32px] lg:text-[36px] font-bold text-[#1A202C]">Who We Serve</h2>
-              <p className="mt-2 text-[17px] text-[#2D3748]">
+              <h2 className="text-[26px] md:text-[30px] font-bold text-[#1A202C]">Who We Serve</h2>
+              <p className="mt-2 text-[15px] sm:text-[16px] text-[#2D3748]">
                 We deliver end-to-end staff accommodation furnishings—outfitting thousands
                 of units every month for:
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
               {[
                 { label: 'Construction Companies', Icon: Building2 },
                 { label: 'Facility Management', Icon: Wrench },
@@ -1044,13 +1093,13 @@ export default function App() {
               ].map(({ label, Icon }) => (
                 <div
                   key={label}
-                  className="flex flex-col items-center justify-center border border-[#1A202C] p-4 text-center"
+                  className="flex flex-col items-center justify-center border border-[#1A202C] p-3.5 text-center"
                 >
                   <Icon
-                    className="h-[72px] w-[72px] text-[#b82105] mb-2 stroke-[1.5]"
+                    className="h-[52px] w-[52px] text-[#b82105] mb-2 stroke-[1.5]"
                     aria-hidden="true"
                   />
-                  <p className="text-[16px] text-[#2D3748] leading-snug">{label}</p>
+                  <p className="text-[14px] sm:text-[15px] text-[#2D3748] leading-snug">{label}</p>
                 </div>
               ))}
             </div>
@@ -1058,10 +1107,10 @@ export default function App() {
         </section>
 
         {/* 9. Office Furniture for Modern Workspaces in UAE */}
-        <section className="w-full py-24 bg-white overflow-hidden">
+        <section className="w-full py-12 md:py-16 bg-white overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
             <div
-              className="min-h-[300px] md:min-h-[400px] lg:min-h-[600px] bg-cover bg-center lg:rounded-r-[80px]"
+              className="min-h-[240px] md:min-h-[320px] lg:min-h-[440px] bg-cover bg-center lg:rounded-r-[60px]"
               style={{
                 backgroundImage: `url(${SITE_IMAGES.homeFurniture}), url(${SITE_IMAGES.bedroomFallback})`,
                 backgroundPosition: '50% 90%',
@@ -1069,11 +1118,11 @@ export default function App() {
               aria-label="Home furniture"
             />
 
-            <div className="p-8 lg:p-12 space-y-4">
-              <h2 className="text-[32px] lg:text-[36px] font-bold text-[#1A202C]">
+            <div className="p-6 lg:p-10 space-y-3.5">
+              <h2 className="text-[26px] md:text-[30px] font-bold text-[#1A202C]">
                 Office Furniture for Modern Workspaces in UAE
               </h2>
-              <p className="text-[17px] leading-relaxed text-[#2D3748]">
+              <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#2D3748]">
                 Create productive and professional workspaces with durable office furniture
                 for corporate offices, staff areas and commercial projects. Explore office
                 desks, workstations, ergonomic chairs, storage solutions and more, with bulk
@@ -1083,7 +1132,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => handleCategorySelect('office-furniture')}
-                  className="inline-flex items-center gap-2.5 rounded-[6px] bg-[#b82105] px-6 py-[13px] text-[16px] text-white hover:bg-[#8f1a05] transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-2.5 rounded-[6px] bg-[#b82105] px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-[#8f1a05] transition-colors cursor-pointer"
                 >
                   <span>Shop Office Furniture</span>
                   <ArrowRight className="h-4 w-4" />
@@ -1092,7 +1141,7 @@ export default function App() {
             </div>
 
             <div
-              className="min-h-[300px] md:min-h-[400px] lg:min-h-[600px] bg-cover bg-center lg:rounded-l-[80px]"
+              className="min-h-[240px] md:min-h-[320px] lg:min-h-[440px] bg-cover bg-center lg:rounded-l-[60px]"
               style={{
                 backgroundImage: `url(${SITE_IMAGES.officeFurniture}), url(${SITE_IMAGES.officeFallback})`,
               }}
@@ -1104,20 +1153,20 @@ export default function App() {
 
       {/* Footer */}
       <footer id="colophon" className="w-full bg-[#131313] text-white">
-        <div className="mx-auto max-w-[1290px] px-6 pt-[120px] pb-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14">
+        <div className="mx-auto max-w-[1290px] px-6 pt-16 md:pt-20 pb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
             {/* Col 1: Brand & Social */}
-            <div className="space-y-4">
+            <div className="space-y-3.5">
               <div className="mb-2">
                 <NadBrandMark />
               </div>
-              <p className="text-[16px] leading-relaxed text-white">
+              <p className="text-[14px] sm:text-[15px] leading-relaxed text-[#CBD5E0]">
                 NAD Group of Companies is a trusted UAE manufacturer of office furniture
                 and steel furniture, delivering quality craftsmanship, innovative designs,
                 and reliable solutions for businesses, institutions, and commercial
                 projects.
               </p>
-              <div className="flex items-center gap-5 pt-2">
+              <div className="flex items-center gap-4 pt-1">
                 <a
                   href="https://www.facebook.com/nadfurniturellc/"
                   target="_blank"
@@ -1129,7 +1178,7 @@ export default function App() {
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="h-7 w-7"
+                    className="h-6 w-6"
                     aria-hidden="true"
                   >
                     <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7v-7h-2v-3h2V9.5A3.5 3.5 0 0 1 15.5 6H18v3h-2a1 1 0 0 0-1 1v1h3l-.5 3H15v7h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z" />
@@ -1150,7 +1199,7 @@ export default function App() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="h-7 w-7"
+                    className="h-6 w-6"
                     aria-hidden="true"
                   >
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
@@ -1169,7 +1218,7 @@ export default function App() {
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="h-7 w-7"
+                    className="h-6 w-6"
                     aria-hidden="true"
                   >
                     <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-6.8 14.2c-.9 0-1.7-.4-2.1-.9l-.6 2.3c-.2.7-.6 1.5-1 2-.1.1-.2.1-.2-.1-.1-.7-.1-1.7.1-2.5l.8-3.3s-.2-.4-.2-1c0-.9.5-1.6 1.2-1.6.6 0 .8.4.8 1 0 .6-.4 1.5-.6 2.3-.2.7.3 1.2 1 1.2 1.2 0 2.1-1.3 2.1-3.1 0-1.6-1.2-2.8-2.9-2.8-2 0-3.1 1.5-3.1 3 0 .6.2 1.2.5 1.6.1.1.1.2 0 .3l-.2.7c0 .1-.1.2-.3.1-1-.5-1.6-1.9-1.6-3.1 0-2.5 1.8-4.8 5.2-4.8 2.7 0 4.9 2 4.9 4.6 0 2.7-1.7 4.9-4.1 4.9z" />
@@ -1180,8 +1229,8 @@ export default function App() {
 
             {/* Col 2: Company */}
             <div>
-              <div className="text-[22px] font-bold text-white mb-4">Company</div>
-              <ul className="space-y-2 text-[16px] text-white">
+              <div className="text-[19px] sm:text-[20px] font-bold text-white mb-3">Company</div>
+              <ul className="space-y-2 text-[14px] sm:text-[15px] text-[#E2E8F0]">
                 <li>
                   <button
                     type="button"
@@ -1214,8 +1263,8 @@ export default function App() {
 
             {/* Col 3: Shop */}
             <div>
-              <div className="text-[22px] font-bold text-white mb-4">Shop</div>
-              <ul className="space-y-2 text-[16px] text-white">
+              <div className="text-[19px] sm:text-[20px] font-bold text-white mb-3">Shop</div>
+              <ul className="space-y-2 text-[14px] sm:text-[15px] text-[#E2E8F0]">
                 <li>
                   <button
                     type="button"
@@ -1275,28 +1324,36 @@ export default function App() {
 
             {/* Col 4: Contact NAD Furniture */}
             <div className="space-y-3">
-              <div className="text-[22px] font-bold text-white mb-4">
+              <div className="text-[19px] sm:text-[20px] font-bold text-white mb-3">
                 Contact NAD Furniture
               </div>
-              <p className="text-[16px] text-white">
-                📍 Nazir Plaza Building, Ground Floor, Ajman, UAE
+              <p className="text-[14px] sm:text-[15px] text-[#E2E8F0]">
+                📍 NAD Building, Naif Street, Dubai, UAE
               </p>
-              <p className="text-[14px] text-white">
+              <p className="text-[14px] text-[#E2E8F0]">
                 ☎ <strong>Call:</strong> +971 50 631 6560
                 <br />
                 ✉️ <strong>Email:</strong>{' '}
                 <a
-                  href="mailto:Info@nad.furniture"
+                  href="mailto:info@nad.furniture"
                   className="hover:text-[#cf251d] transition-colors"
                 >
-                  Info@nad.furniture
+                  info@nad.furniture
                 </a>
               </p>
             </div>
           </div>
 
-          <div className="mt-12 pt-[30px] pb-[10px] text-[16px] text-white">
-            <p>&copy; 2026 furniture Project by NAD</p>
+          <div className="mt-10 pt-6 pb-2 text-[14px] text-[#A0AEC0] border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; 2026 Furniture Project by NAD Furniture UAE</p>
+            <button
+              type="button"
+              onClick={openLoginModal}
+              className="inline-flex items-center gap-1.5 text-xs text-[#718096] hover:text-[#cf251d] transition-colors cursor-pointer"
+            >
+              <Lock className="h-3.5 w-3.5" />
+              <span>Owner Portal</span>
+            </button>
           </div>
         </div>
       </footer>
@@ -1328,6 +1385,20 @@ export default function App() {
         onClose={() => setSelectedProduct(null)}
         onRequestQuote={(title) => openBulkQuote(title)}
       />
+
+      {/* Owner-Only Administration & Editing Modals */}
+      <OwnerControlBar />
+      <OwnerPortalModal />
+      <ProductEditorModal />
+      <OwnerCatalogManagerModal />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <CatalogProvider>
+      <MainAppContent />
+    </CatalogProvider>
   );
 }
