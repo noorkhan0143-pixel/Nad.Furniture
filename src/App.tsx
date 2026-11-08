@@ -95,12 +95,34 @@ function MainAppContent() {
 
   const bunkBeds = products.filter((p) => p.category === 'bunk-beds');
   const steelLockers = products.filter((p) => p.category === 'steel-lockers');
+  const mattresses = products.filter((p) => p.category === 'mattress');
+  const officeTables = products.filter((p) => p.category === 'office-tables');
+  const officeWorkstations = products.filter((p) => p.category === 'office-workstation');
   const wardrobes = products.filter((p) => p.category === 'wardrobe');
+  const kingBeds = products.filter((p) => p.category === 'king-beds');
+  const queenBeds = products.filter((p) => p.category === 'queen-beds');
+  const doubleBeds = products.filter((p) => p.category === 'double-beds');
+  const singleBeds = products.filter((p) => p.category === 'single-beds');
+  const bedroomBeds = products.filter((p) =>
+    ['beds', 'king-beds', 'queen-beds', 'double-beds', 'single-beds'].includes(p.category)
+  );
+
 
   const filteredProducts =
     activeFilter === 'all'
       ? []
-      : products.filter((item) => item.category === activeFilter);
+      : products.filter((item) => {
+          if (activeFilter === 'mattress') {
+            return item.category === 'mattress';
+          }
+          if (activeFilter === 'beds') {
+            return ['beds', 'king-beds', 'queen-beds', 'double-beds', 'single-beds'].includes(item.category);
+          }
+          if (activeFilter === 'office-furniture') {
+            return item.category === 'office-tables' || item.category === 'office-workstation';
+          }
+          return item.category === activeFilter;
+        });
 
   return (
     <div id="wrapper" className="min-h-screen flex flex-col bg-white text-[#2D3748]">
@@ -220,25 +242,25 @@ function MainAppContent() {
                   <span>LABOUR CAMP FURNITURE</span>
                   <ChevronDown className="h-4 w-4" />
                 </button>
-                <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute left-0 top-full w-[200px] bg-[#1A202C] shadow-[0_2px_13px_0_rgba(0,0,0,0.1)] z-40">
+                <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute left-0 top-full w-[220px] bg-[#1A202C] shadow-[0_2px_13px_0_rgba(0,0,0,0.1)] z-40">
                   <button
                     type="button"
                     onClick={() => handleCategorySelect('bunk-beds')}
-                    className="block w-full px-4 py-3.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
+                    className="block w-full px-4 py-3 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
                   >
                     Bunk Bed
                   </button>
                   <button
                     type="button"
                     onClick={() => handleCategorySelect('steel-lockers')}
-                    className="block w-full px-4 py-3.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
+                    className="block w-full px-4 py-3 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
                   >
                     Steel Locker Cabinets
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleCategorySelect('beds')}
-                    className="block w-full px-4 py-3.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] cursor-pointer"
+                    onClick={() => handleCategorySelect('mattress')}
+                    className="block w-full px-4 py-3 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] cursor-pointer"
                   >
                     Mattress
                   </button>
@@ -258,15 +280,15 @@ function MainAppContent() {
                 <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute left-0 top-full w-[200px] bg-[#1A202C] shadow-[0_2px_13px_0_rgba(0,0,0,0.1)] z-40">
                   <button
                     type="button"
-                    onClick={() => handleCategorySelect('office-furniture')}
-                    className="block w-full px-4 py-3.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
+                    onClick={() => handleCategorySelect('office-tables')}
+                    className="block w-full px-4 py-3 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
                   >
                     Office Tables
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleCategorySelect('office-furniture')}
-                    className="block w-full px-4 py-3.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] cursor-pointer"
+                    onClick={() => handleCategorySelect('office-workstation')}
+                    className="block w-full px-4 py-3 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] cursor-pointer"
                   >
                     Office Workstation
                   </button>
@@ -283,20 +305,48 @@ function MainAppContent() {
                   <span>BEDROOM FURNITURE</span>
                   <ChevronDown className="h-4 w-4" />
                 </button>
-                <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute left-0 top-full w-[200px] bg-[#1A202C] shadow-[0_2px_13px_0_rgba(0,0,0,0.1)] z-40">
+                <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute left-0 top-full w-[220px] bg-[#1A202C] shadow-[0_2px_13px_0_rgba(0,0,0,0.1)] z-40">
                   <button
                     type="button"
                     onClick={() => handleCategorySelect('wardrobe')}
-                    className="block w-full px-4 py-3.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
+                    className="block w-full px-4 py-3 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
                   >
                     Wardrobe
                   </button>
                   <button
                     type="button"
                     onClick={() => handleCategorySelect('beds')}
-                    className="block w-full px-4 py-3.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] cursor-pointer"
+                    className="block w-full px-4 py-2.5 text-left text-[13px] font-semibold uppercase tracking-wider text-[#cf251d] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
                   >
-                    Beds
+                    All Bedroom Beds
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleCategorySelect('king-beds')}
+                    className="block w-full px-4 py-2.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
+                  >
+                    King Size Bed
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleCategorySelect('queen-beds')}
+                    className="block w-full px-4 py-2.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
+                  >
+                    Queen Size Bed
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleCategorySelect('double-beds')}
+                    className="block w-full px-4 py-2.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
+                  >
+                    Double Bed
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleCategorySelect('single-beds')}
+                    className="block w-full px-4 py-2.5 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] cursor-pointer"
+                  >
+                    Single Bed
                   </button>
                 </div>
               </div>
@@ -374,7 +424,7 @@ function MainAppContent() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => handleCategorySelect('beds')}
+                        onClick={() => handleCategorySelect('mattress')}
                         className="block py-1.5 hover:text-white cursor-pointer"
                       >
                         Mattress
@@ -402,14 +452,14 @@ function MainAppContent() {
                     <div className="pl-4 pb-3 space-y-2 text-xs text-[#CBD5E0]">
                       <button
                         type="button"
-                        onClick={() => handleCategorySelect('office-furniture')}
+                        onClick={() => handleCategorySelect('office-tables')}
                         className="block py-1.5 hover:text-white cursor-pointer"
                       >
                         Office Tables
                       </button>
                       <button
                         type="button"
-                        onClick={() => handleCategorySelect('office-furniture')}
+                        onClick={() => handleCategorySelect('office-workstation')}
                         className="block py-1.5 hover:text-white cursor-pointer"
                       >
                         Office Workstation
@@ -445,9 +495,37 @@ function MainAppContent() {
                       <button
                         type="button"
                         onClick={() => handleCategorySelect('beds')}
+                        className="block py-1.5 font-semibold text-[#cf251d] hover:text-white cursor-pointer"
+                      >
+                        All Bedroom Beds
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleCategorySelect('king-beds')}
                         className="block py-1.5 hover:text-white cursor-pointer"
                       >
-                        Beds
+                        King Size Bed
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleCategorySelect('queen-beds')}
+                        className="block py-1.5 hover:text-white cursor-pointer"
+                      >
+                        Queen Size Bed
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleCategorySelect('double-beds')}
+                        className="block py-1.5 hover:text-white cursor-pointer"
+                      >
+                        Double Bed
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleCategorySelect('single-beds')}
+                        className="block py-1.5 hover:text-white cursor-pointer"
+                      >
+                        Single Bed
                       </button>
                     </div>
                   )}
@@ -803,46 +881,52 @@ function MainAppContent() {
             </div>
 
             {/* Category Filter Bar */}
-            {activeFilter !== 'all' && (
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-                {(
-                  [
-                    { id: 'all', label: 'All Featured' },
-                    { id: 'bunk-beds', label: 'Bunk Beds' },
-                    { id: 'steel-lockers', label: 'Steel Lockers & Cabinets' },
-                    { id: 'wardrobe', label: 'Wardrobe' },
-                    { id: 'office-furniture', label: 'Office Furniture' },
-                    { id: 'beds', label: 'Beds' },
-                  ] as { id: FilterTab; label: string }[]
-                ).map((tab) => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setActiveFilter(tab.id)}
-                    className={`px-4 py-2 text-sm font-medium rounded-[6px] transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
-                      activeFilter === tab.id
-                        ? 'bg-[#b82105] text-white'
-                        : 'bg-[#EDF2F7] text-[#2D3748] hover:bg-[#E2E8F0]'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-            )}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+              {(
+                [
+                  { id: 'all', label: 'All Categories' },
+                  { id: 'bunk-beds', label: 'Bunk Beds' },
+                  { id: 'steel-lockers', label: 'Steel Lockers' },
+                  { id: 'mattress', label: 'Mattresses' },
+                  { id: 'office-tables', label: 'Office Tables' },
+                  { id: 'office-workstation', label: 'Workstations' },
+                  { id: 'wardrobe', label: 'Wardrobes' },
+                  { id: 'beds', label: 'All Bedroom Beds' },
+                  { id: 'king-beds', label: 'King Beds' },
+                  { id: 'double-beds', label: 'Double Beds' },
+                  { id: 'single-beds', label: 'Single Beds' },
+                ] as { id: FilterTab; label: string }[]
+              ).map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveFilter(tab.id)}
+                  className={`px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-[6px] transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                    activeFilter === tab.id
+                      ? 'bg-[#b82105] text-white shadow-sm'
+                      : 'bg-[#EDF2F7] text-[#2D3748] hover:bg-[#E2E8F0]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
             {activeFilter === 'all' ? (
-              <div className="mt-8 space-y-10">
+              <div className="mt-10 space-y-12">
                 {/* Category Row 1: Bunk Beds */}
                 <div>
                   <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <h3 className="text-[22px] font-bold text-[#1A202C]">Bunk Beds</h3>
+                    <div>
+                      <h3 className="text-[22px] font-bold text-[#1A202C]">Bunk Beds</h3>
+                      <p className="text-xs text-gray-500">Heavy-duty steel bunk beds for staff accommodation &amp; camps</p>
+                    </div>
                     <button
                       type="button"
                       onClick={() => setActiveFilter('bunk-beds')}
                       className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
                     >
-                      <span>View All Bunk Beds</span>
+                      <span>View All ({bunkBeds.length})</span>
                       <ArrowRight className="h-4 w-4" />
                     </button>
                   </div>
@@ -861,15 +945,18 @@ function MainAppContent() {
                 {/* Category Row 2: Steel Lockers & Cabinets */}
                 <div>
                   <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <h3 className="text-[22px] font-bold text-[#1A202C]">
-                      Steel Lockers &amp; Cabinets
-                    </h3>
+                    <div>
+                      <h3 className="text-[22px] font-bold text-[#1A202C]">
+                        Steel Lockers &amp; Cabinets
+                      </h3>
+                      <p className="text-xs text-gray-500">2-door, 3-door, 4-door, 6-door, 8-door &amp; 12-door security lockers</p>
+                    </div>
                     <button
                       type="button"
                       onClick={() => setActiveFilter('steel-lockers')}
                       className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
                     >
-                      <span>View All Steel Lockers</span>
+                      <span>View All ({steelLockers.length})</span>
                       <ArrowRight className="h-4 w-4" />
                     </button>
                   </div>
@@ -885,16 +972,109 @@ function MainAppContent() {
                   </div>
                 </div>
 
-                {/* Category Row 3: Wardrobe */}
+                {/* Category Row 3: Mattresses (Medical & Labour Camp) */}
                 <div>
                   <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <h3 className="text-[22px] font-bold text-[#1A202C]">Wardrobe</h3>
+                    <div>
+                      <h3 className="text-[22px] font-bold text-[#1A202C]">
+                        Labour Camp &amp; Medicated Mattresses
+                      </h3>
+                      <p className="text-xs text-gray-500">High-density medicated &amp; semi-medicated mattresses for bulk camps</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setActiveFilter('mattress')}
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
+                    >
+                      <span>View All ({mattresses.length})</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                    {mattresses.map((product) => (
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        onSelect={setSelectedProduct}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Category Row 4: Office Tables & Desks */}
+                <div>
+                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
+                    <div>
+                      <h3 className="text-[22px] font-bold text-[#1A202C]">
+                        Office Tables &amp; Executive Desks
+                      </h3>
+                      <p className="text-xs text-gray-500">Executive manager desks, computer tables &amp; meeting tables</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setActiveFilter('office-tables')}
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
+                    >
+                      <span>View All ({officeTables.length})</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                    {officeTables.map((product) => (
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        onSelect={setSelectedProduct}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Category Row 5: Office Modular Workstations */}
+                <div>
+                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
+                    <div>
+                      <h3 className="text-[22px] font-bold text-[#1A202C]">
+                        Office Modular Workstations
+                      </h3>
+                      <p className="text-xs text-gray-500">2-person, 4-person &amp; 6-person workstations with acoustic divider screens</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setActiveFilter('office-workstation')}
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
+                    >
+                      <span>View All ({officeWorkstations.length})</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                    {officeWorkstations.map((product) => (
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        onSelect={setSelectedProduct}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Category Row 6: Wardrobes */}
+                <div>
+                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
+                    <div>
+                      <h3 className="text-[22px] font-bold text-[#1A202C]">Wardrobes</h3>
+                      <p className="text-xs text-gray-500">2-door &amp; 3-door wooden and steel wardrobes with storage shelves</p>
+                    </div>
                     <button
                       type="button"
                       onClick={() => setActiveFilter('wardrobe')}
                       className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
                     >
-                      <span>View All Wardrobes</span>
+                      <span>View All ({wardrobes.length})</span>
                       <ArrowRight className="h-4 w-4" />
                     </button>
                   </div>
@@ -909,9 +1089,69 @@ function MainAppContent() {
                     ))}
                   </div>
                 </div>
+
+                {/* Category Row 7: Bedroom Beds */}
+                <div>
+                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
+                    <div>
+                      <h3 className="text-[22px] font-bold text-[#1A202C]">
+                        Bedroom Beds (King, Queen, Double &amp; Single)
+                      </h3>
+                      <p className="text-xs text-gray-500">Premium upholstered, wooden &amp; single beds for master &amp; guest bedrooms</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setActiveFilter('beds')}
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
+                    >
+                      <span>View All Beds ({bedroomBeds.length})</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                    {bedroomBeds.map((product) => (
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        onSelect={setSelectedProduct}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="mt-8">
+                <div className="flex flex-wrap items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2.5 mb-6">
+                  <div>
+                    <h3 className="text-[22px] font-bold text-[#1A202C]">
+                      {activeFilter === 'mattress' && 'Labour Camp & Medicated Mattresses'}
+                      {activeFilter === 'bunk-beds' && 'Heavy-Duty Steel Bunk Beds'}
+                      {activeFilter === 'steel-lockers' && 'Steel Lockers & Cabinets'}
+                      {activeFilter === 'office-tables' && 'Office Tables & Executive Desks'}
+                      {activeFilter === 'office-workstation' && 'Office Modular Workstations'}
+                      {activeFilter === 'office-furniture' && 'Office Furniture & Workstations'}
+                      {activeFilter === 'wardrobe' && 'Bedroom & Staff Wardrobes'}
+                      {activeFilter === 'beds' && 'All Bedroom Beds (King, Queen, Double & Single)'}
+                      {activeFilter === 'king-beds' && 'King Size Beds'}
+                      {activeFilter === 'queen-beds' && 'Queen Size Beds'}
+                      {activeFilter === 'double-beds' && 'Double Beds'}
+                      {activeFilter === 'single-beds' && 'Single Beds'}
+                    </h3>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      Showing {filteredProducts.length} products
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setActiveFilter('all')}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#b82105] hover:text-[#8a1803] transition-colors cursor-pointer"
+                  >
+                    <span>View All Categories</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                   {filteredProducts.map((product) => (
                     <ProductCard

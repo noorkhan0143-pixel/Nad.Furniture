@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { ProductItem, ALL_PRODUCTS } from '../data/catalog';
 
-const STORAGE_CATALOG_KEY = 'nad_furniture_catalog_v1';
+const STORAGE_CATALOG_KEY = 'nad_furniture_catalog_v2';
 const STORAGE_OWNER_KEY = 'nad_owner_auth_v1';
 const STORAGE_PASSCODE_KEY = 'nad_owner_passcode_v1';
 const DEFAULT_PASSCODE = 'NAD@Dubai2026';
@@ -40,7 +40,7 @@ export const CatalogProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const stored = localStorage.getItem(STORAGE_CATALOG_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
+        if (Array.isArray(parsed) && parsed.length >= ALL_PRODUCTS.length) {
           return parsed;
         }
       }

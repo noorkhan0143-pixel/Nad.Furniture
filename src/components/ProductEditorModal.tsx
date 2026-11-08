@@ -4,12 +4,20 @@ import { ProductItem, ProductCategory } from '../data/catalog';
 import { useCatalog } from '../context/CatalogContext';
 
 const CATEGORIES: { value: ProductCategory; label: string }[] = [
-  { value: 'bunk-beds', label: 'Bunk Beds' },
-  { value: 'steel-lockers', label: 'Steel Lockers' },
+  { value: 'bunk-beds', label: 'Bunk Beds (Labour Camp)' },
+  { value: 'steel-lockers', label: 'Steel Lockers & Cabinets' },
+  { value: 'mattress', label: 'Camp & Medicated Mattresses' },
+  { value: 'office-tables', label: 'Office Tables & Desks' },
+  { value: 'office-workstation', label: 'Office Workstations' },
+  { value: 'office-furniture', label: 'General Office Furniture' },
   { value: 'wardrobe', label: 'Wardrobes' },
-  { value: 'office-furniture', label: 'Office Furniture' },
-  { value: 'beds', label: 'Beds & Accommodation' },
+  { value: 'beds', label: 'All Bedroom Beds' },
+  { value: 'king-beds', label: 'King Size Beds' },
+  { value: 'queen-beds', label: 'Queen Size Beds' },
+  { value: 'double-beds', label: 'Double Beds' },
+  { value: 'single-beds', label: 'Single Beds' },
 ];
+
 
 export const ProductEditorModal: React.FC = () => {
   const { isEditorOpen, editingProduct, closeProductEditor, updateProduct, addProduct, isOwner } = useCatalog();

@@ -27,9 +27,14 @@ export const OwnerCatalogManagerModal: React.FC = () => {
       p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.specs.some((s) => s.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (p.price && p.price.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesCat = selectedCategory === 'all' || p.category === selectedCategory;
+    const matchesCat =
+      selectedCategory === 'all' ||
+      p.category === selectedCategory ||
+      (selectedCategory === 'beds' && ['beds', 'king-beds', 'queen-beds', 'double-beds', 'single-beds'].includes(p.category)) ||
+      (selectedCategory === 'office-furniture' && ['office-tables', 'office-workstation', 'office-furniture'].includes(p.category));
     return matchesSearch && matchesCat;
   });
+
 
   const handleCopyJson = () => {
     const json = exportCatalogJson();
@@ -101,13 +106,20 @@ export const OwnerCatalogManagerModal: React.FC = () => {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="rounded-lg border border-gray-300 py-1.5 px-3 text-xs focus:border-[#cf251d] focus:outline-none bg-white"
             >
-              <option value="all">All Categories</option>
+              <option value="all">All Categories ({products.length})</option>
               <option value="bunk-beds">Bunk Beds</option>
-              <option value="steel-lockers">Steel Lockers</option>
+              <option value="steel-lockers">Steel Lockers & Cabinets</option>
+              <option value="mattress">Camp & Medicated Mattresses</option>
+              <option value="office-tables">Office Tables & Desks</option>
+              <option value="office-workstation">Office Workstations</option>
               <option value="wardrobe">Wardrobes</option>
-              <option value="office-furniture">Office Furniture</option>
-              <option value="beds">Beds & Accommodation</option>
+              <option value="beds">All Bedroom Beds</option>
+              <option value="king-beds">King Size Beds</option>
+              <option value="queen-beds">Queen Size Beds</option>
+              <option value="double-beds">Double Beds</option>
+              <option value="single-beds">Single Beds</option>
             </select>
+
           </div>
 
           <div className="flex items-center gap-2">
