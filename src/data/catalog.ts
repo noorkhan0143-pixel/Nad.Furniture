@@ -35,7 +35,7 @@ export interface ProductItem {
 }
 
 export const SITE_IMAGES = {
-  heroBunkBeds: 'https://nadfurniture.net/wp-content/uploads/2026/07/bunkbeds.webp',
+  heroBunkBeds: '/assets/aistudio/image_49ef6ff0.png',
   heroBunkBedsFallback: bunkBedImg,
   catBunkBed: 'https://nadfurniture.net/wp-content/uploads/2026/07/bunk-bed.webp',
   catBunkBedFallback: bunkBedImg,

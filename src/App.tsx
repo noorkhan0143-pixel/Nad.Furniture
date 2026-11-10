@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Warehouse,
   Truck,
@@ -74,6 +74,7 @@ const NadBrandMark: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' }> 
 
 function MainAppContent() {
   const { products, openLoginModal } = useCatalog();
+  const [currentView, setCurrentView] = useState<'home' | 'about' | 'blogs' | 'career'>('home');
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [quoteProduct, setQuoteProduct] = useState('');
@@ -82,6 +83,39 @@ function MainAppContent() {
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const secretClickCountRef = useRef(0);
+  const secretClickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Hidden owner access: shortcut Ctrl+Shift+O / Alt+Shift+O or URL hash #owner
+  // NOT shown publicly to any visitor
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey || e.altKey) && e.shiftKey && (e.key === 'O' || e.key === 'o')) {
+        e.preventDefault();
+        openLoginModal();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    if (window.location.hash === '#owner' || window.location.search.includes('owner=true')) {
+      openLoginModal();
+    }
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [openLoginModal]);
+
+  const handleSecretOwnerClick = () => {
+    secretClickCountRef.current += 1;
+    if (secretClickTimerRef.current) clearTimeout(secretClickTimerRef.current);
+    if (secretClickCountRef.current >= 4) {
+      secretClickCountRef.current = 0;
+      openLoginModal();
+    } else {
+      secretClickTimerRef.current = setTimeout(() => {
+        secretClickCountRef.current = 0;
+      }, 1500);
+    }
+  };
 
   const toggleVideoPlay = () => {
     if (!videoRef.current) return;
@@ -99,12 +133,17 @@ function MainAppContent() {
   };
 
   const handleCategorySelect = (category: FilterTab) => {
+    if (currentView !== 'home') {
+      setCurrentView('home');
+    }
     setActiveFilter(category);
     setMobileMenuOpen(false);
-    const el = document.getElementById('featured-items');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      const el = document.getElementById('featured-items');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, currentView !== 'home' ? 60 : 0);
   };
 
   const scrollToSection = (id: string) => {
@@ -113,6 +152,42 @@ function MainAppContent() {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleAboutUsClick = () => {
+    setCurrentView('about');
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleProjectGalleryClick = () => {
+    setMobileMenuOpen(false);
+    if (currentView !== 'home') {
+      setCurrentView('home');
+      setTimeout(() => {
+        scrollToSection('category-showcase');
+      }, 60);
+    } else {
+      scrollToSection('category-showcase');
+    }
+  };
+
+  const handleBlogsClick = () => {
+    setCurrentView('blogs');
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCareerClick = () => {
+    setCurrentView('career');
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleHomeClick = () => {
+    setCurrentView('home');
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const bunkBeds = products.filter((p) => p.category === 'bunk-beds');
@@ -169,28 +244,28 @@ function MainAppContent() {
             <nav aria-label="Secondary" className="flex items-center gap-5">
               <button
                 type="button"
-                onClick={() => scrollToSection('about-us')}
+                onClick={handleAboutUsClick}
                 className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 About Us
               </button>
               <button
                 type="button"
-                onClick={() => scrollToSection('category-showcase')}
+                onClick={handleProjectGalleryClick}
                 className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Project Gallery
               </button>
               <button
                 type="button"
-                onClick={() => scrollToSection('who-we-serve')}
+                onClick={handleBlogsClick}
                 className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Blogs
               </button>
               <button
                 type="button"
-                onClick={() => scrollToSection('colophon')}
+                onClick={handleCareerClick}
                 className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Career
@@ -241,13 +316,14 @@ function MainAppContent() {
         <div className="bg-[#000000]">
           <div className="mx-auto flex min-h-[80px] max-w-[1290px] items-center justify-between px-6">
             {/* Left: Red NAD Brand Logo */}
-            <a
-              href="#top"
-              className="flex items-center py-2 whitespace-nowrap shrink-0"
+            <button
+              type="button"
+              onClick={handleHomeClick}
+              className="flex items-center py-2 whitespace-nowrap shrink-0 cursor-pointer"
               aria-label="NAD Furniture Home"
             >
               <NadBrandMark />
-            </a>
+            </button>
 
             {/* Center: Primary Navigation (Desktop) */}
             <nav
@@ -555,10 +631,31 @@ function MainAppContent() {
 
                 <button
                   type="button"
-                  onClick={() => scrollToSection('about-us')}
+                  onClick={handleAboutUsClick}
                   className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
                 >
                   About Us
+                </button>
+                <button
+                  type="button"
+                  onClick={handleProjectGalleryClick}
+                  className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
+                >
+                  Project Gallery
+                </button>
+                <button
+                  type="button"
+                  onClick={handleBlogsClick}
+                  className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
+                >
+                  Blogs
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCareerClick}
+                  className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
+                >
+                  Career
                 </button>
                 <button
                   type="button"
@@ -595,58 +692,194 @@ function MainAppContent() {
 
       {/* Main Content */}
       <main id="main" className="flex-1">
-        {/* 1. Hero Section */}
-        <section
-          className="w-full bg-[#000000] text-white relative overflow-hidden"
-          style={{
-            backgroundImage: `url(${SITE_IMAGES.subtlePattern})`,
-            backgroundSize: 'contain',
-            backgroundPosition: '0% 34%',
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-          <div className="mx-auto max-w-[1290px] px-6 py-10 sm:py-12 md:py-14 lg:py-16">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              <div className="lg:col-span-8 space-y-4 lg:pr-8">
-                <h1 className="text-[28px] sm:text-[34px] md:text-[38px] lg:text-[42px] xl:text-[46px] font-bold leading-[1.2] text-white">
-                  Direct-from-Factory Accommodation Furniture at Unbeatable Wholesale Rates
+        {/* Dedicated About Us Page (from top left options) */}
+        {currentView === 'about' && (
+          <section className="min-h-[70vh] bg-white py-12 px-6">
+            <div className="mx-auto max-w-[1000px]">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
+                <div className="flex items-center gap-2 text-sm text-[#718096]">
+                  <button
+                    type="button"
+                    onClick={handleHomeClick}
+                    className="hover:text-[#b82105] transition-colors cursor-pointer"
+                  >
+                    Home
+                  </button>
+                  <span>/</span>
+                  <span className="text-[#1A202C] font-semibold">About Us</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleHomeClick}
+                  className="text-xs font-semibold text-[#b82105] hover:underline cursor-pointer"
+                >
+                  ← Back to Home
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                <h1 className="text-[32px] sm:text-[38px] md:text-[42px] font-bold text-[#1A202C] leading-tight">
+                  About Us
                 </h1>
-                <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#CBD5E0] max-w-2xl">
-                  Cut out the middleman. We manufacture and supply heavy-duty bunk beds,
-                  staff housing furniture, and bulk accommodation solutions across the
-                  UAE.
-                </p>
-                <div className="pt-2">
+                <h2 className="text-[20px] sm:text-[24px] md:text-[26px] font-bold text-[#c2171a]">
+                  Your Trusted Furniture Supplier in the UAE
+                </h2>
+
+                <div className="space-y-4 text-[16px] sm:text-[17px] leading-relaxed text-[#2D3748]">
+                  <p>
+                    NAD Furniture is a trusted furniture supplier in the UAE, providing reliable furniture solutions for businesses, contractors, accommodation facilities, offices, retailers and residential customers.
+                  </p>
+                  <p>
+                    As part of the established NAD Group of Companies, we combine extensive industry experience with a wide product selection and strong supply capabilities to meet furniture requirements of all sizes — from individual orders to complete commercial and accommodation projects.
+                  </p>
+                  <p>
+                    With access to 5,000+ furniture products, an established network of showrooms and extensive warehousing facilities, NAD Furniture is well positioned to serve customers across Dubai, Abu Dhabi, Sharjah, Ajman and the wider UAE.
+                  </p>
+                  <p className="font-semibold text-[#1A202C]">
+                    Our focus is simple: quality furniture, competitive pricing, dependable supply and professional customer service.
+                  </p>
+                </div>
+
+                <div className="pt-6 flex flex-wrap gap-4">
                   <button
                     type="button"
                     onClick={() => openBulkQuote()}
-                    className="inline-flex items-center gap-3 rounded-[6px] border-2 border-[#b82105] bg-[#191919] px-6 py-3 text-[16px] font-semibold text-white hover:bg-[#b82105] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-3 rounded-[6px] bg-[#b82105] px-6 py-3 text-[16px] font-semibold text-white hover:bg-[#8f1a05] transition-colors cursor-pointer shadow-md"
                   >
                     <span>Request a Furniture Quote</span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
+                  <a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-[6px] bg-[#25D366] px-6 py-3 text-[16px] font-bold text-white hover:bg-[#1ebe5d] transition-colors shadow-md"
+                  >
+                    <WhatsAppIcon className="h-5 w-5" />
+                    <span>WhatsApp: +971 50 631 6560</span>
+                  </a>
                 </div>
               </div>
+            </div>
+          </section>
+        )}
 
-              <div className="lg:col-span-4 flex justify-center">
-                <img
-                  src={SITE_IMAGES.heroBunkBeds}
-                  alt="bunkbeds"
-                  width={500}
-                  height={500}
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    if (target.src !== SITE_IMAGES.heroBunkBedsFallback) {
-                      target.src = SITE_IMAGES.heroBunkBedsFallback;
-                    }
-                  }}
-                  className="w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[420px] aspect-square object-contain"
-                />
+        {/* Blank view for Blogs as requested */}
+        {currentView === 'blogs' && (
+          <section className="min-h-[70vh] bg-white py-12 px-6">
+            <div className="mx-auto max-w-[1290px]">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
+                <div className="flex items-center gap-2 text-sm text-[#718096]">
+                  <button
+                    type="button"
+                    onClick={handleHomeClick}
+                    className="hover:text-[#b82105] transition-colors cursor-pointer"
+                  >
+                    Home
+                  </button>
+                  <span>/</span>
+                  <span className="text-[#1A202C] font-semibold">Blogs</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleHomeClick}
+                  className="text-xs font-semibold text-[#b82105] hover:underline cursor-pointer"
+                >
+                  ← Back to Home
+                </button>
+              </div>
+              <div className="min-h-[360px] flex items-center justify-center">
+                {/* Intentionally blank */}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
+
+        {/* Blank view for Career as requested */}
+        {currentView === 'career' && (
+          <section className="min-h-[70vh] bg-white py-12 px-6">
+            <div className="mx-auto max-w-[1290px]">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
+                <div className="flex items-center gap-2 text-sm text-[#718096]">
+                  <button
+                    type="button"
+                    onClick={handleHomeClick}
+                    className="hover:text-[#b82105] transition-colors cursor-pointer"
+                  >
+                    Home
+                  </button>
+                  <span>/</span>
+                  <span className="text-[#1A202C] font-semibold">Career</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleHomeClick}
+                  className="text-xs font-semibold text-[#b82105] hover:underline cursor-pointer"
+                >
+                  ← Back to Home
+                </button>
+              </div>
+              <div className="min-h-[360px] flex items-center justify-center">
+                {/* Intentionally blank */}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {currentView === 'home' && (
+          <>
+            {/* 1. Hero Section */}
+            <section
+              className="w-full bg-[#000000] text-white relative overflow-hidden"
+              style={{
+                backgroundImage: `url(${SITE_IMAGES.subtlePattern})`,
+                backgroundSize: 'contain',
+                backgroundPosition: '0% 34%',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+              <div className="mx-auto max-w-[1290px] px-6 py-10 sm:py-12 md:py-14 lg:py-16">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-8 space-y-4 lg:pr-8">
+                    <h1 className="text-[28px] sm:text-[34px] md:text-[38px] lg:text-[42px] xl:text-[46px] font-bold leading-[1.2] text-white">
+                      Direct-from-Factory Accommodation Furniture at Unbeatable Wholesale Rates
+                    </h1>
+                    <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#CBD5E0] max-w-2xl">
+                      Cut out the middleman. We manufacture and supply heavy-duty bunk beds,
+                      staff housing furniture, and bulk accommodation solutions across the
+                      UAE.
+                    </p>
+                    <div className="pt-2">
+                      <button
+                        type="button"
+                        onClick={() => openBulkQuote()}
+                        className="inline-flex items-center gap-3 rounded-[6px] border-2 border-[#b82105] bg-[#191919] px-6 py-3 text-[16px] font-semibold text-white hover:bg-[#b82105] transition-colors cursor-pointer"
+                      >
+                        <span>Request a Furniture Quote</span>
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-4 flex justify-center items-center">
+                    <img
+                      src="/assets/aistudio/image_49ef6ff0.png"
+                      alt="NAD Heavy Duty Bunk Beds"
+                      width={500}
+                      height={400}
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src !== SITE_IMAGES.heroBunkBedsFallback) {
+                          target.src = SITE_IMAGES.heroBunkBedsFallback;
+                        }
+                      }}
+                      className="w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[450px] aspect-auto object-contain relative -translate-y-5 sm:-translate-y-8 lg:-translate-y-12 drop-shadow-2xl transition-transform"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
 
         {/* 2. 4-Column Feature Strip */}
         <section className="w-full bg-[#191919] text-white py-5">
@@ -687,26 +920,23 @@ function MainAppContent() {
           </div>
         </section>
 
-        {/* 3. About Us & YouTube Video Section */}
+        {/* 3. About Us & Company Overview */}
         <section id="about-us" className="w-full pt-12 md:pt-16 pb-6 bg-white">
           <div className="mx-auto max-w-[1290px] px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               <div>
-                <h2 className="text-[28px] md:text-[32px] font-bold text-[#1A202C]">About Us</h2>
-                <p className="mt-4 text-[15px] sm:text-[16px] leading-relaxed text-[#2D3748]">
+                <h2 className="text-[32px] sm:text-[36px] font-bold text-[#1A202C]">About Us</h2>
+                <p className="mt-4 text-[15px] sm:text-[16px] leading-[1.7] text-[#2D3748]">
                   NAD Furniture is a leading{' '}
-                  <a
-                    href="#about-us"
-                    className="underline hover:text-[#cf251d] transition-colors"
-                  >
+                  <span className="underline font-medium text-[#1A202C]">
                     UAE furniture manufacturer
-                  </a>{' '}
+                  </span>{' '}
                   and wholesale supplier, delivering factory-direct furniture for labour
                   camps, offices, schools, accommodation projects and commercial
                   facilities.
                 </p>
 
-                <ul className="mt-5 space-y-2">
+                <ul className="mt-5 space-y-2.5">
                   {[
                     '5,000+ Products',
                     'UAE Manufacturer',
@@ -716,10 +946,10 @@ function MainAppContent() {
                   ].map((item) => (
                     <li
                       key={item}
-                      className="flex items-center gap-2.5 text-[15px] sm:text-[16px] text-[#2D3748]"
+                      className="flex items-center gap-3 text-[15px] sm:text-[16px] text-[#2D3748]"
                     >
-                      <span className="text-[#b82105] font-bold" aria-hidden="true">
-                        ☞
+                      <span className="text-[#cf251d] text-base select-none leading-none" aria-hidden="true">
+                        👉
                       </span>
                       <span>{item}</span>
                     </li>
@@ -1423,6 +1653,8 @@ function MainAppContent() {
             />
           </div>
         </section>
+        </>
+        )}
       </main>
 
       {/* Footer */}
@@ -1508,19 +1740,37 @@ function MainAppContent() {
                 <li>
                   <button
                     type="button"
-                    onClick={() => scrollToSection('about-us')}
+                    onClick={handleAboutUsClick}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
-                    ▸ About
+                    ▸ About Us
                   </button>
                 </li>
                 <li>
                   <button
                     type="button"
-                    onClick={() => scrollToSection('who-we-serve')}
+                    onClick={handleProjectGalleryClick}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
-                    ▸ Manufacturing
+                    ▸ Project Gallery
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleBlogsClick}
+                    className="hover:text-[#cf251d] transition-colors cursor-pointer"
+                  >
+                    ▸ Blogs
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleCareerClick}
+                    className="hover:text-[#cf251d] transition-colors cursor-pointer"
+                  >
+                    ▸ Career
                   </button>
                 </li>
                 <li>
@@ -1529,7 +1779,7 @@ function MainAppContent() {
                     onClick={() => openBulkQuote()}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
-                    ▸ Services
+                    ▸ Request a Quote
                   </button>
                 </li>
               </ul>
@@ -1619,7 +1869,9 @@ function MainAppContent() {
           </div>
 
           <div className="mt-10 pt-6 pb-2 text-[14px] text-[#A0AEC0] border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; 2026 Furniture Project by NAD Furniture UAE</p>
+            <p className="select-none">
+              &copy; 2026 NAD Furniture UAE. All rights reserved.
+            </p>
             <button
               type="button"
               onClick={openLoginModal}
