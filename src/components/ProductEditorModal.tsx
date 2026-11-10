@@ -215,38 +215,24 @@ export const ProductEditorModal: React.FC = () => {
             />
           </div>
 
-          {/* Category & Badge */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
-                Category *
-              </label>
-              <select
-                value={category}
-                onChange={handleCategoryChange}
-                className="w-full rounded-lg border border-gray-300 py-2.5 px-3 text-sm focus:border-[#cf251d] focus:outline-none focus:ring-1 focus:ring-[#cf251d] bg-white"
-              >
-                {CATEGORIES.map((cat) => (
-                  <option key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
-                Badge / Tag (Optional)
-              </label>
-              <input
-                type="text"
-                value={tag}
-                onChange={(e) => setTag(e.target.value)}
-                placeholder="e.g. Best Seller, On Sale, New Arrival"
-                className="w-full rounded-lg border border-gray-300 py-2.5 px-3.5 text-sm focus:border-[#cf251d] focus:outline-none focus:ring-1 focus:ring-[#cf251d]"
-              />
-            </div>
+          {/* Category */}
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
+              Category *
+            </label>
+            <select
+              value={category}
+              onChange={handleCategoryChange}
+              className="w-full rounded-lg border border-gray-300 py-2.5 px-3 text-sm focus:border-[#cf251d] focus:outline-none focus:ring-1 focus:ring-[#cf251d] bg-white"
+            >
+              {CATEGORIES.map((cat) => (
+                <option key={cat.value} value={cat.value}>
+                  {cat.label}
+                </option>
+              ))}
+            </select>
           </div>
+
 
           {/* Price & Minimum Order */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

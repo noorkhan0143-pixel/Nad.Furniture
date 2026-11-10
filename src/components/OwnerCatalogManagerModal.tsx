@@ -188,12 +188,8 @@ export const OwnerCatalogManagerModal: React.FC = () => {
                       <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                         {product.categoryLabel}
                       </span>
-                      {product.tag && (
-                        <span className="rounded bg-amber-100 px-1.5 py-0.2 text-[10px] font-bold text-amber-800">
-                          {product.tag}
-                        </span>
-                      )}
                     </div>
+
                     <h4 className="text-sm font-bold text-gray-900 truncate">{product.title}</h4>
                     <p className="text-xs text-gray-500">
                       {product.price ? (

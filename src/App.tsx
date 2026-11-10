@@ -36,19 +36,41 @@ import { OwnerCatalogManagerModal } from './components/OwnerCatalogManagerModal'
 
 type FilterTab = 'all' | ProductCategory;
 
-const NadBrandMark: React.FC = () => (
-  <span className="inline-flex items-center gap-2 select-none">
-    <span
-      className="text-[32px] font-bold tracking-tight text-[#cf251d] leading-none"
-      style={{ fontFamily: 'var(--font-heading)' }}
-    >
-      NAD
+const NadBrandMark: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' }> = ({
+  className = '',
+  size = 'md',
+}) => {
+  const [imgError, setImgError] = useState(false);
+  const heightClass =
+    size === 'sm' ? 'h-7' : size === 'lg' ? 'h-11 sm:h-12' : 'h-8 sm:h-9';
+
+  return (
+    <span className={`inline-flex items-center gap-2 select-none ${className}`}>
+      {!imgError ? (
+        <img
+          src="/assets/nad-logo-clean.png"
+          alt="NAD Furniture"
+          className={`${heightClass} w-auto object-contain`}
+          loading="eager"
+          decoding="async"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <span className="inline-flex items-center gap-2">
+          <span
+            className="text-[32px] font-black uppercase text-[#c2171a] leading-none tracking-[-0.02em]"
+            style={{ fontFamily: "'Anton', 'Impact', 'Arial Black', sans-serif" }}
+          >
+            NAD
+          </span>
+          <span className="text-[12px] font-bold uppercase tracking-[0.22em] text-white border-l-2 border-[#c2171a] pl-2 leading-none">
+            Furniture
+          </span>
+        </span>
+      )}
     </span>
-    <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-white border-l border-[#cf251d] pl-2 leading-none">
-      Furniture
-    </span>
-  </span>
-);
+  );
+};
 
 function MainAppContent() {
   const { products, openLoginModal } = useCatalog();
@@ -1166,7 +1188,7 @@ function MainAppContent() {
           </div>
         </section>
 
-        {/* 6. Parallax / Full-Width Highlight Banner (Best Seller, New Arrivals, On Sale) */}
+        {/* 6. Parallax / Full-Width Highlight Banner */}
         <section
           className="w-full relative bg-cover bg-center py-28"
           style={{
@@ -1183,7 +1205,7 @@ function MainAppContent() {
                 >
                   <img
                     src={SITE_IMAGES.bestSellerThumb}
-                    alt="bunk bed"
+                    alt="Bunk Beds"
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                       const target = e.currentTarget;
@@ -1194,7 +1216,7 @@ function MainAppContent() {
                     className="h-[45px] w-[45px] rounded-full object-cover mx-[15px] shrink-0"
                   />
                   <h3 className="font-sans text-[20px] font-bold text-[#1A202C] group-hover:text-white transition-colors">
-                    Best Seller
+                    Bunk Beds
                   </h3>
                 </button>
               </div>
@@ -1207,7 +1229,7 @@ function MainAppContent() {
                 >
                   <img
                     src={SITE_IMAGES.newArrivalsThumb}
-                    alt="Metal Single-Door Locker with Internal Shelving"
+                    alt="Steel Lockers"
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                       const target = e.currentTarget;
@@ -1218,7 +1240,7 @@ function MainAppContent() {
                     className="h-[45px] w-[45px] rounded-full object-cover mx-[15px] shrink-0"
                   />
                   <h3 className="font-sans text-[20px] font-bold text-[#1A202C] group-hover:text-white transition-colors">
-                    New Arrivals
+                    Steel Lockers
                   </h3>
                 </button>
               </div>
@@ -1231,7 +1253,7 @@ function MainAppContent() {
                 >
                   <img
                     src={SITE_IMAGES.onSaleThumb}
-                    alt="Office Table with Drawers"
+                    alt="Office Furniture"
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                       const target = e.currentTarget;
@@ -1242,7 +1264,7 @@ function MainAppContent() {
                     className="h-[45px] w-[45px] rounded-full object-cover mx-[15px] shrink-0"
                   />
                   <h3 className="font-sans text-[20px] font-bold text-[#1A202C] group-hover:text-white transition-colors">
-                    On Sale
+                    Office Furniture
                   </h3>
                 </button>
               </div>
