@@ -21,7 +21,7 @@ const SYSTEM_INSTRUCTION = `You are the helpful customer & sales assistant for N
 Key company details:
 - Brand: NAD Furniture UAE
 - Location: NAD Building, Naif Street, Dubai, UAE (delivering across Dubai, Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah, and Umm Al Quwain)
-- Contact Email: info@nad.furniture
+- Contact Email: info@NAD.furniture
 - Phone / WhatsApp: +971 50 631 6560
 - Delivery: Prompt delivery across Dubai, Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah, and Umm Al Quwain. Both individual orders and bulk project supply are available.
 - Core Product Categories:
@@ -30,7 +30,7 @@ Key company details:
   3. Bedroom & Home Furniture: King & queen size beds, wooden 2-door and 3-door wardrobes, and coordinated bedroom sets.
 - Industries Served: Construction companies, facility management, manpower agencies, real estate developers, labour camps, and government housing projects.
 
-Keep responses concise, helpful, and professional. When customers ask for exact pricing or large bulk orders, encourage them to use the "Request a Bulk Quote" form on the website, email info@nad.furniture, or message +971 50 631 6560 on WhatsApp.`;
+Keep responses concise, helpful, and professional. When customers ask for exact pricing or large bulk orders, encourage them to use the "Request a Bulk Quote" form on the website, email info@NAD.furniture, or message +971 50 631 6560 on WhatsApp.`;
 
 interface ChatMessageInput {
   role: 'user' | 'model';
@@ -64,7 +64,7 @@ async function startServer() {
 
       const reply =
         response.text?.trim() ||
-        'Thank you for contacting NAD Furniture UAE. Please reach out to info@nad.furniture or +971 50 631 6560 on WhatsApp for immediate assistance.';
+        'Thank you for contacting NAD Furniture UAE. Please reach out to info@NAD.furniture or +971 50 631 6560 on WhatsApp for immediate assistance.';
 
       res.json({ reply });
     } catch (err: unknown) {

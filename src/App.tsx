@@ -206,13 +206,13 @@ function MainAppContent() {
 
             <div className="flex items-center gap-3 text-[15px] font-semibold whitespace-nowrap shrink-0">
               <a
-                href="mailto:info@nad.furniture"
+                href="mailto:info@NAD.furniture"
                 className="inline-flex items-center gap-1.5 text-[#EDF2F7] hover:text-white transition-colors"
               >
                 <span aria-hidden="true" className="text-[12px]">
                   ✉
                 </span>
-                <span>info@nad.furniture</span>
+                <span>info@NAD.furniture</span>
               </a>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
@@ -622,7 +622,7 @@ function MainAppContent() {
                     onClick={() => openBulkQuote()}
                     className="inline-flex items-center gap-3 rounded-[6px] border-2 border-[#b82105] bg-[#191919] px-6 py-3 text-[16px] font-semibold text-white hover:bg-[#b82105] transition-colors cursor-pointer"
                   >
-                    <span>Request a Bulk Quote</span>
+                    <span>Request a Furniture Quote</span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
@@ -742,12 +742,24 @@ function MainAppContent() {
                       aria-label="NAD Furniture UAE Manufacturing & Accommodation Facility Tour"
                       className="h-full w-full object-contain bg-black cursor-pointer"
                     >
-                      <source src="./videos/nad_furniture_tour.mp4" type="video/mp4" />
-                      <source src="/videos/nad_furniture_tour.mp4" type="video/mp4" />
-                      <source src="./videos/nad_furniture_optimized.mp4" type="video/mp4" />
-                      <source src="./assets/aistudio/1107__2__a1ee38c1.mp4" type="video/mp4" />
+                      <source src="/videos/nad_furniture_tour.mp4?v=nad-email-v3" type="video/mp4" />
+                      <source src="./videos/nad_furniture_tour.mp4?v=nad-email-v3" type="video/mp4" />
+                      <source src="/videos/nad_furniture_optimized.mp4?v=nad-email-v3" type="video/mp4" />
+                      <source src="/assets/aistudio/1107__2__a1ee38c1.mp4?v=nad-email-v3" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
+
+                    {/* Persistent Video Tour Top Banner with info@NAD.furniture */}
+                    <div className="absolute top-2.5 sm:top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none select-none">
+                      <div className="rounded-[14px] sm:rounded-[18px] bg-white px-3.5 sm:px-5 py-1.5 sm:py-2 shadow-xl text-center border border-white/90">
+                        <p className="text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap">
+                          For Orders: +971 50 631 6560
+                        </p>
+                        <p className="text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap">
+                          info@NAD.furniture
+                        </p>
+                      </div>
+                    </div>
 
                     {!isVideoPlaying && (
                       <button
@@ -773,11 +785,11 @@ function MainAppContent() {
                       </a>
                     </div>
                     <a
-                      href="mailto:info@nad.furniture"
+                      href="mailto:info@NAD.furniture"
                       className="inline-flex items-center gap-1.5 font-medium text-[#EDF2F7] hover:text-[#cf251d] transition-colors"
                     >
                       <span aria-hidden="true">✉</span>
-                      <span>info@nad.furniture</span>
+                      <span>info@NAD.furniture</span>
                     </a>
                   </div>
                 </div>
@@ -1597,10 +1609,10 @@ function MainAppContent() {
                 <br />
                 ✉️ <strong>Email:</strong>{' '}
                 <a
-                  href="mailto:info@nad.furniture"
+                  href="mailto:info@NAD.furniture"
                   className="hover:text-[#cf251d] transition-colors"
                 >
-                  info@nad.furniture
+                  info@NAD.furniture
                 </a>
               </p>
             </div>

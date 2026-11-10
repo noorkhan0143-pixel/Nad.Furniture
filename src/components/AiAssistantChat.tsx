@@ -22,12 +22,12 @@ function getStaticFallbackReply(query: string): string {
     return 'We manufacture heavy-duty 2-tier and 3-tier steel bunk beds (including 27 kg & 32 kg models) and single beds for labour camps and staff accommodations. Click "Request Bulk Quote" below or message +971 50 631 6560 on WhatsApp for wholesale pricing.';
   }
   if (q.includes('locker') || q.includes('wardrobe') || q.includes('cabinet')) {
-    return 'We supply 2-door, 3-door, 4-door, 6-door, 8-door, and 12-door steel lockers as well as 2-door and 3-door wooden wardrobes. Reach us at info@nad.furniture or +971 50 631 6560 for bulk project rates.';
+    return 'We supply 2-door, 3-door, 4-door, 6-door, 8-door, and 12-door steel lockers as well as 2-door and 3-door wooden wardrobes. Reach us at info@NAD.furniture or +971 50 631 6560 for bulk project rates.';
   }
   if (q.includes('office') || q.includes('desk') || q.includes('workstation')) {
     return 'Our office furniture range includes executive tables, tables with drawers, L-shaped desks, and 4-person & 6-person modular workstations with UAE-wide delivery.';
   }
-  return 'NAD Furniture UAE (NAD Building, Naif Street, Dubai) offers factory-direct wholesale furniture with prompt delivery across all UAE emirates. Contact info@nad.furniture or WhatsApp +971 50 631 6560 for an instant quote.';
+  return 'NAD Furniture UAE (NAD Building, Naif Street, Dubai) offers factory-direct wholesale furniture with prompt delivery across all UAE emirates. Contact info@NAD.furniture or WhatsApp +971 50 631 6560 for an instant quote.';
 }
 
 export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
@@ -215,7 +215,7 @@ export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
               }}
               className="font-semibold text-[#b82105] hover:underline cursor-pointer"
             >
-              Request Bulk Quote
+              Request a Furniture Quote
             </button>
           </div>
 

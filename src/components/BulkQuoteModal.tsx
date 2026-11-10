@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, MessageCircle } from 'lucide-react';
-import { UAE_LOCATIONS, WHATSAPP_NUMBER } from '../data/catalog';
+import { X, CheckCircle2, MessageCircle, Mail } from 'lucide-react';
+import { WHATSAPP_NUMBER } from '../data/catalog';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface BulkQuoteModalProps {
   isOpen: boolean;
@@ -14,18 +15,17 @@ export const BulkQuoteModal: React.FC<BulkQuoteModalProps> = ({
   initialProduct = '',
 }) => {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [productName, setProductName] = useState(initialProduct);
-  const [quantity, setQuantity] = useState('');
-  const [location, setLocation] = useState('');
-  const [project, setProject] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [requirement, setRequirement] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    setProductName(initialProduct);
+    if (initialProduct) {
+      setRequirement(`Looking for quotation on: ${initialProduct}`);
+    } else {
+      setRequirement('');
+    }
   }, [initialProduct]);
 
   useEffect(() => {
@@ -40,8 +40,46 @@ export const BulkQuoteModal: React.FC<BulkQuoteModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const buildWhatsAppText = () => {
+    return encodeURIComponent(
+      `*Furniture Quote Request - NAD Furniture UAE*\n\n` +
+      `*Name:* ${name.trim() || 'N/A'}\n` +
+      `*Phone:* ${phone.trim() || 'N/A'}\n` +
+      (email.trim() ? `*Email:* ${email.trim()}\n` : '') +
+      `*Requirement:* ${requirement.trim() || 'General furniture quote inquiry'}`
+    );
+  };
+
+  const buildEmailHref = () => {
+    const subject = encodeURIComponent(`Furniture Quote Request from ${name.trim() || 'Customer'}`);
+    const body = encodeURIComponent(
+      `Dear NAD Furniture Team,\n\n` +
+      `I would like to request a furniture quote with the following details:\n\n` +
+      `• Name: ${name.trim() || 'N/A'}\n` +
+      `• Phone: ${phone.trim() || 'N/A'}\n` +
+      (email.trim() ? `• Email: ${email.trim()}\n` : '') +
+      `• Requirement:\n${requirement.trim() || 'General furniture quote inquiry'}\n\n` +
+      `Please contact me at your earliest convenience with pricing and availability.\n\n` +
+      `Best regards,\n${name.trim()}`
+    );
+    return `mailto:info@NAD.furniture?subject=${subject}&body=${body}`;
+  };
+
+  const handleSendViaWhatsApp = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!name.trim() || !phone.trim()) return;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppText()}`;
+    window.open(url, '_blank');
+    setSubmitted(true);
+  };
+
+  const handleSendViaEmail = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (!name.trim() || !phone.trim()) {
+      alert('Please enter your name and phone number to send a quote.');
+      return;
+    }
+    window.location.href = buildEmailHref();
     setSubmitted(true);
   };
 
@@ -50,188 +88,190 @@ export const BulkQuoteModal: React.FC<BulkQuoteModalProps> = ({
     onClose();
   };
 
-  const whatsappSummary = encodeURIComponent(
-    `Bulk Quote Request:\nName: ${name}\nPhone: ${phone}\nEmail: ${email || 'N/A'}\nCompany: ${companyName || 'N/A'}\nProduct: ${productName || 'General Furniture'}\nQuantity: ${quantity || 'N/A'}\nLocation: ${location || 'UAE'}\nProject: ${project || 'N/A'}\nMessage: ${message || 'N/A'}`
-  );
-
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-xs"
       onClick={handleResetAndClose}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="bulk-quote-modal-title"
+      aria-labelledby="furniture-quote-modal-title"
     >
       <div
-        className="relative w-full max-w-[760px] rounded-lg bg-white p-6 md:p-8 shadow-2xl max-h-[92vh] overflow-y-auto"
+        className="relative w-full max-w-[680px] rounded-[10px] bg-white shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          type="button"
-          onClick={handleResetAndClose}
-          aria-label="Close Modal"
-          className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-md text-[#4A5568] hover:bg-[#EDF2F7] hover:text-[#1A202C] transition-colors cursor-pointer"
-        >
-          <X className="h-5 w-5" />
-        </button>
+        {/* Top Header Bar matching screenshot */}
+        <div className="bg-[#131313] px-6 py-5 text-center relative border-b border-white/10 shrink-0">
+          <h2
+            id="furniture-quote-modal-title"
+            className="text-[22px] sm:text-[26px] font-bold text-white tracking-tight leading-snug"
+            style={{ fontFamily: 'var(--font-heading)' }}
+          >
+            Request a Furniture Quote
+          </h2>
+          <button
+            type="button"
+            onClick={handleResetAndClose}
+            aria-label="Close"
+            className="absolute right-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-md text-white/70 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
 
-        {submitted ? (
-          <div className="py-8 text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-              <CheckCircle2 className="h-8 w-8" />
-            </div>
-            <h2
-              id="bulk-quote-modal-title"
-              className="text-2xl font-bold text-[#1A202C] mb-2"
-            >
-              Quote Request Received
-            </h2>
-            <p className="text-sm text-[#4A5568] max-w-md mx-auto mb-6">
-              Thank you, <span className="font-semibold text-[#1A202C]">{name}</span>. Our
-              commercial sales team in Dubai will review your requirements and contact you
-              shortly with factory-direct pricing and delivery schedules.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappSummary}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-[#25D366] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1ebe5d] transition-colors"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Send Details on WhatsApp Now
-              </a>
-              <button
-                type="button"
-                onClick={handleResetAndClose}
-                className="inline-flex items-center justify-center rounded-md border border-[#CBD5E0] bg-white px-5 py-3 text-sm font-semibold text-[#2D3748] hover:bg-[#F7FAFC] transition-colors cursor-pointer"
-              >
-                Back to Catalog
-              </button>
-            </div>
-          </div>
-        ) : (
-          <>
-            <h2
-              id="bulk-quote-modal-title"
-              className="text-[24px] md:text-[26px] font-bold text-[#b82105] text-center"
-            >
-              Request a Bulk Quote
-            </h2>
-            <p className="mt-1 mb-6 text-center text-[15px] text-[#555555]">
-              Tell us what you need, and our team will contact you with pricing,
-              availability, and delivery details.
-            </p>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <input
-                  type="text"
-                  required
-                  placeholder="Your Name *"
-                  aria-label="Your Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#718096] focus:border-[#b82105] focus:outline-none"
-                />
+        {/* Modal Body */}
+        <div className="p-6 sm:p-8 overflow-y-auto">
+          {submitted ? (
+            <div className="py-6 text-center">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                <CheckCircle2 className="h-8 w-8" />
               </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  aria-label="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#718096] focus:border-[#b82105] focus:outline-none"
-                />
-                <input
-                  type="tel"
-                  required
-                  placeholder="Phone *"
-                  aria-label="Phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#718096] focus:border-[#b82105] focus:outline-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="Company Name"
-                  aria-label="Company Name"
-                  value={companyName}
-                  onChange={(e) => setCompanyName(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#718096] focus:border-[#b82105] focus:outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Product Name"
-                  aria-label="Product Name"
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#718096] focus:border-[#b82105] focus:outline-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="Expected Quantity"
-                  aria-label="Expected Quantity"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#718096] focus:border-[#b82105] focus:outline-none"
-                />
-                <select
-                  aria-label="Select Location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] focus:border-[#b82105] focus:outline-none"
+              <h3 className="text-2xl font-bold text-[#1A202C] mb-2">
+                Quote Request Ready
+              </h3>
+              <p className="text-[15px] text-[#4A5568] max-w-md mx-auto mb-6">
+                Thank you, <span className="font-semibold text-[#1A202C]">{name}</span>. You can dispatch your quote details directly through WhatsApp or Email:
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppText()}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-[#25D366] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1ebe5d] transition-colors"
                 >
-                  <option value="" disabled>
-                    Select Location
-                  </option>
-                  {UAE_LOCATIONS.map((loc) => (
-                    <option key={loc} value={loc}>
-                      {loc}
-                    </option>
-                  ))}
-                </select>
+                  <WhatsAppIcon className="h-4 w-4" />
+                  <span>Send via WhatsApp (+971 50 631 6560)</span>
+                </a>
+                <a
+                  href={buildEmailHref()}
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-[#131313] px-5 py-3 text-sm font-semibold text-white hover:bg-[#b82105] transition-colors"
+                >
+                  <Mail className="h-4 w-4" />
+                  <span>Send via Email (info@NAD.furniture)</span>
+                </a>
               </div>
-
-              <div>
-                <input
-                  type="text"
-                  placeholder="Company / Project"
-                  aria-label="Company / Project"
-                  value={project}
-                  onChange={(e) => setProject(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#718096] focus:border-[#b82105] focus:outline-none"
-                />
+              <div className="mt-6 pt-4 border-t border-gray-100">
+                <button
+                  type="button"
+                  onClick={handleResetAndClose}
+                  className="text-sm font-medium text-gray-500 hover:text-[#b82105] transition-colors cursor-pointer"
+                >
+                  Close &amp; Back to Catalog
+                </button>
               </div>
+            </div>
+          ) : (
+            <>
+              <p className="text-[14px] sm:text-[15px] leading-relaxed text-[#4A5568] mb-6">
+                Need furniture for your office, labour camp, staff accommodation, home or commercial project? Send us your requirements and our team will contact you with pricing and availability.
+              </p>
 
-              <div>
-                <textarea
-                  rows={3}
-                  placeholder="Message"
-                  aria-label="Message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#718096] focus:border-[#b82105] focus:outline-none"
-                />
-              </div>
+              <form onSubmit={handleSendViaWhatsApp} className="space-y-4">
+                {/* 1. Your Name * */}
+                <div>
+                  <label
+                    htmlFor="quote-input-name"
+                    className="block text-[14px] font-medium text-[#1A202C] mb-1.5"
+                  >
+                    Your Name <span className="text-[#c2171a] font-bold">*</span>
+                  </label>
+                  <input
+                    id="quote-input-name"
+                    type="text"
+                    required
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#A0AEC0] focus:border-[#b82105] focus:outline-none transition-colors"
+                  />
+                </div>
 
-              <button
-                type="submit"
-                className="w-full rounded-[8px] bg-[#b82105] py-3 px-6 text-[16px] font-semibold text-white hover:bg-[#8f1904] transition-colors cursor-pointer"
-              >
-                Submit
-              </button>
-            </form>
-          </>
-        )}
+                {/* 2. Phone * */}
+                <div>
+                  <label
+                    htmlFor="quote-input-phone"
+                    className="block text-[14px] font-medium text-[#1A202C] mb-1.5"
+                  >
+                    Phone <span className="text-[#c2171a] font-bold">*</span>
+                  </label>
+                  <input
+                    id="quote-input-phone"
+                    type="tel"
+                    required
+                    placeholder="Enter your phone number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#A0AEC0] focus:border-[#b82105] focus:outline-none transition-colors"
+                  />
+                </div>
+
+                {/* 3. Email */}
+                <div>
+                  <label
+                    htmlFor="quote-input-email"
+                    className="block text-[14px] font-medium text-[#1A202C] mb-1.5"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="quote-input-email"
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#A0AEC0] focus:border-[#b82105] focus:outline-none transition-colors"
+                  />
+                </div>
+
+                {/* 4. Your Requirement */}
+                <div>
+                  <label
+                    htmlFor="quote-input-requirement"
+                    className="block text-[14px] font-medium text-[#1A202C] mb-1.5"
+                  >
+                    Your Requirement
+                  </label>
+                  <textarea
+                    id="quote-input-requirement"
+                    rows={4}
+                    placeholder="Tell us what furniture you need, quantity & delivery location"
+                    value={requirement}
+                    onChange={(e) => setRequirement(e.target.value)}
+                    className="w-full rounded-[6px] border border-[#CBD5E0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A202C] placeholder:text-[#A0AEC0] focus:border-[#b82105] focus:outline-none resize-y transition-colors"
+                  />
+                </div>
+
+                {/* Submit Actions: Main Red Button + Direct WhatsApp & Email Buttons */}
+                <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  <button
+                    type="submit"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center rounded-[6px] bg-[#b82105] py-3 px-6 text-[15px] font-semibold text-white shadow-sm hover:bg-[#8f1904] transition-colors cursor-pointer"
+                  >
+                    Request a Quote
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleSendViaWhatsApp()}
+                    className="inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#25D366] py-3 px-4 text-[14px] font-semibold text-white hover:bg-[#1ebe5d] transition-colors cursor-pointer"
+                  >
+                    <WhatsAppIcon className="h-4 w-4" />
+                    <span>via WhatsApp</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSendViaEmail}
+                    className="inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#CBD5E0] bg-white py-3 px-4 text-[14px] font-semibold text-[#2D3748] hover:border-[#b82105] hover:text-[#b82105] transition-colors cursor-pointer"
+                  >
+                    <Mail className="h-4 w-4" />
+                    <span>via Email</span>
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

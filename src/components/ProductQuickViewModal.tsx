@@ -205,7 +205,7 @@ export const ProductQuickViewModal: React.FC<ProductQuickViewModalProps> = ({
                 }}
                 className="mt-2.5 flex w-full min-h-[44px] items-center justify-center rounded-[6px] border border-[#cf251d] bg-white px-5 py-2.5 text-sm font-semibold text-[#cf251d] hover:bg-[#cf251d] hover:text-white transition-colors cursor-pointer"
               >
-                Request Formal Bulk Quote
+                Request a Furniture Quote
               </button>
             </div>
           </div>
