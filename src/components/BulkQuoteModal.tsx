@@ -51,19 +51,33 @@ export const BulkQuoteModal: React.FC<BulkQuoteModalProps> = ({
   };
 
   const buildEmailHref = () => {
-    const subject = encodeURIComponent(`Furniture Quote Request from ${name.trim() || 'Customer'}`);
-    const body = encodeURIComponent(
-      `Dear NAD Furniture Team,\n\n` +
-      `I would like to request a furniture quote with the following details:\n\n` +
-      `• Name: ${name.trim() || 'N/A'}\n` +
-      `• Phone: ${phone.trim() || 'N/A'}\n` +
-      (email.trim() ? `• Email: ${email.trim()}\n` : '') +
-      `• Requirement:\n${requirement.trim() || 'General furniture quote inquiry'}\n\n` +
-      `Please contact me at your earliest convenience with pricing and availability.\n\n` +
-      `Best regards,\n${name.trim()}`
-    );
-    return `mailto:info@NAD.furniture?subject=${subject}&body=${body}`;
-  };
+  const recipient = 'info@nad.furniture';
+
+  const subject = `Furniture Quote Request - ${name.trim() || 'Customer'}`;
+
+  const body = [
+    'NAD FURNITURE UAE',
+    'FURNITURE QUOTATION REQUEST',
+    '',
+    'Dear NAD Furniture Team,',
+    '',
+    'Please find my furniture quotation request below:',
+    '',
+    `Customer Name: ${name.trim() || 'N/A'}`,
+    `Phone Number: ${phone.trim() || 'N/A'}`,
+    `Customer Email: ${email.trim() || 'Not provided'}`,
+    '',
+    'Furniture Requirements:',
+    requirement.trim() || 'General furniture quote inquiry',
+    '',
+    'Please contact me with pricing and availability.',
+    '',
+    'Best regards,',
+    name.trim() || 'Customer',
+  ].join('\r\n');
+
+  return `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
 
   const handleSendViaWhatsApp = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
