@@ -180,7 +180,13 @@ export const BulkQuoteModal: React.FC<BulkQuoteModalProps> = ({
                 Need furniture for your office, labour camp, staff accommodation, home or commercial project? Send us your requirements and our team will contact you with pricing and availability.
               </p>
 
-              <form onSubmit={handleSendViaWhatsApp} className="space-y-4">
+              <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    setSubmitted(true);
+  }}
+  className="space-y-4"
+>
                 {/* 1. Your Name * */}
                 <div>
                   <label
