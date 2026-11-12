@@ -979,17 +979,20 @@ function MainAppContent() {
                       Your browser does not support the video tag.
                     </video>
 
-                    {/* Persistent Video Tour Top Banner with info@NAD.furniture */}
-                    <div className="absolute top-2.5 sm:top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none select-none">
-                      <div className="rounded-[14px] sm:rounded-[18px] bg-white px-3.5 sm:px-5 py-1.5 sm:py-2 shadow-xl text-center border border-white/90">
-                        <p className="text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap">
-                          For Orders: +971 50 631 6560
-                        </p>
-                        <p className="text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap">
-                          info@NAD.furniture
-                        </p>
-                      </div>
-                    </div>
+                    {/* Persistent Video Tour Top Banner with clickable email */}
+<div className="absolute top-2.5 sm:top-3.5 left-1/2 -translate-x-1/2 z-20 select-none">
+  <div className="rounded-[14px] sm:rounded-[18px] bg-white px-3.5 sm:px-5 py-1.5 sm:py-2 shadow-xl text-center border border-white/90">
+    <p className="text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap">
+      For Orders: +971 50 631 6560
+    </p>
+    <a
+      href="mailto:info@nad.furniture"
+      className="block text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap hover:underline cursor-pointer"
+    >
+      info@NAD.furniture
+    </a>
+  </div>
+</div>
 
                     {!isVideoPlaying && (
                       <button
