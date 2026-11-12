@@ -842,7 +842,7 @@ function MainAppContent() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                   <div className="lg:col-span-8 space-y-4 lg:pr-8">
                     <h1 className="text-[28px] sm:text-[34px] md:text-[38px] lg:text-[42px] xl:text-[46px] font-bold leading-[1.2] text-white">
-                      Labour Camp Furniture Supplier in UAE
+                      Direct-from-Factory Accommodation Furniture at Unbeatable Wholesale Rates
                     </h1>
                     <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#CBD5E0] max-w-2xl">
                       Cut out the middleman. We manufacture and supply heavy-duty bunk beds,
