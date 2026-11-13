@@ -192,9 +192,6 @@ export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
     </div>
   </div>
 ))}
-              </div>
-            )}
-
             <div ref={messagesEndRef} />
           </div>
 
