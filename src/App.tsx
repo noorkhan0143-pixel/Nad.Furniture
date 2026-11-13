@@ -2069,6 +2069,7 @@ const openEmailOptions = () => {
       <ProductEditorModal />
       <OwnerCatalogManagerModal />
     </div>
+  </>
   );
 }
 
