@@ -1027,12 +1027,13 @@ const openEmailOptions = () => {
     <p className="text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap">
       For Orders: +971 50 631 6560
     </p>
-    <a
-      href="mailto:info@nad.furniture"
-      className="block text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap hover:underline cursor-pointer"
-    >
-      info@NAD.furniture
-    </a>
+    <button
+  type="button"
+  onClick={openEmailOptions}
+  className="block text-[12px] sm:text-[14px] md:text-[15px] font-bold text-[#c2171a] leading-tight whitespace-nowrap hover:underline cursor-pointer"
+>
+  info@NAD.furniture
+</button>
   </div>
 </div>
 
@@ -1059,13 +1060,14 @@ const openEmailOptions = () => {
                         +971 50 631 6560
                       </a>
                     </div>
-                    <a
-                      href="mailto:info@NAD.furniture"
-                      className="inline-flex items-center gap-1.5 font-medium text-[#EDF2F7] hover:text-[#cf251d] transition-colors"
-                    >
-                      <span aria-hidden="true">✉</span>
-                      <span>info@NAD.furniture</span>
-                    </a>
+                    <button
+  type="button"
+  onClick={openEmailOptions}
+  className="inline-flex items-center gap-1.5 font-medium text-[#EDF2F7] hover:text-[#cf251d] transition-colors"
+>
+  <span aria-hidden="true">✉</span>
+  <span>info@NAD.furniture</span>
+</button>
                   </div>
                 </div>
               </div>
@@ -2009,12 +2011,13 @@ const openEmailOptions = () => {
                 ☎ <strong>Call:</strong> +971 50 631 6560
                 <br />
                 ✉️ <strong>Email:</strong>{' '}
-                <a
-                  href="mailto:info@NAD.furniture"
-                  className="hover:text-[#cf251d] transition-colors"
-                >
-                  info@NAD.furniture
-                </a>
+                <button
+  type="button"
+  onClick={openEmailOptions}
+  className="hover:text-[#cf251d] transition-colors cursor-pointer"
+>
+  info@NAD.furniture
+</button>
               </p>
             </div>
           </div>
