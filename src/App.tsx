@@ -80,11 +80,15 @@ function MainAppContent() {
   const [quoteProduct, setQuoteProduct] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [emailOptionsOpen, setEmailOptionsOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const secretClickCountRef = useRef(0);
   const secretClickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openEmailOptions = () => {
+  setEmailOptionsOpen(true);
+};
 
   
   const openEmailOptions = () => {
