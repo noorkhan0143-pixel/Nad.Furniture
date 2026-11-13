@@ -321,15 +321,16 @@ const openEmailOptions = () => {
             </nav>
 
             <div className="flex items-center gap-3 text-[15px] font-semibold whitespace-nowrap shrink-0">
-              <a
-                href="mailto:info@NAD.furniture"
-                className="inline-flex items-center gap-1.5 text-[#EDF2F7] hover:text-white transition-colors"
-              >
-                <span aria-hidden="true" className="text-[12px]">
-                  ✉
-                </span>
-                <span>info@NAD.furniture</span>
-              </a>
+              <button
+  type="button"
+  onClick={openEmailOptions}
+  className="inline-flex items-center gap-1.5 text-[#EDF2F7] hover:text-white transition-colors"
+>
+  <span aria-hidden="true" className="text-[12px]">
+    ✉
+  </span>
+  <span>info@NAD.furniture</span>
+</button>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
