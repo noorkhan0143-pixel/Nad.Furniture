@@ -162,46 +162,36 @@ export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
           {/* Messages */}
           <div className="flex-1 space-y-3 overflow-y-auto p-4 max-h-[340px] bg-white">
             {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex ${
-                  msg.role === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                <div
-                  className={`max-w-[85%] rounded-lg px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
-                    msg.role === 'user'
-                      ? 'bg-[#b82105] text-white'
-                      : 'bg-[#f7f8f9] text-[#1A202C] border border-[#e5e7eb]'
-                  }`}
-                >
-                  {msg.text.split(/(info@nad\.furniture)/gi).map((part, partIdx) =>
-  /^info@nad\.furniture$/i.test(part) ? (
-    <button
-      key={partIdx}
-      type="button"
-      onClick={onOpenEmailOptions}
-      className="font-semibold text-[#c2171a] underline hover:text-[#8a1803] cursor-pointer"
+  <div
+    key={idx}
+    className={`flex ${
+      msg.role === 'user' ? 'justify-end' : 'justify-start'
+    }`}
+  >
+    <div
+      className={`max-w-[85%] rounded-lg px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
+        msg.role === 'user'
+          ? 'bg-[#b82105] text-white'
+          : 'bg-[#f7f8f9] text-[#1A202C] border border-[#e5e7eb]'
+      }`}
     >
-      {part}
-    </button>
-  ) : (
-    <React.Fragment key={partIdx}>{part}</React.Fragment>
-  )
-)}
-
-            {messages.length === 1 && !isLoading && (
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {QUICK_PROMPTS.map((prompt) => (
-                  <button
-                    key={prompt}
-                    type="button"
-                    onClick={() => void sendMessage(prompt)}
-                    className="rounded-md border border-[#e5e7eb] bg-[#f7f8f9] px-2.5 py-1 text-xs font-medium text-[#2D3748] hover:border-[#b82105] hover:text-[#b82105] transition-colors cursor-pointer"
-                  >
-                    {prompt}
-                  </button>
-                ))}
+      {msg.text.split(/(info@nad\.furniture)/gi).map((part, partIdx) =>
+        /^info@nad\.furniture$/i.test(part) ? (
+          <button
+            key={partIdx}
+            type="button"
+            onClick={onOpenEmailOptions}
+            className="font-semibold text-[#c2171a] underline hover:text-[#8a1803] cursor-pointer"
+          >
+            {part}
+          </button>
+        ) : (
+          <React.Fragment key={partIdx}>{part}</React.Fragment>
+        )
+      )}
+    </div>
+  </div>
+))}
               </div>
             )}
 
