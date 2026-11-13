@@ -84,33 +84,12 @@ function MainAppContent() {
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const secretClickCountRef = useRef(0);
-  const secretClickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const openEmailOptions = () => {
+const secretClickCountRef = useRef(0);
+const secretClickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+const openEmailOptions = () => {
   setEmailOptionsOpen(true);
 };
-
-  
-  const openEmailOptions = () => {
-    const choice = window.confirm(
-      "OK = Gmail | Cancel = Outlook"
-    );
-
-    if (choice) {
-      window.open(
-        "https://mail.google.com/mail/?view=cm&fs=1&to=info%40nad.furniture",
-        "_blank",
-        "noopener,noreferrer"
-      );
-    } else {
-      window.open(
-        "https://outlook.office.com/mail/deeplink/compose?to=info%40nad.furniture",
-        "_blank",
-        "noopener,noreferrer"
-      );
-    }
-  };
-
   // Hidden owner access: shortcut Ctrl+Shift+O / Alt+Shift+O or URL hash #owner
   // NOT shown publicly to any visitor
   useEffect(() => {
