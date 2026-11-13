@@ -8,6 +8,7 @@ interface ChatMessage {
 
 interface AiAssistantChatProps {
   onOpenBulkQuote: () => void;
+  onOpenEmailOptions: () => void;
 }
 
 const QUICK_PROMPTS = [
@@ -32,6 +33,7 @@ function getStaticFallbackReply(query: string): string {
 
 export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
   onOpenBulkQuote,
+  onOpenEmailOptions,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
@@ -173,18 +175,20 @@ export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
                       : 'bg-[#f7f8f9] text-[#1A202C] border border-[#e5e7eb]'
                   }`}
                 >
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="rounded-lg border border-[#e5e7eb] bg-[#f7f8f9] px-3.5 py-2 text-xs text-[#718096]">
-                  Typing...
-                </div>
-              </div>
-            )}
+                  {msg.text.split(/(info@nad\.furniture)/gi).map((part, partIdx) =>
+  /^info@nad\.furniture$/i.test(part) ? (
+    <button
+      key={partIdx}
+      type="button"
+      onClick={onOpenEmailOptions}
+      className="font-semibold text-[#c2171a] underline hover:text-[#8a1803] cursor-pointer"
+    >
+      {part}
+    </button>
+  ) : (
+    <React.Fragment key={partIdx}>{part}</React.Fragment>
+  )
+)}
 
             {messages.length === 1 && !isLoading && (
               <div className="flex flex-wrap gap-1.5 pt-1">
