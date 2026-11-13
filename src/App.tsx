@@ -225,7 +225,44 @@ const openEmailOptions = () => {
           return item.category === activeFilter;
         });
 
-  return (
+ return (
+  <>
+    {emailOptionsOpen && (
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 p-4">
+        <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-2xl">
+          <h2 className="mb-4 text-lg font-bold text-gray-900">
+            Choose Email Service
+          </h2>
+
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=info%40nad.furniture"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-3 block rounded-lg bg-red-600 px-4 py-3 text-center font-semibold text-white"
+          >
+            Open Gmail
+          </a>
+
+          <a
+            href="https://outlook.office.com/mail/deeplink/compose?to=info%40nad.furniture"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-lg bg-blue-600 px-4 py-3 text-center font-semibold text-white"
+          >
+            Open Outlook
+          </a>
+
+          <button
+            type="button"
+            onClick={() => setEmailOptionsOpen(false)}
+            className="mt-4 w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    )}
+
     <div id="wrapper" className="min-h-screen flex flex-col bg-white text-[#2D3748]">
       <a
         href="#main"
