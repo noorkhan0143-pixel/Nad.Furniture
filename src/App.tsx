@@ -175,12 +175,6 @@ const openEmailOptions = () => {
     }
   };
 
-  const handleBlogsClick = () => {
-    setCurrentView('blogs');
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleCareerClick = () => {
     setCurrentView('career');
     setMobileMenuOpen(false);
@@ -682,13 +676,6 @@ const openEmailOptions = () => {
                   className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
                 >
                   Project Gallery
-                </button>
-                <button
-                  type="button"
-                  onClick={handleBlogsClick}
-                  className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
-                >
-                  Blogs
                 </button>
                 <button
                   type="button"
@@ -1767,15 +1754,6 @@ const openEmailOptions = () => {
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
                     ▸ Project Gallery
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={handleBlogsClick}
-                    className="hover:text-[#cf251d] transition-colors cursor-pointer"
-                  >
-                    ▸ Blogs
                   </button>
                 </li>
                 <li>
