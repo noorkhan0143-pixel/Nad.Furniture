@@ -1937,13 +1937,13 @@ const openEmailOptions = () => {
   target="_blank"
   rel="noopener noreferrer"
   aria-label="Chat with NAD Furniture on WhatsApp"
-  title="Chat with NAD Furniture on WhatsApp"
-  className="fixed bottom-[76px] lg:bottom-[200px] right-[10px] z-40 w-[190px] sm:w-[230px] hover:scale-105 transition-transform duration-300"
+  className="fixed bottom-[76px] lg:bottom-[200px] right-[16px] z-40
+             w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
 >
   <img
-    src="/images/whatsapp-3d-banner.png"
-    alt="Contact NAD Furniture on WhatsApp"
-    className="w-full h-auto object-contain drop-shadow-xl"
+    src="/images/whatsapp-3d-icon.png"
+    alt="WhatsApp NAD Furniture"
+    className="w-full h-full object-contain drop-shadow-xl"
   />
 </a>
 
