@@ -292,12 +292,6 @@ const openEmailOptions = () => {
               </button>
               <button
                 type="button"
-             className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-              >
-                Blogs
-              </button>
-              <button
-                type="button"
                 onClick={handleCareerClick}
                 className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
