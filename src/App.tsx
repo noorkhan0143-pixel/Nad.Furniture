@@ -27,7 +27,6 @@ import { ProductCard } from './components/ProductCard';
 import { BulkQuoteModal } from './components/BulkQuoteModal';
 import { ProductQuickViewModal } from './components/ProductQuickViewModal';
 import { WhatsAppIcon } from './components/WhatsAppIcon';
-import { AiAssistantChat } from './components/AiAssistantChat';
 import { CatalogProvider, useCatalog } from './context/CatalogContext';
 import { OwnerControlBar } from './components/OwnerControlBar';
 import { OwnerPortalModal } from './components/OwnerPortalModal';
@@ -2049,12 +2048,6 @@ const openEmailOptions = () => {
       >
         <WhatsAppIcon className="h-7 w-7" />
       </a>
-
-      {/* Floating AI Assistant Chat below WhatsApp */}
-      <AiAssistantChat
-  onOpenBulkQuote={() => openBulkQuote()}
-  onOpenEmailOptions={openEmailOptions}
-/>
 
       {/* Modals */}
       <BulkQuoteModal
