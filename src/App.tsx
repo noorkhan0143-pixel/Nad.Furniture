@@ -1937,8 +1937,8 @@ const openEmailOptions = () => {
   target="_blank"
   rel="noopener noreferrer"
   aria-label="Chat with NAD Furniture on WhatsApp"
-  className="fixed bottom-[76px] lg:bottom-[200px] right-[16px] z-40
-             w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
+  title="Chat with NAD Furniture on WhatsApp"
+  className="fixed bottom-[76px] lg:bottom-[200px] right-[16px] z-40 w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
 >
   <img
     src="/images/whatsapp-3d-icon.png"
@@ -1946,7 +1946,6 @@ const openEmailOptions = () => {
     className="w-full h-full object-contain drop-shadow-xl"
   />
 </a>
-
       {/* Modals */}
       <BulkQuoteModal
         isOpen={quoteModalOpen}
