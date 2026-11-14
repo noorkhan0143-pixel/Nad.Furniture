@@ -73,7 +73,7 @@ const NadBrandMark: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' }> 
 
 function MainAppContent() {
   const { products, openLoginModal } = useCatalog();
-  const [currentView, setCurrentView] = useState<'home' | 'about' | 'blogs' | 'career'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'about' | 'career'>('home');
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [quoteProduct, setQuoteProduct] = useState('');
