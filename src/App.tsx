@@ -2051,7 +2051,10 @@ const openEmailOptions = () => {
       </a>
 
       {/* Floating AI Assistant Chat below WhatsApp */}
-      <AiAssistantChat onOpenBulkQuote={() => openBulkQuote()} />
+      <AiAssistantChat
+  onOpenBulkQuote={() => openBulkQuote()}
+  onOpenEmailOptions={openEmailOptions}
+/>
 
       {/* Modals */}
       <BulkQuoteModal
