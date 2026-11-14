@@ -298,8 +298,7 @@ const openEmailOptions = () => {
               </button>
               <button
                 type="button"
-                onClick={handleBlogsClick}
-                className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+             className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Blogs
               </button>
@@ -805,38 +804,7 @@ const openEmailOptions = () => {
           </section>
         )}
 
-        {/* Blank view for Blogs as requested */}
-        {currentView === 'blogs' && (
-          <section className="min-h-[70vh] bg-white py-12 px-6">
-            <div className="mx-auto max-w-[1290px]">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
-                <div className="flex items-center gap-2 text-sm text-[#718096]">
-                  <button
-                    type="button"
-                    onClick={handleHomeClick}
-                    className="hover:text-[#b82105] transition-colors cursor-pointer"
-                  >
-                    Home
-                  </button>
-                  <span>/</span>
-                  <span className="text-[#1A202C] font-semibold">Blogs</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleHomeClick}
-                  className="text-xs font-semibold text-[#b82105] hover:underline cursor-pointer"
-                >
-                  ← Back to Home
-                </button>
-              </div>
-              <div className="min-h-[360px] flex items-center justify-center">
-                {/* Intentionally blank */}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Blank view for Career as requested */}
+       {/* Blank view for Career as requested */}
         {currentView === 'career' && (
           <section className="min-h-[70vh] bg-white py-12 px-6">
             <div className="mx-auto max-w-[1290px]">
