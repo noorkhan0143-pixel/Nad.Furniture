@@ -1932,16 +1932,16 @@ const openEmailOptions = () => {
       </footer>
 
       {/* Floating WhatsApp Chat Button */}
-      <a
-        href={`https://wa.me/${WHATSAPP_NUMBER}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="WhatsApp us"
-        title="WhatsApp us"
-        className="fixed bottom-[76px] lg:bottom-[200px] right-[10px] z-40 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg hover:bg-[#1ebe5d] transition-colors"
-      >
-        <WhatsAppIcon className="h-7 w-7" />
-      </a>
+<a
+  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="WhatsApp us"
+  title="Chat with NAD Furniture on WhatsApp"
+  className="fixed bottom-[76px] lg:bottom-[200px] right-[16px] z-40 flex h-[58px] w-[58px] items-center justify-center rounded-xl border-2 border-white bg-[#25D366] text-white shadow-xl transition-all duration-300 hover:scale-105 hover:bg-[#1ebe5d]"
+>
+  <WhatsAppIcon className="h-8 w-8" />
+</a>
 
       {/* Modals */}
       <BulkQuoteModal
