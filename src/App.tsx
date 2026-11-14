@@ -1485,8 +1485,7 @@ const openEmailOptions = () => {
             <div className="space-y-8 text-[#2D3748]">
               <div className="text-center">
                 <h2 className="text-[26px] md:text-[32px] font-bold text-[#1A202C]">
-                  Wholesale Labour Camp &amp; Staff Accommodation Furniture in UAE
-                </h2>
+               </h2>
                 <p className="mt-4 text-[15px] sm:text-[16px] leading-[1.8]">
                   NAD Furniture supplies factory-direct wholesale furniture
                   for labour camps, staff accommodation, offices, schools and
