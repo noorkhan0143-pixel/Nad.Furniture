@@ -1941,7 +1941,7 @@ const openEmailOptions = () => {
   className="fixed bottom-[76px] lg:bottom-[200px] right-[16px] z-40 w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
 >
   <img
-    src="/images/whatsapp-3d-icon.png"
+    src="/whatsapp-3d-icon.png"
     alt="WhatsApp NAD Furniture"
     className="w-full h-full object-contain drop-shadow-xl"
   />
