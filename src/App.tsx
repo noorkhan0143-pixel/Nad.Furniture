@@ -1931,16 +1931,20 @@ const openEmailOptions = () => {
         </div>
       </footer>
 
-      {/* Floating WhatsApp Chat Button */}
+      {/* Floating 3D WhatsApp Chat Button */}
 <a
   href={`https://wa.me/${WHATSAPP_NUMBER}`}
   target="_blank"
   rel="noopener noreferrer"
-  aria-label="WhatsApp us"
+  aria-label="Chat with NAD Furniture on WhatsApp"
   title="Chat with NAD Furniture on WhatsApp"
-  className="fixed bottom-[76px] lg:bottom-[200px] right-[16px] z-40 flex h-[58px] w-[58px] items-center justify-center rounded-xl border-2 border-white bg-[#25D366] text-white shadow-xl transition-all duration-300 hover:scale-105 hover:bg-[#1ebe5d]"
+  className="fixed bottom-[76px] lg:bottom-[200px] right-[10px] z-40 w-[190px] sm:w-[230px] hover:scale-105 transition-transform duration-300"
 >
-  <WhatsAppIcon className="h-8 w-8" />
+  <img
+    src="/images/whatsapp-3d-banner.png"
+    alt="Contact NAD Furniture on WhatsApp"
+    className="w-full h-auto object-contain drop-shadow-xl"
+  />
 </a>
 
       {/* Modals */}
