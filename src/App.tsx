@@ -73,6 +73,8 @@ const NadBrandMark: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' }> 
 
 function MainAppContent() {
   const { products, openLoginModal } = useCatalog();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<'home' | 'about' | 'career'>('home');
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
@@ -107,6 +109,21 @@ const openEmailOptions = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [openLoginModal]);
 
+ useEffect(() => {
+  if (location.pathname === '/about') {
+    setCurrentView('about');
+  } else if (location.pathname === '/career') {
+    setCurrentView('career');
+  } else {
+    setCurrentView('home');
+  }
+
+  if (location.pathname === '/quote') {
+    setQuoteModalOpen(true);
+  } else {
+    setQuoteModalOpen(false);
+  }
+}, [location.pathname]);
   const handleSecretOwnerClick = () => {
     secretClickCountRef.current += 1;
     if (secretClickTimerRef.current) clearTimeout(secretClickTimerRef.current);
@@ -135,6 +152,11 @@ const openEmailOptions = () => {
     setMobileMenuOpen(false);
   };
 
+  const handleQuoteClick = () => {
+  navigate('/quote');
+  setMobileMenuOpen(false);
+  };
+
   const handleCategorySelect = (category: FilterTab) => {
     if (currentView !== 'home') {
       setCurrentView('home');
@@ -157,35 +179,36 @@ const openEmailOptions = () => {
     }
   };
 
-  const handleAboutUsClick = () => {
-    setCurrentView('about');
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+ const handleAboutUsClick = () => {
+  navigate('/about');
+  setCurrentView('about');
+  setMobileMenuOpen(false);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
-  const handleProjectGalleryClick = () => {
-    setMobileMenuOpen(false);
-    if (currentView !== 'home') {
-      setCurrentView('home');
-      setTimeout(() => {
-        scrollToSection('category-showcase');
-      }, 60);
-    } else {
-      scrollToSection('category-showcase');
-    }
-  };
+   const handleProjectGalleryClick = () => {
+  navigate('/projects');
+  setCurrentView('home');
+  setMobileMenuOpen(false);
+
+  setTimeout(() => {
+    scrollToSection('category-showcase');
+  }, 100);
+};
 
   const handleCareerClick = () => {
-    setCurrentView('career');
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  navigate('/career');
+  setCurrentView('career');
+  setMobileMenuOpen(false);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
   const handleHomeClick = () => {
-    setCurrentView('home');
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  navigate('/');
+  setCurrentView('home');
+  setMobileMenuOpen(false);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
   const bunkBeds = products.filter((p) => p.category === 'bunk-beds');
   const steelLockers = products.filter((p) => p.category === 'steel-lockers');
@@ -761,26 +784,27 @@ const openEmailOptions = () => {
                   </p>
                 </div>
 
-                <div className="pt-6 flex flex-wrap gap-4">
-                  <button
-                    type="button"
-                    onClick={() => openBulkQuote()}
-                    className="inline-flex items-center gap-3 rounded-[6px] bg-[#b82105] px-6 py-3 text-[16px] font-semibold text-white hover:bg-[#8f1a05] transition-colors cursor-pointer shadow-md"
-                  >
-                    <span>Request a Furniture Quote</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                  <a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[6px] bg-[#25D366] px-6 py-3 text-[16px] font-bold text-white hover:bg-[#1ebe5d] transition-colors shadow-md"
-                  >
-                    <WhatsAppIcon className="h-5 w-5" />
-                    <span>WhatsApp: +971 50 631 6560</span>
-                  </a>
-                </div>
-              </div>
+{/* Corporate Profile PDF */}
+<div className="mt-8 space-y-4">
+  <h2 className="text-2xl font-bold text-[#1A202C]">
+    NAD Furniture Corporate Profile
+  </h2>
+
+  <iframe
+    src="/corporate-profile.pdf"
+    title="NAD Furniture Corporate Profile"
+    className="w-full h-[700px] border border-gray-200 rounded-lg"
+  />
+
+  <a
+    href="/corporate-profile.pdf"
+    download="NAD_Corporate_Profile.pdf"
+    className="inline-block bg-[#c2171a] text-white px-6 py-3 rounded-lg font-semibold"
+  >
+    Download Corporate Profile (PDF)
+  </a>
+</div>
+                              </div>
             </div>
           </section>
         )}
@@ -1762,7 +1786,7 @@ const openEmailOptions = () => {
                 <li>
                   <button
                     type="button"
-                    onClick={() => openBulkQuote()}
+                    onClick={handleQuoteClick}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
                     ▸ Request a Quote
@@ -1889,7 +1913,12 @@ const openEmailOptions = () => {
       {/* Modals */}
       <BulkQuoteModal
         isOpen={quoteModalOpen}
-        onClose={() => setQuoteModalOpen(false)}
+        onClose={() => {
+  setQuoteModalOpen(false);
+  if (location.pathname === '/quote') {
+    navigate('/');
+  }
+}}
         initialProduct={quoteProduct}
       />
 
@@ -1911,8 +1940,10 @@ const openEmailOptions = () => {
 
 export default function App() {
   return (
-    <CatalogProvider>
-      <MainAppContent />
-    </CatalogProvider>
+    <BrowserRouter>
+      <CatalogProvider>
+        <MainAppContent />
+      </CatalogProvider>
+    </BrowserRouter>
   );
 }
