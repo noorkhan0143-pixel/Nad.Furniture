@@ -1553,34 +1553,7 @@ const openEmailOptions = () => {
                   wardrobes and other practical furniture solutions.
                 </p>
               </div>
-
-              <div>
-                <h3 className="text-[21px] font-bold text-[#1A202C]">
-                  Wholesale Furniture Supplier UAE – Bulk &amp; Factory Direct
-                </h3>
-                <p className="mt-2 text-[15px] leading-[1.8]">
-                  NAD Furniture welcomes wholesale furniture supplier
-                  enquiries, bulk furniture orders and factory-direct
-                  furniture requirements for commercial and accommodation
-                  projects across Dubai, Sharjah, Ajman, Abu Dhabi and
-                  other UAE locations.
-                </p>
-              </div>
-
-              <div className="text-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => openBulkQuote()}
-                  className="inline-flex items-center gap-2 rounded-[6px] bg-[#b82105] px-6 py-3 text-[15px] font-semibold text-white hover:bg-[#8a1803] transition-colors cursor-pointer"
-                >
-                  Request Wholesale Furniture Quote
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
+             
             {/* 6. Parallax / Full-Width Highlight Banner */}
         <section
           className="w-full relative bg-cover bg-center py-28"
