@@ -28,6 +28,7 @@ export interface ProductItem {
   fallbackImage: string;
   alt: string;
   specs: string[];
+  description?: string;
   tag?: string;
   price?: string;
   originalPrice?: string;
@@ -216,6 +217,7 @@ export const STEEL_LOCKERS: ProductItem[] = [
     "image": "https://nadfurniture.net/wp-content/uploads/2026/08/3-1.webp",
     "fallbackImage": "https://nadfurniture.net/wp-content/uploads/2026/08/3-1.webp",
     "alt": "4 Drawer Metal Vertical Filing Cabinet",
+    "description": "Keep your business records, client archives, and confidential files systematically organized and secure with the NAD Furniture 4-Drawer Metal Vertical Filing Cabinet. Built for commercial environments, financial institutions, medical centers, and corporate offices across Dubai and the UAE, this high-capacity filing unit provides efficient storage in a compact vertical design. Manufactured from high-grade cold-rolled steel with an anti-corrosion treatment and durable powder-coated finish, it is designed to resist scratches, rust, and everyday office wear. Four deep drawers glide on full-extension heavy-duty ball-bearing slides for smooth access to standard lateral or hanging files. A central round cam lock secures all four drawers, and the cabinet is delivered fully assembled for immediate use.",
     "specs": [
       "Model: NAD-24",
       "Size: 133.2x45x62 CM",
