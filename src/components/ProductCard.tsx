@@ -65,28 +65,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
             </button>
           </h3>
 
-          {/* Price display */}
-          <div className="mt-2 flex items-baseline gap-2">
-            {product.price ? (
-              <span className="text-[16px] font-bold text-[#cf251d]">
-                {product.price}
-              </span>
-            ) : (
-              <span className="text-xs font-medium text-gray-500">
-                Wholesale Quote on Request
-              </span>
-            )}
-            {product.originalPrice && (
-              <span className="text-xs text-gray-400 line-through">
-                {product.originalPrice}
-              </span>
-            )}
-            {product.minOrder && (
-              <span className="text-[11px] text-gray-500">
-                • {product.minOrder}
-              </span>
-            )}
-          </div>
+
         </div>
       </div>
 
