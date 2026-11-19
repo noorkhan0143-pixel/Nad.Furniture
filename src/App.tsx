@@ -331,8 +331,8 @@ const openEmailOptions = () => {
                 onClick={handleManufacturingClick}
                 className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
-                Career
-              </button>
+                  Manufacturing
+                </button>
               <button
                 type="button"
                 onClick={() => openBulkQuote()}
@@ -726,18 +726,11 @@ const openEmailOptions = () => {
                   onClick={handleManufacturingClick}
                   className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
                 >
-                  Career
+                  Manufacturing
                 </button>
                 <button
                   type="button"
-                  onClick={() => scrollToSection('who-we-serve')}
-                  className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
-                >
-                  Who We Serve
-                </button>
-                <button
-                  type="button"
-                  onClick={() => openBulkQuote()}
+                  onClick={handleServicesClick}
                   className="block w-full py-3.5 text-left font-semibold text-[#cf251d] cursor-pointer"
                 >
                   Request a Furniture Quote
