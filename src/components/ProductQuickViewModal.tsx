@@ -17,9 +17,11 @@ export const ProductQuickViewModal: React.FC<ProductQuickViewModalProps> = ({
 }) => {
   const { isOwner, openProductEditor } = useCatalog();
   const [quantity, setQuantity] = useState(1);
+  const [activeTab, setActiveTab] = useState('description');
 
   useEffect(() => {
     setQuantity(1);
+    setActiveTab('description');
   }, [product]);
 
   useEffect(() => {
@@ -154,6 +156,24 @@ export const ProductQuickViewModal: React.FC<ProductQuickViewModalProps> = ({
               </ul>
             </div>
 
+          <div className="mt-7 border-t border-[#e5e7eb] pt-5">
+            <div className="flex gap-6 border-b border-[#e5e7eb]" role="tablist" aria-label="Product information">
+              <button type="button" role="tab" aria-selected={activeTab === 'description'} onClick={() => setActiveTab('description')} className={activeTab === 'description' ? 'pb-3 text-sm font-semibold border-b-2 border-[#cf251d] text-[#cf251d]' : 'pb-3 text-sm font-semibold text-gray-500 hover:text-gray-900'}>Description</button>
+              <button type="button" role="tab" aria-selected={activeTab === 'reviews'} onClick={() => setActiveTab('reviews')} className={activeTab === 'reviews' ? 'pb-3 text-sm font-semibold border-b-2 border-[#cf251d] text-[#cf251d]' : 'pb-3 text-sm font-semibold text-gray-500 hover:text-gray-900'}>Reviews (0)</button>
+            </div>
+            {activeTab === 'description' ? (
+              <div className="space-y-3 py-5 text-sm leading-7 text-[#4A5568]">
+                <h3 className="text-lg font-bold leading-snug text-[#1A202C]">{product.title}</h3>
+                <p>{product.description || ('The NAD Furniture ' + product.title + ' is designed for practical use in commercial, institutional and residential environments across the UAE. Please refer to the product specifications above for the confirmed model, dimensions, materials and available options.')}</p>
+                {product.specs?.length > 0 && (
+                  <>
+                    <h4 className="pt-2 font-bold text-[#1A202C]">Key Features &amp; Specifications</h4>
+                    <ul className="list-disc space-y-1 pl-5">{product.specs.map((spec, index) => <li key={index}>{spec}</li>)}</ul>
+                  </>
+                )}
+              </div>
+            ) : <div className="py-6 text-sm text-[#4A5568]">There are no reviews yet.</div>}
+          </div>
             <div className="mt-6 pt-4 border-t border-[#EDF2F7]">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-sm font-medium text-[#2D3748]">Quantity:</span>
