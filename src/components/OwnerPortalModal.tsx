@@ -23,7 +23,7 @@ export const OwnerPortalModal: React.FC = () => {
       setError('');
       setPassword('');
     } else {
-      setError('Login failed. Check your email/password and confirm this account is enabled as a site owner.');
+      setError('Login failed. Check your owner password and confirm the account is enabled as a site owner.');
     }
   };
 
