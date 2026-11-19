@@ -33,6 +33,7 @@ import { OwnerControlBar } from './components/OwnerControlBar';
 import { OwnerPortalModal } from './components/OwnerPortalModal';
 import { ProductEditorModal } from './components/ProductEditorModal';
 import { OwnerCatalogManagerModal } from './components/OwnerCatalogManagerModal';
+import { EditableSitePage } from './components/EditableSitePage';
 
 type FilterTab = 'all' | ProductCategory;
 
@@ -76,7 +77,7 @@ function MainAppContent() {
   const { products, openLoginModal } = useCatalog();
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentView, setCurrentView] = useState<'home' | 'about' | 'career'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'about' | 'projects' | 'manufacturing' | 'services'>('home');
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [quoteProduct, setQuoteProduct] = useState('');
@@ -113,8 +114,12 @@ const openEmailOptions = () => {
  useEffect(() => {
   if (location.pathname === '/about') {
     setCurrentView('about');
-  } else if (location.pathname === '/career') {
-    setCurrentView('career');
+  } else if (location.pathname === '/projects') {
+    setCurrentView('projects');
+  } else if (location.pathname === '/manufacturing' || location.pathname === '/career') {
+    setCurrentView('manufacturing');
+  } else if (location.pathname === '/services') {
+    setCurrentView('services');
   } else {
     setCurrentView('home');
   }
@@ -319,7 +324,7 @@ const openEmailOptions = () => {
               </button>
               <button
                 type="button"
-                onClick={handleCareerClick}
+                onClick={handleManufacturingClick}
                 className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Career
@@ -820,36 +825,9 @@ const openEmailOptions = () => {
           </section>
         )}
 
-       {/* Blank view for Career as requested */}
-        {currentView === 'career' && (
-          <section className="min-h-[70vh] bg-white py-12 px-6">
-            <div className="mx-auto max-w-[1290px]">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
-                <div className="flex items-center gap-2 text-sm text-[#718096]">
-                  <button
-                    type="button"
-                    onClick={handleHomeClick}
-                    className="hover:text-[#b82105] transition-colors cursor-pointer"
-                  >
-                    Home
-                  </button>
-                  <span>/</span>
-                  <span className="text-[#1A202C] font-semibold">Career</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleHomeClick}
-                  className="text-xs font-semibold text-[#b82105] hover:underline cursor-pointer"
-                >
-                  ← Back to Home
-                </button>
-              </div>
-              <div className="min-h-[360px] flex items-center justify-center">
-                {/* Intentionally blank */}
-              </div>
-            </div>
-          </section>
-        )}
+        {currentView === 'projects' && <EditableSitePage pageKey="projects" />}
+        {currentView === 'manufacturing' && <EditableSitePage pageKey="manufacturing" />}
+        {currentView === 'services' && <EditableSitePage pageKey="services" onQuoteClick={() => openBulkQuote()} />}
 
         {currentView === 'home' && (
           <>
@@ -1586,7 +1564,7 @@ const openEmailOptions = () => {
                     onClick={handleCareerClick}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
-                    ▸ Career
+                    ▸ Manufacturing
                   </button>
                 </li>
                 <li>
@@ -1595,7 +1573,7 @@ const openEmailOptions = () => {
                     onClick={handleQuoteClick}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
-                    ▸ Request a Quote
+                    ▸ Request a Furniture Quote
                   </button>
                 </li>
               </ul>
