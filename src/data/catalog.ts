@@ -9,6 +9,7 @@ export type ProductCategory =
   | 'steel-lockers'
   | 'mattress'
   | 'office-tables'
+  | 'office-chairs'
   | 'office-workstation'
   | 'office-furniture'
   | 'wardrobe'
