@@ -25,6 +25,7 @@ export const ProductEditorModal: React.FC = () => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<ProductCategory>('bunk-beds');
   const [categoryLabel, setCategoryLabel] = useState('Bunk Beds');
+  const [customCategoryLabel, setCustomCategoryLabel] = useState('');
   const [image, setImage] = useState('');
   const [alt, setAlt] = useState('');
   const [price, setPrice] = useState('');
@@ -46,6 +47,7 @@ export const ProductEditorModal: React.FC = () => {
       setTitle(editingProduct.title || '');
       setCategory(editingProduct.category || 'bunk-beds');
       setCategoryLabel(editingProduct.categoryLabel || 'Bunk Beds');
+      setCustomCategoryLabel('');
       setImage(editingProduct.image || '');
       setAlt(editingProduct.alt || editingProduct.title || '');
       setPrice(editingProduct.price || '');
@@ -58,6 +60,7 @@ export const ProductEditorModal: React.FC = () => {
       setTitle('');
       setCategory('bunk-beds');
       setCategoryLabel('Bunk Beds');
+      setCustomCategoryLabel('');
       setImage('');
       setAlt('');
       setPrice('');
@@ -77,6 +80,7 @@ export const ProductEditorModal: React.FC = () => {
     setCategory(val);
     const found = CATEGORIES.find((c) => c.value === val);
     if (found) setCategoryLabel(found.label);
+    if (val === '__custom__') { setCustomCategoryLabel(''); setCategoryLabel(''); }
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,12 +139,18 @@ export const ProductEditorModal: React.FC = () => {
       setError('Product image is required. Provide an image URL or upload a photo.');
       return;
     }
+    if (category === ('__custom__' as ProductCategory) && !customCategoryLabel.trim()) {
+      setError('Please enter the new category name.');
+      return;
+    }
 
     const payload: ProductItem = {
       id: editingProduct?.id || `${category}-${Date.now().toString(36)}`,
       title: title.trim(),
-      category,
-      categoryLabel,
+      category: (category === ('__custom__' as ProductCategory)
+        ? customCategoryLabel.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+        : category) as ProductCategory,
+      categoryLabel: category === ('__custom__' as ProductCategory) ? customCategoryLabel.trim() : categoryLabel,
       image: image.trim(),
       fallbackImage: image.trim(),
       alt: alt.trim() || title.trim(),
@@ -230,7 +240,18 @@ export const ProductEditorModal: React.FC = () => {
                   {cat.label}
                 </option>
               ))}
+              <option value="__custom__">+ Create New Category</option>
             </select>
+            {category === ('__custom__' as ProductCategory) && (
+              <input
+                type="text"
+                value={customCategoryLabel}
+                onChange={(e) => setCustomCategoryLabel(e.target.value)}
+                placeholder="New category name (e.g. Chairs)"
+                className="mt-2 w-full rounded-lg border border-gray-300 py-2.5 px-3 text-sm focus:border-[#cf251d] focus:outline-none focus:ring-1 focus:ring-[#cf251d]"
+                required
+              />
+            )}
           </div>
 
 

@@ -211,36 +211,39 @@ const openEmailOptions = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-  const bunkBeds = products.filter((p) => p.category === 'bunk-beds');
-  const steelLockers = products.filter((p) => p.category === 'steel-lockers');
-  const mattresses = products.filter((p) => p.category === 'mattress');
-  const officeTables = products.filter((p) => p.category === 'office-tables');
-  const officeWorkstations = products.filter((p) => p.category === 'office-workstation');
-  const wardrobes = products.filter((p) => p.category === 'wardrobe');
-  const kingBeds = products.filter((p) => p.category === 'king-beds');
-  const queenBeds = products.filter((p) => p.category === 'queen-beds');
-  const doubleBeds = products.filter((p) => p.category === 'double-beds');
-  const singleBeds = products.filter((p) => p.category === 'single-beds');
-  const bedroomBeds = products.filter((p) =>
-    ['beds', 'king-beds', 'queen-beds', 'double-beds', 'single-beds'].includes(p.category)
+  // Build category sections and filters from the products currently in the catalog.
+  // This means newly-added categories (for example Chairs) appear automatically.
+  const categoryGroups = Array.from(
+    products.reduce((groups, product) => {
+      const key = String(product.category || 'other');
+      const current = groups.get(key) || {
+        id: key,
+        label: product.categoryLabel || key.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+        products: [],
+      };
+      current.products.push(product);
+      if (!current.label && product.categoryLabel) current.label = product.categoryLabel;
+      groups.set(key, current);
+      return groups;
+    }, new Map<string, { id: string; label: string; products: ProductItem[] }>()).values()
   );
 
+  const categoryTabs = categoryGroups.map((group) => ({
+    id: group.id as FilterTab,
+    label: group.label,
+  }));
 
-  const filteredProducts =
-    activeFilter === 'all'
-      ? []
-      : products.filter((item) => {
-          if (activeFilter === 'mattress') {
-            return item.category === 'mattress';
-          }
-          if (activeFilter === 'beds') {
-            return ['beds', 'king-beds', 'queen-beds', 'double-beds', 'single-beds'].includes(item.category);
-          }
-          if (activeFilter === 'office-furniture') {
-            return item.category === 'office-tables' || item.category === 'office-workstation';
-          }
-          return item.category === activeFilter;
-        });
+  const filteredProducts = activeFilter === 'all'
+    ? products
+    : products.filter((item) => {
+        if (activeFilter === 'beds') {
+          return ['beds', 'king-beds', 'queen-beds', 'double-beds', 'single-beds'].includes(item.category);
+        }
+        if (activeFilter === 'office-furniture') {
+          return ['office-tables', 'office-workstation', 'office-furniture'].includes(item.category);
+        }
+        return item.category === activeFilter;
+      });
 
  return (
   <>
@@ -1166,21 +1169,10 @@ const openEmailOptions = () => {
 
             {/* Category Filter Bar */}
             <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-              {(
-                [
-                  { id: 'all', label: 'All Categories' },
-                  { id: 'bunk-beds', label: 'Bunk Beds' },
-                  { id: 'steel-lockers', label: 'Steel Lockers' },
-                  { id: 'mattress', label: 'Mattresses' },
-                  { id: 'office-tables', label: 'Office Tables' },
-                  { id: 'office-workstation', label: 'Workstations' },
-                  { id: 'wardrobe', label: 'Wardrobes' },
-                  { id: 'beds', label: 'All Bedroom Beds' },
-                  { id: 'king-beds', label: 'King Beds' },
-                  { id: 'double-beds', label: 'Double Beds' },
-                  { id: 'single-beds', label: 'Single Beds' },
-                ] as { id: FilterTab; label: string }[]
-              ).map((tab) => (
+              {([
+                { id: 'all' as FilterTab, label: 'All Categories' },
+                ...categoryTabs,
+              ]).map((tab) => (
                 <button
                   key={tab.id}
                   type="button"
@@ -1198,233 +1190,41 @@ const openEmailOptions = () => {
 
             {activeFilter === 'all' ? (
               <div className="mt-10 space-y-12">
-                {/* Category Row 1: Bunk Beds */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <div>
-                      <h3 className="text-[22px] font-bold text-[#1A202C]">Bunk Beds</h3>
-                      <p className="text-xs text-gray-500">Heavy-duty steel bunk beds for staff accommodation &amp; camps</p>
+                {categoryGroups.map((group) => (
+                  <div key={group.id}>
+                    <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
+                      <div>
+                        <h3 className="text-[22px] font-bold text-[#1A202C]">{group.label}</h3>
+                        <p className="text-xs text-gray-500">{group.products.length} products</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setActiveFilter(group.id as FilterTab)}
+                        className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
+                      >
+                        <span>View All ({group.products.length})</span>
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveFilter('bunk-beds')}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
-                    >
-                      <span>View All ({bunkBeds.length})</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {bunkBeds.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onSelect={setSelectedProduct}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Category Row 2: Steel Lockers & Cabinets */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <div>
-                      <h3 className="text-[22px] font-bold text-[#1A202C]">
-                        Steel Lockers &amp; Cabinets
-                      </h3>
-                      <p className="text-xs text-gray-500">2-door, 3-door, 4-door, 6-door, 8-door &amp; 12-door security lockers</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                      {group.products.map((product) => (
+                        <ProductCard key={product.id} product={product} onSelect={setSelectedProduct} />
+                      ))}
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveFilter('steel-lockers')}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
-                    >
-                      <span>View All ({steelLockers.length})</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
                   </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {steelLockers.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onSelect={setSelectedProduct}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Category Row 3: Mattresses (Medical & Labour Camp) */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <div>
-                      <h3 className="text-[22px] font-bold text-[#1A202C]">
-                        Labour Camp &amp; Medicated Mattresses
-                      </h3>
-                      <p className="text-xs text-gray-500">High-density medicated &amp; semi-medicated mattresses for bulk camps</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveFilter('mattress')}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
-                    >
-                      <span>View All ({mattresses.length})</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {mattresses.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onSelect={setSelectedProduct}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Category Row 4: Office Tables & Desks */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <div>
-                      <h3 className="text-[22px] font-bold text-[#1A202C]">
-                        Office Tables &amp; Executive Desks
-                      </h3>
-                      <p className="text-xs text-gray-500">Executive manager desks, computer tables &amp; meeting tables</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveFilter('office-tables')}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
-                    >
-                      <span>View All ({officeTables.length})</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {officeTables.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onSelect={setSelectedProduct}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Category Row 5: Office Modular Workstations */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <div>
-                      <h3 className="text-[22px] font-bold text-[#1A202C]">
-                        Office Modular Workstations
-                      </h3>
-                      <p className="text-xs text-gray-500">2-person, 4-person &amp; 6-person workstations with acoustic divider screens</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveFilter('office-workstation')}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
-                    >
-                      <span>View All ({officeWorkstations.length})</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {officeWorkstations.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onSelect={setSelectedProduct}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Category Row 6: Wardrobes */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <div>
-                      <h3 className="text-[22px] font-bold text-[#1A202C]">Wardrobes</h3>
-                      <p className="text-xs text-gray-500">2-door &amp; 3-door wooden and steel wardrobes with storage shelves</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveFilter('wardrobe')}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
-                    >
-                      <span>View All ({wardrobes.length})</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {wardrobes.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onSelect={setSelectedProduct}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Category Row 7: Bedroom Beds */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2 mb-5">
-                    <div>
-                      <h3 className="text-[22px] font-bold text-[#1A202C]">
-                        Bedroom Beds (King, Queen, Double &amp; Single)
-                      </h3>
-                      <p className="text-xs text-gray-500">Premium upholstered, wooden &amp; single beds for master &amp; guest bedrooms</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveFilter('beds')}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
-                    >
-                      <span>View All Beds ({bedroomBeds.length})</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                    {bedroomBeds.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onSelect={setSelectedProduct}
-                      />
-                    ))}
-                  </div>
-                </div>
+                ))}
+                {categoryGroups.length === 0 && (
+                  <p className="py-10 text-center text-sm text-gray-500">No products have been added yet.</p>
+                )}
               </div>
             ) : (
               <div className="mt-8">
                 <div className="flex flex-wrap items-center justify-between border-b border-[#EDF2F7] border-l-[5px] border-l-[#b82105] px-4 py-2.5 mb-6">
                   <div>
                     <h3 className="text-[22px] font-bold text-[#1A202C]">
-                      {activeFilter === 'mattress' && 'Labour Camp & Medicated Mattresses'}
-                      {activeFilter === 'bunk-beds' && 'Heavy-Duty Steel Bunk Beds'}
-                      {activeFilter === 'steel-lockers' && 'Steel Lockers & Cabinets'}
-                      {activeFilter === 'office-tables' && 'Office Tables & Executive Desks'}
-                      {activeFilter === 'office-workstation' && 'Office Modular Workstations'}
-                      {activeFilter === 'office-furniture' && 'Office Furniture & Workstations'}
-                      {activeFilter === 'wardrobe' && 'Bedroom & Staff Wardrobes'}
-                      {activeFilter === 'beds' && 'All Bedroom Beds (King, Queen, Double & Single)'}
-                      {activeFilter === 'king-beds' && 'King Size Beds'}
-                      {activeFilter === 'queen-beds' && 'Queen Size Beds'}
-                      {activeFilter === 'double-beds' && 'Double Beds'}
-                      {activeFilter === 'single-beds' && 'Single Beds'}
+                      {categoryGroups.find((group) => group.id === activeFilter)?.label || String(activeFilter).replace(/[-_]/g, ' ')}
                     </h3>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      Showing {filteredProducts.length} products
-                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">Showing {filteredProducts.length} products</p>
                   </div>
                   <button
                     type="button"
@@ -1435,15 +1235,13 @@ const openEmailOptions = () => {
                     <ArrowRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
-
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                   {filteredProducts.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      onSelect={setSelectedProduct}
-                    />
+                    <ProductCard key={product.id} product={product} onSelect={setSelectedProduct} />
                   ))}
+                  {filteredProducts.length === 0 && (
+                    <p className="col-span-full py-10 text-center text-sm text-gray-500">No products in this category yet.</p>
+                  )}
                 </div>
               </div>
             )}

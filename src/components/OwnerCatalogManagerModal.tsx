@@ -22,6 +22,8 @@ export const OwnerCatalogManagerModal: React.FC = () => {
 
   if (!isManagerOpen || !isOwner) return null;
 
+  const availableCategories = Array.from(new Map(products.map((p) => [p.category, p.categoryLabel || p.category])).entries());
+
   const filteredProducts = products.filter((p) => {
     const matchesSearch =
       p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -118,6 +120,9 @@ export const OwnerCatalogManagerModal: React.FC = () => {
               <option value="queen-beds">Queen Size Beds</option>
               <option value="double-beds">Double Beds</option>
               <option value="single-beds">Single Beds</option>
+              {availableCategories.map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
             </select>
 
           </div>

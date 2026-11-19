@@ -40,7 +40,7 @@ export const CatalogProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const stored = localStorage.getItem(STORAGE_CATALOG_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length >= ALL_PRODUCTS.length) {
+        if (Array.isArray(parsed) && parsed.every((item) => item && item.id && item.title && item.category)) {
           return parsed;
         }
       }
@@ -180,6 +180,7 @@ export const CatalogProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const addProduct = useCallback(
     (data: Omit<ProductItem, 'id'> & { id?: string }): ProductItem => {
+      if (!isOwner) throw new Error('Owner authorization required to add products.');
       const generatedId =
         data.id?.trim() ||
         `${data.category}-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`;
@@ -194,7 +195,7 @@ export const CatalogProvider: React.FC<{ children: React.ReactNode }> = ({ child
       persistProducts(next);
       return newProduct;
     },
-    [products, persistProducts]
+    [isOwner, products, persistProducts]
   );
 
   const deleteProduct = useCallback(
