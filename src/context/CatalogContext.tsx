@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase';
 const STORAGE_CATALOG_KEY = 'nad_furniture_catalog_v2';
 interface CatalogContextType {
   products: ProductItem[]; isOwner: boolean; saveStatus: 'idle' | 'saved' | 'saving' | 'error';
-  loginAsOwner: (email: string, password: string) => Promise<boolean>; logoutOwner: () => void;
+  loginAsOwner: (password: string) => Promise<boolean>; logoutOwner: () => void;
   updateProduct: (product: ProductItem) => boolean; addProduct: (product: Omit<ProductItem, 'id'> & { id?: string }) => ProductItem;
   deleteProduct: (productId: string) => boolean; resetToDefaults: () => void; exportCatalogJson: () => string;
   downloadCatalogFile: () => void; importCatalogJson: (rawJson: string) => { success: boolean; message: string; count?: number };
@@ -88,12 +88,17 @@ export const CatalogProvider: React.FC<{ children: React.ReactNode }> = ({ child
     window.addEventListener('keydown', handleKeyDown); return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOwner]);
 
-  const loginAsOwner = useCallback(async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    if (error || !data.user) return false;
-    const allowed = await verifyOwner(data.user.id);
-    if (!allowed) { await supabase.auth.signOut(); return false; }
-    setIsLoginModalOpen(false); return true;
+  const loginAsOwner = useCallback(async (password: string) => {
+    // Keep both registered owner accounts internal; never display their email addresses in the portal.
+    const ownerEmails = ['noorkhan0143@gmail.com', 'nkgroup0520@gmail.com'];
+    for (const email of ownerEmails) {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error || !data.user) continue;
+      const allowed = await verifyOwner(data.user.id);
+      if (allowed) { setIsLoginModalOpen(false); return true; }
+      await supabase.auth.signOut();
+    }
+    return false;
   }, [verifyOwner]);
 
   const logoutOwner = useCallback(() => {
