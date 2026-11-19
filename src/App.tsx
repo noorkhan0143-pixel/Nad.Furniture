@@ -240,7 +240,7 @@ const openEmailOptions = () => {
           return ['beds', 'king-beds', 'queen-beds', 'double-beds', 'single-beds'].includes(item.category);
         }
         if (activeFilter === 'office-furniture') {
-          return ['office-tables', 'office-workstation', 'office-furniture'].includes(item.category);
+          return ['office-tables', 'office-chairs', 'office-workstation', 'office-furniture'].includes(item.category);
         }
         return item.category === activeFilter;
       });
@@ -437,6 +437,13 @@ const openEmailOptions = () => {
                     className="block w-full px-4 py-3 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
                   >
                     Office Tables
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleCategorySelect('office-chairs')}
+                    className="block w-full px-4 py-3 text-left text-[14px] capitalize text-[#F7FAFC] hover:bg-[#2D3748] border-b border-white/10 cursor-pointer"
+                  >
+                    Office Chair
                   </button>
                   <button
                     type="button"
@@ -1628,7 +1635,16 @@ const openEmailOptions = () => {
                 <li>
                   <button
                     type="button"
-                    onClick={() => handleCategorySelect('office-furniture')}
+                    onClick={() => handleCategorySelect('office-chairs')}
+                    className="hover:text-[#cf251d] transition-colors cursor-pointer"
+                  >
+                    ▸ Office Chairs
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleCategorySelect('office-workstation')}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
                     ▸ Office Workstations
