@@ -628,6 +628,13 @@ const openEmailOptions = () => {
                       </button>
                       <button
                         type="button"
+                        onClick={() => handleCategorySelect('office-chairs')}
+                        className="block py-1.5 hover:text-white cursor-pointer"
+                      >
+                        Office Chairs
+                      </button>
+                      <button
+                        type="button"
                         onClick={() => handleCategorySelect('office-workstation')}
                         className="block py-1.5 hover:text-white cursor-pointer"
                       >
