@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Upload, Plus, Trash2, Check, AlertCircle, Image as ImageIcon, Sparkles } from 'lucide-react';
 import { ProductItem, ProductCategory } from '../data/catalog';
 import { useCatalog } from '../context/CatalogContext';
+import { supabase } from '../lib/supabase';
 
 const CATEGORIES: { value: ProductCategory; label: string }[] = [
   { value: 'bunk-beds', label: 'Bunk Beds (Labour Camp)' },
   { value: 'steel-lockers', label: 'Steel Lockers & Cabinets' },
   { value: 'mattress', label: 'Camp & Medicated Mattresses' },
   { value: 'office-tables', label: 'Office Tables & Desks' },
+  { value: 'office-chairs', label: 'Office Chairs' },
   { value: 'office-workstation', label: 'Office Workstations' },
   { value: 'office-furniture', label: 'General Office Furniture' },
   { value: 'wardrobe', label: 'Wardrobes' },
@@ -83,7 +85,7 @@ export const ProductEditorModal: React.FC = () => {
     if (val === '__custom__') { setCustomCategoryLabel(''); setCategoryLabel(''); }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -98,19 +100,19 @@ export const ProductEditorModal: React.FC = () => {
     }
 
     setIsUploading(true);
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result as string;
-      setImage(result);
+    try {
+      const safeName = file.name.toLowerCase().replace(/[^a-z0-9.-]/g, '-');
+      const path = `products/${Date.now()}-${safeName}`;
+      const { error: uploadError } = await supabase.storage.from('nad-site-images').upload(path, file, { upsert: true, contentType: file.type });
+      if (uploadError) throw uploadError;
+      const { data } = supabase.storage.from('nad-site-images').getPublicUrl(path);
+      setImage(data.publicUrl);
       if (!alt) setAlt(title || file.name.replace(/\.[^/.]+$/, ''));
-      setIsUploading(false);
       setError('');
-    };
-    reader.onerror = () => {
-      setError('Failed to read image file.');
-      setIsUploading(false);
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Image upload failed. Check Storage bucket and owner permissions.');
+    } finally { setIsUploading(false); }
+
   };
 
   const handleAddSpec = () => {
