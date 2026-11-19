@@ -101,39 +101,6 @@ export const ProductQuickViewModal: React.FC<ProductQuickViewModalProps> = ({
               {product.title}
             </h2>
 
-            {/* Price section */}
-            <div className="mt-3 flex items-baseline gap-3">
-              {product.price ? (
-                <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold text-[#cf251d]">{product.price}</span>
-                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                    Wholesale
-                  </span>
-                </div>
-              ) : (
-                <span className="text-base font-semibold text-[#cf251d]">
-                  Wholesale Price on Request
-                </span>
-              )}
-              {product.originalPrice && (
-                <span className="text-sm text-gray-400 line-through">
-                  {product.originalPrice}
-                </span>
-              )}
-              {product.minOrder && (
-                <span className="rounded bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-                  {product.minOrder}
-                </span>
-              )}
-            </div>
-
-            <div className="mt-4 rounded-lg border border-[#e5e7eb] bg-[#f7f8f9] px-4 py-3">
-              <p className="text-xs text-[#666666]">Factory-Direct Wholesale Supply</p>
-              <p className="mt-0.5 text-sm font-semibold text-[#1A202C]">
-                Direct UAE Delivery &amp; Assembly Across All Emirates
-              </p>
-            </div>
-
             {/* Specifications */}
             <div className="mt-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
