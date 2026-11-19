@@ -193,21 +193,25 @@ const openEmailOptions = () => {
 };
 
    const handleProjectGalleryClick = () => {
-  navigate('/projects');
-  setCurrentView('home');
-  setMobileMenuOpen(false);
+    navigate('/projects');
+    setCurrentView('projects');
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-  setTimeout(() => {
-    scrollToSection('category-showcase');
-  }, 100);
-};
+  const handleManufacturingClick = () => {
+    navigate('/manufacturing');
+    setCurrentView('manufacturing');
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-  const handleCareerClick = () => {
-  navigate('/career');
-  setCurrentView('career');
-  setMobileMenuOpen(false);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+  const handleServicesClick = () => {
+    navigate('/services');
+    setCurrentView('services');
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleHomeClick = () => {
   navigate('/');
@@ -1561,7 +1565,7 @@ const openEmailOptions = () => {
                 <li>
                   <button
                     type="button"
-                    onClick={handleCareerClick}
+                    onClick={handleManufacturingClick}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
                     ▸ Manufacturing
