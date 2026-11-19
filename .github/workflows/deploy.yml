@@ -29,8 +29,8 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_URL: https://rgjcaincvnxfodqxsrio.supabase.co
+          VITE_SUPABASE_ANON_KEY: sb_publishable_1qDM5U2MIjNOzSM4X0Lgmg_nCW6YT_p
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
