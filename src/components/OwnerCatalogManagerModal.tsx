@@ -33,7 +33,7 @@ export const OwnerCatalogManagerModal: React.FC = () => {
       selectedCategory === 'all' ||
       p.category === selectedCategory ||
       (selectedCategory === 'beds' && ['beds', 'king-beds', 'queen-beds', 'double-beds', 'single-beds'].includes(p.category)) ||
-      (selectedCategory === 'office-furniture' && ['office-tables', 'office-workstation', 'office-furniture'].includes(p.category));
+      (selectedCategory === 'office-furniture' && ['office-tables', 'office-chairs', 'office-workstation', 'office-furniture'].includes(p.category));
     return matchesSearch && matchesCat;
   });
 
@@ -113,6 +113,7 @@ export const OwnerCatalogManagerModal: React.FC = () => {
               <option value="steel-lockers">Steel Lockers & Cabinets</option>
               <option value="mattress">Camp & Medicated Mattresses</option>
               <option value="office-tables">Office Tables & Desks</option>
+              <option value="office-chairs">Office Chairs</option>
               <option value="office-workstation">Office Workstations</option>
               <option value="wardrobe">Wardrobes</option>
               <option value="beds">All Bedroom Beds</option>
