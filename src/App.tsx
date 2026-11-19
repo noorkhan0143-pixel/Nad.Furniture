@@ -712,7 +712,7 @@ const openEmailOptions = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={handleCareerClick}
+                  onClick={handleManufacturingClick}
                   className="block w-full py-3.5 text-left font-medium text-[#F7FAFC] cursor-pointer"
                 >
                   Career
