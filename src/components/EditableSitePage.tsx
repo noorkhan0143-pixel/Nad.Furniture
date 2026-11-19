@@ -12,7 +12,7 @@ const DEFAULTS: Record<string, PageContent> = {
   services: { heading: 'Request a Furniture Quote', intro: 'Tell us about your furniture requirements. Our team can support project supply, bulk orders and tailored furniture solutions.', items: [] },
 };
 
-export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' | 'services' }> = ({ pageKey }) => {
+export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' | 'services'; onQuoteClick?: () => void }> = ({ pageKey, onQuoteClick }) => {
   const { isOwner } = useCatalog();
   const [content, setContent] = useState<PageContent>(DEFAULTS[pageKey]);
   const [draft, setDraft] = useState<PageContent>(DEFAULTS[pageKey]);
@@ -106,7 +106,7 @@ export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' 
             {loading ? <p className="mt-8 text-sm text-gray-500">Loading content...</p> : content.items.length > 0 ? (
               <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{content.items.map((item, index) => <article key={index} className="overflow-hidden rounded-lg border border-gray-200 bg-white">{item.image && <img src={item.image} alt={item.title} className="h-56 w-full object-cover" />}<div className="p-5"><h2 className="text-xl font-bold text-[#1A202C]">{item.title}</h2><p className="mt-2 whitespace-pre-line text-[15px] leading-relaxed text-[#2D3748]">{item.description}</p></div></article>)}</div>
             ) : isOwner ? <p className="mt-8 text-sm text-gray-500">Use “Edit page content” to add photos and details.</p> : null}
-            {message && <p className="mt-4 text-sm text-gray-600">{message}</p>}
+            {pageKey === 'services' && onQuoteClick && <button type="button" onClick={onQuoteClick} className="mt-8 rounded-md bg-[#b82105] px-6 py-3 text-sm font-semibold text-white hover:bg-[#8f1a05]">Open Furniture Quote Form</button>}\n            {message && <p className="mt-4 text-sm text-gray-600">{message}</p>}
           </div>
         )}
       </div>
