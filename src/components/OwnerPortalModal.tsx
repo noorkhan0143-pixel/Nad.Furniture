@@ -4,23 +4,27 @@ import { useCatalog } from '../context/CatalogContext';
 
 export const OwnerPortalModal: React.FC = () => {
   const { isLoginModalOpen, closeLoginModal, loginAsOwner } = useCatalog();
-  const [passcode, setPasscode] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   if (!isLoginModalOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!passcode.trim()) {
-      setError('Please enter the owner passcode.');
+    if (!email.trim() || !password) {
+      setError('Please enter your owner email and password.');
       return;
     }
-    const success = loginAsOwner(passcode);
+    setLoading(true);
+    const success = await loginAsOwner(email, password);
+    setLoading(false);
     if (success) {
       setError('');
-      setPasscode('');
+      setPassword('');
     } else {
-      setError('Incorrect passcode. Please check and try again.');
+      setError('Login failed. Check your email/password and confirm this account is enabled as a site owner.');
     }
   };
 
@@ -60,22 +64,26 @@ export const OwnerPortalModal: React.FC = () => {
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">
-              Owner Passcode
+              Owner Email
             </label>
             <div className="relative">
               <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
-                type="password"
-                value={passcode}
+                type="email"
+                value={email}
                 onChange={(e) => {
-                  setPasscode(e.target.value);
+                  setEmail(e.target.value);
                   setError('');
                 }}
-                placeholder="Enter owner passcode"
+                placeholder="Enter owner email"
                 className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-sm focus:border-[#cf251d] focus:outline-none focus:ring-1 focus:ring-[#cf251d]"
                 autoFocus
               />
             </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">Owner Password</label>
+            <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setError(''); }} placeholder="Enter Supabase account password" className="w-full rounded-lg border border-gray-300 py-2.5 px-4 text-sm focus:border-[#cf251d] focus:outline-none focus:ring-1 focus:ring-[#cf251d]" autoComplete="current-password" />
           </div>
 
           {error && (
@@ -88,10 +96,11 @@ export const OwnerPortalModal: React.FC = () => {
           <div className="pt-2">
             <button
               type="submit"
+              disabled={loading}
               className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#cf251d] py-3 text-sm font-semibold text-white hover:bg-[#b01e17] transition-colors shadow-sm"
             >
               <Lock className="h-4 w-4" />
-              <span>Unlock Owner Controls</span>
+              <span>{loading ? 'Signing in...' : 'Sign in securely'}</span>
             </button>
           </div>
         </form>
