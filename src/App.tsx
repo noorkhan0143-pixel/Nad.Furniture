@@ -335,10 +335,10 @@ const openEmailOptions = () => {
                 </button>
               <button
                 type="button"
-                onClick={() => openBulkQuote()}
+                onClick={handleServicesClick}
                 className="hover:text-[#b82105] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
-                Request a Furniture Quote
+                Services
               </button>
             </nav>
 
@@ -733,7 +733,7 @@ const openEmailOptions = () => {
                   onClick={handleServicesClick}
                   className="block w-full py-3.5 text-left font-semibold text-[#cf251d] cursor-pointer"
                 >
-                  Request a Furniture Quote
+                  Services
                 </button>
               </nav>
             </div>
@@ -1577,7 +1577,7 @@ const openEmailOptions = () => {
                     onClick={handleQuoteClick}
                     className="hover:text-[#cf251d] transition-colors cursor-pointer"
                   >
-                    ▸ Request a Furniture Quote
+                    ▸ Services
                   </button>
                 </li>
               </ul>
