@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Check } from 'lucide-react';
 import { ProductItem, buildWhatsAppUrl } from '../data/catalog';
 import { WhatsAppIcon } from './WhatsAppIcon';
@@ -12,7 +13,17 @@ interface Props {
 
 export const ProductDetailPage: React.FC<Props> = ({ product, onBack, onRequestQuote }) => {
   const { isOwner, openProductEditor } = useCatalog();
-  const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const requestedTab = new URLSearchParams(location.search).get('tab');
+  const [activeTab, setActiveTab] = useState<'description' | 'reviews'>(requestedTab === 'reviews' ? 'reviews' : 'description');
+  useEffect(() => {
+    setActiveTab(requestedTab === 'reviews' ? 'reviews' : 'description');
+  }, [requestedTab, product.id]);
+  const selectTab = (tab: 'description' | 'reviews') => {
+    setActiveTab(tab);
+    navigate('/?product=' + encodeURIComponent(product.id) + '&tab=' + tab);
+  };
   const [quantity, setQuantity] = useState(1);
 
   return (
@@ -49,8 +60,8 @@ export const ProductDetailPage: React.FC<Props> = ({ product, onBack, onRequestQ
 
         <div className="mt-12 border-t border-gray-200 pt-6">
           <div className="flex gap-7 border-b border-gray-200" role="tablist" aria-label="Product information">
-            <button type="button" role="tab" aria-selected={activeTab === 'description'} onClick={() => setActiveTab('description')} className={activeTab === 'description' ? 'border-b-2 border-[#cf251d] pb-3 text-sm font-semibold text-[#cf251d]' : 'pb-3 text-sm font-semibold text-gray-500'}>Description</button>
-            <button type="button" role="tab" aria-selected={activeTab === 'reviews'} onClick={() => setActiveTab('reviews')} className={activeTab === 'reviews' ? 'border-b-2 border-[#cf251d] pb-3 text-sm font-semibold text-[#cf251d]' : 'pb-3 text-sm font-semibold text-gray-500'}>Reviews (0)</button>
+            <button type="button" role="tab" aria-selected={activeTab === 'description'} onClick={() => selectTab('description')} className={activeTab === 'description' ? 'border-b-2 border-[#cf251d] pb-3 text-sm font-semibold text-[#cf251d]' : 'pb-3 text-sm font-semibold text-gray-500'}>Description</button>
+            <button type="button" role="tab" aria-selected={activeTab === 'reviews'} onClick={() => selectTab('reviews')} className={activeTab === 'reviews' ? 'border-b-2 border-[#cf251d] pb-3 text-sm font-semibold text-[#cf251d]' : 'pb-3 text-sm font-semibold text-gray-500'}>Reviews (0)</button>
           </div>
           {activeTab === 'description' ? (
             <div className="max-w-4xl space-y-4 py-6 text-sm leading-7 text-[#4A5568]">
