@@ -868,7 +868,7 @@ const openEmailOptions = () => {
                         onClick={() => openBulkQuote()}
                         className="inline-flex items-center gap-3 rounded-[6px] border-2 border-[#b82105] bg-[#191919] px-6 py-3 text-[16px] font-semibold text-white hover:bg-[#b82105] transition-colors cursor-pointer"
                       >
-                        <span>Services</span>
+                        <span>Request a Bulk Quote</span>
                         <ArrowRight className="h-4 w-4" />
                       </button>
                     </div>
