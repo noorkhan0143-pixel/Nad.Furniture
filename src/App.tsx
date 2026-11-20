@@ -870,7 +870,7 @@ const openEmailOptions = () => {
 
                   <div className="lg:col-span-4 flex justify-center items-center">
                     <img
-                      src="/assets/aistudio/image_49ef6ff0.png"
+                      src={`${import.meta.env.BASE_URL}assets/aistudio/image_49ef6ff0.png`}
                       alt="NAD Heavy Duty Bunk Beds"
                       width={500}
                       height={400}
@@ -1702,7 +1702,7 @@ const openEmailOptions = () => {
   className="fixed bottom-[76px] lg:bottom-[200px] right-[16px] z-40 w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
 >
   <img
-    src="/whatsapp-3d-icon.png"
+    src={`${import.meta.env.BASE_URL}whatsapp-3d-icon.png`}
     alt="WhatsApp NAD Furniture"
     className="w-full h-full object-contain drop-shadow-xl"
   />
