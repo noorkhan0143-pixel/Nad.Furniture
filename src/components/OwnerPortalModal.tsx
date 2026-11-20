@@ -41,7 +41,7 @@ export const OwnerPortalModal: React.FC = () => {
       if (mode === 'forgot') {
         if (!email.trim()) throw new Error('Enter the registered owner account email.');
         const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-          redirectTo: window.location.origin + window.location.pathname,
+          redirectTo: 'https://noorkhan0143-pixel.github.io/Nad.Furniture/',
         });
         if (resetError) throw resetError;
         setMessage('Password reset link sent. Open the email and follow the link to set a new password. This is a reset link, not an OTP.');
