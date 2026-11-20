@@ -34,6 +34,7 @@ import { OwnerPortalModal } from './components/OwnerPortalModal';
 import { ProductEditorModal } from './components/ProductEditorModal';
 import { OwnerCatalogManagerModal } from './components/OwnerCatalogManagerModal';
 import { EditableSitePage } from './components/EditableSitePage';
+import { ProductDetailPage } from './components/ProductDetailPage';
 
 type FilterTab = 'all' | ProductCategory;
 
@@ -82,6 +83,8 @@ function MainAppContent() {
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [quoteProduct, setQuoteProduct] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
+  const productId = new URLSearchParams(location.search).get('product');
+  const detailProduct = products.find((item) => item.id === productId) || null;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [emailOptionsOpen, setEmailOptionsOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
@@ -756,6 +759,9 @@ const openEmailOptions = () => {
 
       {/* Main Content */}
       <main id="main" className="flex-1">
+        {detailProduct ? (
+          <ProductDetailPage product={detailProduct} onBack={() => navigate('/')} onRequestQuote={openBulkQuote} />
+        ) : <>
         {/* Dedicated About Us Page (from top left options) */}
         {currentView === 'about' && (
           <section className="min-h-[70vh] bg-white py-12 px-6">
@@ -1197,7 +1203,7 @@ const openEmailOptions = () => {
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                       {group.products.map((product) => (
-                        <ProductCard key={product.id} product={product} onSelect={setSelectedProduct} />
+                        <ProductCard key={product.id} product={product} onSelect={(product) => navigate('/?product=' + encodeURIComponent(product.id))} />
                       ))}
                     </div>
                   </div>
@@ -1226,7 +1232,7 @@ const openEmailOptions = () => {
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                   {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} onSelect={setSelectedProduct} />
+                    <ProductCard key={product.id} product={product} onSelect={(product) => navigate('/?product=' + encodeURIComponent(product.id))} />
                   ))}
                   {filteredProducts.length === 0 && (
                     <p className="col-span-full py-10 text-center text-sm text-gray-500">No products in this category yet.</p>
@@ -1462,6 +1468,7 @@ const openEmailOptions = () => {
         </section>
         </>
         )}
+        </>}
       </main>
 
       {/* Footer */}
