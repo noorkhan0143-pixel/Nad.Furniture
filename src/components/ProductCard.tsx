@@ -52,9 +52,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
         </button>
 
         <div className="p-4 pb-1">
-          <span className="block text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1">
-            {product.categoryLabel}
-          </span>
           <h3 className="font-sans text-[16px] font-semibold leading-snug text-[#1A202C]">
             <button
               type="button"
