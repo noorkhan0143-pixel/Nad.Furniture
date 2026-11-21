@@ -25,6 +25,37 @@ const pages = [
     title: 'Commercial Furniture Supply & Services | NAD Furniture UAE',
     description: 'NAD Furniture provides commercial furniture supply solutions, including steel beds, lockers and office furniture for UAE projects.'
   }
+,
+  {
+    path: 'steel-bunk-beds-uae',
+    title: 'Steel Bunk Beds UAE | Heavy-Duty Metal Bunk Beds | NAD Furniture',
+    description: 'Explore heavy-duty steel bunk beds supplied by NAD Furniture for staff accommodation, labour camps, hostels and bulk projects across Dubai and the UAE.'
+  },
+  {
+    path: 'steel-lockers-uae',
+    title: 'Steel Lockers UAE | Metal Storage Lockers & Cabinets | NAD Furniture',
+    description: 'Shop steel lockers, metal storage cabinets and filing units from NAD Furniture for offices, staff accommodation and commercial facilities across the UAE.'
+  },
+  {
+    path: 'mattresses-uae',
+    title: 'Mattresses UAE | Staff Accommodation Mattresses | NAD Furniture',
+    description: 'Explore single and semi-medicated mattresses from NAD Furniture for staff accommodation, hostels and bulk supply requirements across the UAE.'
+  },
+  {
+    path: 'beds-uae',
+    title: 'Metal & Bedroom Beds UAE | Single, Double, Queen & King Beds | NAD Furniture',
+    description: 'Explore single, double, queen, king and metal beds from NAD Furniture for homes, accommodation facilities and bulk projects across the UAE.'
+  },
+  {
+    path: 'office-furniture-uae',
+    title: 'Office Furniture UAE | Office Desks & Workstations | NAD Furniture',
+    description: 'Explore office desks, tables, chairs and workstations from NAD Furniture for business and commercial spaces across Dubai and the UAE.'
+  },
+  {
+    path: 'wardrobes-uae',
+    title: 'Wardrobes UAE | Bedroom Storage & Wardrobe Cabinets | NAD Furniture',
+    description: 'Explore wooden wardrobes and bedroom storage solutions from NAD Furniture, with options for homes and bulk furnishing projects across the UAE.'
+  }
 ];
 
 function replaceRequired(html, pattern, replacement) {
