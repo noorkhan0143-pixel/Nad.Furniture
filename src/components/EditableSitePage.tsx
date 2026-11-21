@@ -108,8 +108,10 @@ export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' 
                   <div className="space-y-3">
                     <input value={item.title} onChange={e => updateItem(index, 'title', e.target.value)} placeholder="Title (e.g. CNC cutting machine)" className="w-full rounded border border-gray-300 p-3" />
                     <textarea value={item.description} onChange={e => updateItem(index, 'description', e.target.value)} placeholder="Content / details" rows={3} className="w-full rounded border border-gray-300 p-3" />
-                    <label className="block text-xs font-semibold text-gray-600">YouTube video link (optional)<input type="url" value={item.videoUrl || ''} onChange={e => updateItem(index, 'videoUrl', e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className="mt-1 w-full rounded border border-gray-300 p-3 font-normal" /></label>
-                    <p className="text-xs text-gray-500">Paste a YouTube link. The video will appear with this gallery/manufacturing item.</p>
+                    {pageKey !== 'services' && <>
+                      <label className="block text-xs font-semibold text-gray-600">YouTube video link (optional)<input type="url" value={item.videoUrl || ''} onChange={e => updateItem(index, 'videoUrl', e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className="mt-1 w-full rounded border border-gray-300 p-3 font-normal" /></label>
+                      <p className="text-xs text-gray-500">Paste a YouTube link. The video will appear with this gallery/manufacturing item.</p>
+                    </>}
                     <button type="button" onClick={() => setDraft(v => ({ ...v, items: v.items.filter((_, i) => i !== index) }))} className="inline-flex items-center gap-2 text-sm text-red-700"><Trash2 size={15} /> Remove item</button>
                   </div>
                 </div>
