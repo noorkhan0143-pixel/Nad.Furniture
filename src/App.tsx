@@ -262,9 +262,9 @@ const openEmailOptions = () => {
     {emailOptionsOpen && (
       <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 p-4">
         <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-2xl">
-          <h2 className="mb-4 text-lg font-bold text-gray-900">
+          <div className="mb-4 text-lg font-bold text-gray-900">
             Choose Email Service
-          </h2>
+          </div>
 
           <a
             href="https://mail.google.com/mail/?view=cm&fs=1&to=info%40nad.furniture"
