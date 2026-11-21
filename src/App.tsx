@@ -35,8 +35,80 @@ import { ProductEditorModal } from './components/ProductEditorModal';
 import { OwnerCatalogManagerModal } from './components/OwnerCatalogManagerModal';
 import { EditableSitePage } from './components/EditableSitePage';
 import { ProductDetailPage } from './components/ProductDetailPage';
+import { SeoCategoryPage, SeoCategoryConfig } from './components/SeoCategoryPage';
 
 type FilterTab = 'all' | ProductCategory;
+
+const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
+  "/steel-bunk-beds-uae": {
+    "slug": "steel-bunk-beds-uae",
+    "title": "Steel Bunk Beds UAE | Heavy-Duty Metal Bunk Beds | NAD Furniture",
+    "h1": "Steel Bunk Beds Supplier in UAE",
+    "description": "Explore heavy-duty steel bunk beds supplied by NAD Furniture for staff accommodation, labour camps, hostels and bulk projects across Dubai and the UAE.",
+    "intro": "NAD Furniture supplies durable steel and metal bunk beds for staff accommodation, labour camps, hostels and commercial projects. Explore available models, sizes and specifications, then request a wholesale quotation for delivery across the UAE.",
+    "categories": [
+      "bunk-beds"
+    ]
+  },
+  "/steel-lockers-uae": {
+    "slug": "steel-lockers-uae",
+    "title": "Steel Lockers UAE | Metal Storage Lockers & Cabinets | NAD Furniture",
+    "h1": "Steel Lockers & Metal Storage Cabinets in UAE",
+    "description": "Shop steel lockers, metal storage cabinets and filing units from NAD Furniture for offices, staff accommodation and commercial facilities across the UAE.",
+    "intro": "Find practical steel lockers and metal storage cabinets for staff facilities, workplaces and commercial environments. NAD Furniture offers a range of storage and filing solutions for bulk and project requirements across Dubai and the UAE.",
+    "categories": [
+      "steel-lockers"
+    ]
+  },
+  "/mattresses-uae": {
+    "slug": "mattresses-uae",
+    "title": "Mattresses UAE | Staff Accommodation Mattresses | NAD Furniture",
+    "h1": "Mattresses for Staff Accommodation in UAE",
+    "description": "Explore single and semi-medicated mattresses from NAD Furniture for staff accommodation, hostels and bulk supply requirements across the UAE.",
+    "intro": "NAD Furniture supplies mattress options for staff accommodation, hostels and institutional requirements. Review the available product details and contact our team for bulk quantities and UAE project quotations.",
+    "categories": [
+      "mattress"
+    ]
+  },
+  "/beds-uae": {
+    "slug": "beds-uae",
+    "title": "Metal & Bedroom Beds UAE | Single, Double, Queen & King Beds | NAD Furniture",
+    "h1": "Beds Supplier in UAE – Metal & Bedroom Beds",
+    "description": "Explore single, double, queen, king and metal beds from NAD Furniture for homes, accommodation facilities and bulk projects across the UAE.",
+    "intro": "Explore a range of beds for residential, staff accommodation and commercial requirements, including single, double, queen and king-size options. Contact NAD Furniture for product specifications, bulk supply and delivery across the UAE.",
+    "categories": [
+      "beds",
+      "king-beds",
+      "queen-beds",
+      "double-beds",
+      "single-beds"
+    ]
+  },
+  "/office-furniture-uae": {
+    "slug": "office-furniture-uae",
+    "title": "Office Furniture UAE | Office Desks & Workstations | NAD Furniture",
+    "h1": "Office Furniture Supplier in UAE",
+    "description": "Explore office desks, tables, chairs and workstations from NAD Furniture for business and commercial spaces across Dubai and the UAE.",
+    "intro": "Furnish workspaces with practical office desks, tables, chairs and workstations. NAD Furniture supports business and project requirements with commercial office furniture supply across Dubai and the UAE.",
+    "categories": [
+      "office-tables",
+      "office-chairs",
+      "office-workstation",
+      "office-furniture"
+    ]
+  },
+  "/wardrobes-uae": {
+    "slug": "wardrobes-uae",
+    "title": "Wardrobes UAE | Bedroom Storage & Wardrobe Cabinets | NAD Furniture",
+    "h1": "Wardrobes & Bedroom Storage in UAE",
+    "description": "Explore wooden wardrobes and bedroom storage solutions from NAD Furniture, with options for homes and bulk furnishing projects across the UAE.",
+    "intro": "Browse wardrobe and bedroom storage options for homes, staff accommodation and furnishing projects. Contact NAD Furniture for available models, specifications and bulk quotations across the UAE.",
+    "categories": [
+      "wardrobe"
+    ]
+  }
+};
+
 
 const NadBrandMark: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' }> = ({
   className = '',
@@ -85,6 +157,7 @@ function MainAppContent() {
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const productId = new URLSearchParams(location.search).get('product');
   const detailProduct = products.find((item) => item.id === productId) || null;
+  const categoryPage = SEO_CATEGORY_PAGES[location.pathname.replace(/\\/$/, '')] || null;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [emailOptionsOpen, setEmailOptionsOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
@@ -761,6 +834,8 @@ const openEmailOptions = () => {
       <main id="main" className="flex-1">
         {detailProduct ? (
           <ProductDetailPage product={detailProduct} onBack={() => navigate('/')} onRequestQuote={openBulkQuote} />
+        ) : categoryPage ? (
+          <SeoCategoryPage config={categoryPage} products={products} />
         ) : <>
         {/* Dedicated About Us Page (from top left options) */}
         {currentView === 'about' && (
