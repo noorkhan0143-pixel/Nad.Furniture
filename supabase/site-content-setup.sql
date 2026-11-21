@@ -7,7 +7,9 @@ create table if not exists public.nad_site_content (
   updated_at timestamptz not null default now()
 );
 
-alter table public.nad_site_content enable row level security;\ngrant select on public.nad_site_content to anon, authenticated;\ngrant insert, update on public.nad_site_content to authenticated;
+alter table public.nad_site_content enable row level security;
+grant select on public.nad_site_content to anon, authenticated;
+grant insert, update on public.nad_site_content to authenticated;
 
 drop policy if exists "Public can read NAD site content" on public.nad_site_content;
 create policy "Public can read NAD site content"
