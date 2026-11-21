@@ -89,3 +89,14 @@ create policy "NAD owners can delete site images"
       where o.user_id = auth.uid()
     )
   );
+
+
+-- Allow direct owner video uploads up to 100 MB in the same public media bucket.
+-- Existing owner-only storage policies above also protect video uploads/deletes.
+update storage.buckets
+set file_size_limit = 104857600,
+    allowed_mime_types = array[
+      'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+      'video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'
+    ]
+where id = 'nad-site-images';
