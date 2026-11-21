@@ -33,7 +33,7 @@ function replaceRequired(html, pattern, replacement) {
 }
 
 for (const page of pages) {
-  const canonical = 'https://nad.furniture/' + page.path + '/';
+  const canonical = 'https://www.nad.furniture/' + page.path + '/';
   let html = source;
 
   html = replaceRequired(html, /<title>[^<]*<\/title>/, '<title>' + page.title + '</title>');
