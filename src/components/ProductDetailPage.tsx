@@ -29,6 +29,7 @@ export const ProductDetailPage: React.FC<Props> = ({ product, onBack, onRequestQ
   return (
     <section className="min-h-[70vh] bg-white py-8 md:py-12 px-4 sm:px-6">
       <div className="mx-auto max-w-[1180px]">
+        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500"><button type="button" onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="cursor-pointer hover:text-[#cf251d]">Home</button><span className="mx-2">/</span><span className="font-semibold text-[#1A202C]">{product.title}</span></nav>
         <div className="mb-7 flex items-center justify-between gap-3 border-b border-gray-100 pb-4">
           <button type="button" onClick={onBack} className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#cf251d]">
             <ArrowLeft className="h-4 w-4" /> Back to products
