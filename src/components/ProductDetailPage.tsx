@@ -39,7 +39,7 @@ export const ProductDetailPage: React.FC<Props> = ({ product, onBack, onRequestQ
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
           <div className="overflow-hidden rounded-lg border border-gray-100 bg-[#F7FAFC]">
-            <img src={product.image} alt={product.alt} className="aspect-square w-full object-cover" onError={(e) => { if (e.currentTarget.src !== product.fallbackImage) e.currentTarget.src = product.fallbackImage; }} />
+            <img src={product.image} alt={product.alt} className="aspect-square w-full object-contain" onError={(e) => { if (e.currentTarget.src !== product.fallbackImage) e.currentTarget.src = product.fallbackImage; }} />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-gray-500">{product.categoryLabel}</p>
