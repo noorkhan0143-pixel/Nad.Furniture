@@ -1,6 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
+  pull_request:
+    branches: ["main", "master"]
   push:
     branches: ["main", "master"]
   workflow_dispatch:
@@ -37,6 +39,7 @@ jobs:
           path: ./dist
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -46,3 +49,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+# Pull request runs validate the build only; deployment remains limited to non-PR events.

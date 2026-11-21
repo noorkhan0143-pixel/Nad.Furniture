@@ -29,6 +29,7 @@ export const ProductDetailPage: React.FC<Props> = ({ product, onBack, onRequestQ
   return (
     <section className="min-h-[70vh] bg-white py-8 md:py-12 px-4 sm:px-6">
       <div className="mx-auto max-w-[1180px]">
+        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500"><button type="button" onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="cursor-pointer hover:text-[#cf251d]">Home</button><span className="mx-2">/</span><span className="font-semibold text-[#1A202C]">{product.title}</span></nav>
         <div className="mb-7 flex items-center justify-between gap-3 border-b border-gray-100 pb-4">
           <button type="button" onClick={onBack} className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#cf251d]">
             <ArrowLeft className="h-4 w-4" /> Back to products
@@ -38,7 +39,7 @@ export const ProductDetailPage: React.FC<Props> = ({ product, onBack, onRequestQ
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
           <div className="overflow-hidden rounded-lg border border-gray-100 bg-[#F7FAFC]">
-            <img src={product.image} alt={product.alt} className="aspect-square w-full object-cover" onError={(e) => { if (e.currentTarget.src !== product.fallbackImage) e.currentTarget.src = product.fallbackImage; }} />
+            <img src={product.image} alt={product.alt} className="aspect-square w-full object-contain" onError={(e) => { if (e.currentTarget.src !== product.fallbackImage) e.currentTarget.src = product.fallbackImage; }} />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-gray-500">{product.categoryLabel}</p>
