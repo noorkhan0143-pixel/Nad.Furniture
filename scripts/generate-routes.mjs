@@ -27,34 +27,25 @@ const pages = [
   }
 ];
 
-function setMeta(html, pattern, replacement) {
+function replaceRequired(html, pattern, replacement) {
   if (!pattern.test(html)) throw new Error('Expected SEO metadata tag was not found: ' + pattern);
   return html.replace(pattern, replacement);
 }
 
 for (const page of pages) {
-  const canonical = `https://nad.furniture/${page.path}/`;
+  const canonical = 'https://nad.furniture/' + page.path + '/';
   let html = source;
 
-  html = setMeta(html, /<title>[^<]*<\\/title>/, `<title>${page.title}</title>`);
-  html = setMeta(
-    html,
-    /<meta\\s+name="description"\\s+content="[^"]*"\\s*\\/>/,
-    `<meta name="description" content="${page.description}" />`
-  );
-  html = setMeta(html, /<link\\s+rel="canonical"\\s+href="[^"]*"\\s*\\/>/, `<link rel="canonical" href="${canonical}" />`);
-  html = setMeta(html, /<meta\\s+property="og:url"\\s+content="[^"]*"\\s*\\/>/, `<meta property="og:url" content="${canonical}" />`);
-  html = setMeta(html, /<meta\\s+property="og:title"\\s+content="[^"]*"\\s*\\/>/, `<meta property="og:title" content="${page.title}" />`);
-  html = setMeta(html, /<meta\\s+property="og:description"\\s+content="[^"]*"\\s*\\/>/, `<meta property="og:description" content="${page.description}" />`);
-  html = setMeta(html, /<meta\\s+name="twitter:title"\\s+content="[^"]*"\\s*\\/>/, `<meta name="twitter:title" content="${page.title}" />`);
-  html = setMeta(
-    html,
-    /<meta\\s+name="twitter:description"\\s+content="[^"]*"\\s*\\/>/,
-    `<meta name="twitter:description" content="${page.description}" />`
-  );
+  html = replaceRequired(html, /<title>[^<]*<\/title>/, '<title>' + page.title + '</title>');
+  html = replaceRequired(html, /<meta\s+name="description"\s+content="[^"]*"\s*\/>/, '<meta name="description" content="' + page.description + '" />');
+  html = replaceRequired(html, /<link\s+rel="canonical"\s+href="[^"]*"\s*\/>/, '<link rel="canonical" href="' + canonical + '" />');
+  html = replaceRequired(html, /<meta\s+property="og:url"\s+content="[^"]*"\s*\/>/, '<meta property="og:url" content="' + canonical + '" />');
+  html = replaceRequired(html, /<meta\s+property="og:title"\s+content="[^"]*"\s*\/>/, '<meta property="og:title" content="' + page.title + '" />');
+  html = replaceRequired(html, /<meta\s+property="og:description"\s+content="[^"]*"\s*\/>/, '<meta property="og:description" content="' + page.description + '" />');
+  html = replaceRequired(html, /<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/>/, '<meta name="twitter:title" content="' + page.title + '" />');
+  html = replaceRequired(html, /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/>/, '<meta name="twitter:description" content="' + page.description + '" />');
 
-  // Vite uses relative asset URLs (base: './'); route entry files live one
-  // directory below dist, so point their bundled assets back to dist/assets.
+  // Keep Vite's relative asset strategy while resolving assets from route folders.
   html = html.replaceAll('./assets/', '../assets/');
 
   const routeDir = join(dist, page.path);
@@ -62,4 +53,4 @@ for (const page of pages) {
   await writeFile(join(routeDir, 'index.html'), html, 'utf8');
 }
 
-console.log(`Generated ${pages.length} SEO-ready static route entry files.`);
+console.log('Generated ' + pages.length + ' SEO-ready static route entry files.');
