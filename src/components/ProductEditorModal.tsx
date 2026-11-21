@@ -29,7 +29,7 @@ export const ProductEditorModal: React.FC = () => {
   const [categoryLabel, setCategoryLabel] = useState('Bunk Beds');
   const [customCategoryLabel, setCustomCategoryLabel] = useState('');
   const [image, setImage] = useState('');
-  const [imageCrop, setImageCrop] = useState<'square' | 'landscape' | 'portrait' | 'original'>('square');
+  const [imageCrop, setImageCrop] = useState<'square' | 'landscape' | 'portrait' | 'original'>('original');
   const [alt, setAlt] = useState('');
   const [price, setPrice] = useState('');
   const [originalPrice, setOriginalPrice] = useState('');
@@ -362,13 +362,13 @@ export const ProductEditorModal: React.FC = () => {
                     <Upload className="h-3.5 w-3.5 text-gray-500" />
                     <span>{isUploading ? 'Uploading...' : 'Upload Photo from Device'}</span>
                   </button>
-                  <span className="text-[11px] text-gray-400">JPG, PNG, WebP · max 1600px</span>
+                  <span className="text-[11px] text-gray-400">JPG, PNG, WebP · full image by default · max 1600px</span>
                 </div>
               </div>
 
               {image ? (
                 <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-gray-50 relative group">
-                  <img src={image} alt="Preview" className="h-full w-full object-cover" />
+                  <img src={image} alt="Preview" className="h-full w-full object-contain" />
                 </div>
               ) : (
                 <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 text-gray-400">
