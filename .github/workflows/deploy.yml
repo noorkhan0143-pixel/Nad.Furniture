@@ -49,3 +49,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+# Pull request runs validate the build only; deployment remains limited to non-PR events.
