@@ -157,7 +157,8 @@ function MainAppContent() {
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const productId = new URLSearchParams(location.search).get('product');
   const detailProduct = products.find((item) => item.id === productId) || null;
-  const categoryPage = SEO_CATEGORY_PAGES[location.pathname.replace(/\\/$/, '')] || null;
+  const normalizedPath = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname;
+  const categoryPage = SEO_CATEGORY_PAGES[normalizedPath] || null;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [emailOptionsOpen, setEmailOptionsOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
@@ -1269,7 +1270,26 @@ const openEmailOptions = () => {
                       </div>
                       <button
                         type="button"
-                        onClick={() => setActiveFilter(group.id as FilterTab)}
+                        onClick={() => {
+                          const routeByCategory: Record<string, string> = {
+                            'bunk-beds': '/steel-bunk-beds-uae/',
+                            'steel-lockers': '/steel-lockers-uae/',
+                            'mattress': '/mattresses-uae/',
+                            'wardrobe': '/wardrobes-uae/',
+                            'beds': '/beds-uae/',
+                            'king-beds': '/beds-uae/',
+                            'queen-beds': '/beds-uae/',
+                            'double-beds': '/beds-uae/',
+                            'single-beds': '/beds-uae/',
+                            'office-tables': '/office-furniture-uae/',
+                            'office-chairs': '/office-furniture-uae/',
+                            'office-workstation': '/office-furniture-uae/',
+                            'office-furniture': '/office-furniture-uae/'
+                          };
+                          const route = routeByCategory[group.id];
+                          if (route) navigate(route);
+                          else setActiveFilter(group.id as FilterTab);
+                        }}
                         className="inline-flex items-center gap-1.5 text-sm font-medium text-[#000000] hover:text-[#cf251d] transition-colors cursor-pointer"
                       >
                         <span>View All ({group.products.length})</span>
