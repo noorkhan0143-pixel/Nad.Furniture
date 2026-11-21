@@ -29,6 +29,7 @@ export const ProductEditorModal: React.FC = () => {
   const [categoryLabel, setCategoryLabel] = useState('Bunk Beds');
   const [customCategoryLabel, setCustomCategoryLabel] = useState('');
   const [image, setImage] = useState('');
+  const [imageCrop, setImageCrop] = useState<'square' | 'landscape' | 'portrait' | 'original'>('square');
   const [alt, setAlt] = useState('');
   const [price, setPrice] = useState('');
   const [originalPrice, setOriginalPrice] = useState('');
@@ -85,6 +86,35 @@ export const ProductEditorModal: React.FC = () => {
     if (val === '__custom__') { setCustomCategoryLabel(''); setCategoryLabel(''); }
   };
 
+
+  const cropAndResizeImage = (file: File): Promise<Blob> => new Promise((resolve, reject) => {
+    const objectUrl = URL.createObjectURL(file);
+    const source = new Image();
+    source.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+      const sourceRatio = source.width / source.height;
+      const targetRatio = imageCrop === 'square' ? 1 : imageCrop === 'landscape' ? 4 / 3 : imageCrop === 'portrait' ? 3 / 4 : sourceRatio;
+      let sx = 0, sy = 0, sw = source.width, sh = source.height;
+      if (sourceRatio > targetRatio) {
+        sw = source.height * targetRatio;
+        sx = (source.width - sw) / 2;
+      } else {
+        sh = source.width / targetRatio;
+        sy = (source.height - sh) / 2;
+      }
+      const scale = Math.min(1, 1600 / Math.max(sw, sh));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(sw * scale));
+      canvas.height = Math.max(1, Math.round(sh * scale));
+      const context = canvas.getContext('2d');
+      if (!context) { reject(new Error('Could not process this image.')); return; }
+      context.drawImage(source, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Image resize failed.')), 'image/jpeg', 0.9);
+    };
+    source.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Could not read this image.')); };
+    source.src = objectUrl;
+  });
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -101,9 +131,10 @@ export const ProductEditorModal: React.FC = () => {
 
     setIsUploading(true);
     try {
-      const safeName = file.name.toLowerCase().replace(/[^a-z0-9.-]/g, '-');
-      const path = `products/${Date.now()}-${safeName}`;
-      const { error: uploadError } = await supabase.storage.from('nad-site-images').upload(path, file, { upsert: true, contentType: file.type });
+      const processedImage = await cropAndResizeImage(file);
+      const safeName = file.name.toLowerCase().replace(/\.[^/.]+$/, '').replace(/[^a-z0-9.-]/g, '-');
+      const path = `products/${Date.now()}-${safeName}.jpg`;
+      const { error: uploadError } = await supabase.storage.from('nad-site-images').upload(path, processedImage, { upsert: true, contentType: 'image/jpeg' });
       if (uploadError) throw uploadError;
       const { data } = supabase.storage.from('nad-site-images').getPublicUrl(path);
       setImage(data.publicUrl);
@@ -313,7 +344,8 @@ export const ProductEditorModal: React.FC = () => {
                   placeholder="Paste Image URL or click Upload below"
                   className="w-full rounded-lg border border-gray-300 py-2 px-3 text-xs focus:border-[#cf251d] focus:outline-none focus:ring-1 focus:ring-[#cf251d]"
                 />
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <label className="text-[11px] font-semibold text-gray-600">Crop / resize<select value={imageCrop} onChange={e => setImageCrop(e.target.value as typeof imageCrop)} className="ml-2 rounded border border-gray-300 bg-white px-2 py-1 text-xs"><option value="square">Square (1:1)</option><option value="landscape">Landscape (4:3)</option><option value="portrait">Portrait (3:4)</option><option value="original">Original ratio</option></select></label>
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -330,7 +362,7 @@ export const ProductEditorModal: React.FC = () => {
                     <Upload className="h-3.5 w-3.5 text-gray-500" />
                     <span>{isUploading ? 'Uploading...' : 'Upload Photo from Device'}</span>
                   </button>
-                  <span className="text-[11px] text-gray-400">JPG, PNG, WebP</span>
+                  <span className="text-[11px] text-gray-400">JPG, PNG, WebP · max 1600px</span>
                 </div>
               </div>
 
