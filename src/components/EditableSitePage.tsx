@@ -23,6 +23,7 @@ export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [pendingVideoDeletes, setPendingVideoDeletes] = useState<string[]>([]);
   const uploadVideo = async (index: number, file?: File) => {
     if (!file) return;
     if (!file.type.startsWith('video/')) { setMessage('Please select a valid video file.'); return; }
@@ -35,23 +36,20 @@ export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' 
     if (error) { setMessage(error.message); return; }
     const { data } = supabase.storage.from('nad-site-images').getPublicUrl(path);
     setDraft(current => ({ ...current, items: current.items.map((item, i) => i === index ? { ...item, videoUrl: data.publicUrl, videoPath: path } : item) }));
-    if (oldPath) await supabase.storage.from('nad-site-images').remove([oldPath]);
+    if (oldPath) setPendingVideoDeletes(current => [...current, oldPath]);
     setMessage('Video uploaded. Click Save changes to publish it.');
   };
 
   const removeVideo = async (index: number) => {
     const oldPath = draft.items[index]?.videoPath;
-    if (oldPath) {
-      const { error } = await supabase.storage.from('nad-site-images').remove([oldPath]);
-      if (error) { setMessage(error.message); return; }
-    }
+    if (oldPath) setPendingVideoDeletes(current => [...current, oldPath]);
     setDraft(current => ({ ...current, items: current.items.map((item, i) => i === index ? { ...item, videoUrl: undefined, videoPath: undefined } : item) }));
     setMessage('Video removed. Save changes to publish the update.');
   };
 
   const removeItem = async (index: number) => {
     const item = draft.items[index];
-    if (item?.videoPath) await supabase.storage.from('nad-site-images').remove([item.videoPath]);
+    if (item?.videoPath) setPendingVideoDeletes(current => [...current, item.videoPath!]);
     setDraft(current => ({ ...current, items: current.items.filter((_, i) => i !== index) }));
   };
 
@@ -97,6 +95,8 @@ export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' 
     const { error } = await supabase.from('nad_site_content').upsert({ id: pageKey, content: draft, updated_at: new Date().toISOString() });
     setSaving(false);
     if (error) { setMessage(error.message); return; }
+    if (pendingVideoDeletes.length) await supabase.storage.from('nad-site-images').remove([...new Set(pendingVideoDeletes)]);
+    setPendingVideoDeletes([]);
     setContent(draft);
     setEditing(false);
     setMessage('Content saved.');
@@ -109,7 +109,7 @@ export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' 
       <div className="mx-auto max-w-[1290px]">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-8">
           <div className="text-sm text-[#718096]"><button type="button" onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="cursor-pointer hover:text-[#b82105]">Home</button><span className="mx-2">/</span><span className="font-semibold text-[#1A202C]">{content.heading}</span></div>
-          {isOwner && <button type="button" onClick={() => { setDraft(content); setEditing(value => !value); }} className="rounded-md bg-[#b82105] px-4 py-2 text-sm font-semibold text-white hover:bg-[#8f1a05]">{editing ? 'Cancel editing' : 'Edit page content'}</button>}
+          {isOwner && <button type="button" onClick={() => { if (editing) setPendingVideoDeletes([]); setDraft(content); setEditing(value => !value); }} className="rounded-md bg-[#b82105] px-4 py-2 text-sm font-semibold text-white hover:bg-[#8f1a05]">{editing ? 'Cancel editing' : 'Edit page content'}</button>}
         </div>
         {editing ? (
           <div className="space-y-5">
