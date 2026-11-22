@@ -173,14 +173,23 @@ function MainAppContent() {
   const { products, openLoginModal } = useCatalog();
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentView, setCurrentView] = useState<'home' | 'about' | 'projects' | 'manufacturing' | 'services'>('home');
+  // Normalize trailing slashes so direct visits to /about/ etc. select the
+  // correct page on the first render (not only after a client-side effect).
+  const normalizedPath = location.pathname.replace(/\/+$/, '') || '/';
+  const getViewFromPath = (path: string): 'home' | 'about' | 'projects' | 'manufacturing' | 'services' => {
+    if (path === '/about') return 'about';
+    if (path === '/projects') return 'projects';
+    if (path === '/manufacturing' || path === '/career') return 'manufacturing';
+    if (path === '/services') return 'services';
+    return 'home';
+  };
+  const [currentView, setCurrentView] = useState<'home' | 'about' | 'projects' | 'manufacturing' | 'services'>(() => getViewFromPath(normalizedPath));
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [quoteProduct, setQuoteProduct] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const productId = new URLSearchParams(location.search).get('product');
   const detailProduct = products.find((item) => item.id === productId) || null;
-  const normalizedPath = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname;
   const categoryPage = SEO_CATEGORY_PAGES[normalizedPath] || null;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [emailOptionsOpen, setEmailOptionsOpen] = useState(false);
@@ -212,24 +221,14 @@ const openEmailOptions = () => {
   }, [openLoginModal]);
 
  useEffect(() => {
-  if (location.pathname === '/about') {
-    setCurrentView('about');
-  } else if (location.pathname === '/projects') {
-    setCurrentView('projects');
-  } else if (location.pathname === '/manufacturing' || location.pathname === '/career') {
-    setCurrentView('manufacturing');
-  } else if (location.pathname === '/services') {
-    setCurrentView('services');
-  } else {
-    setCurrentView('home');
-  }
+  setCurrentView(getViewFromPath(normalizedPath));
 
-  if (location.pathname === '/quote') {
+  if (normalizedPath === '/quote') {
     setQuoteModalOpen(true);
   } else {
     setQuoteModalOpen(false);
   }
-}, [location.pathname]);
+}, [normalizedPath]);
   const handleSecretOwnerClick = () => {
     secretClickCountRef.current += 1;
     if (secretClickTimerRef.current) clearTimeout(secretClickTimerRef.current);
