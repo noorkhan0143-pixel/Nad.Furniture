@@ -5,7 +5,8 @@ import { ProductCard } from './ProductCard';
 
 export interface SeoCategoryConfig {
   slug: string; title: string; h1: string; description: string; intro: string; categories: string[];
-  sections?: { heading: string; body: string }[];\n  faqs?: { question: string; answer: string }[];
+  sections?: { heading: string; body: string }[];
+  faqs?: { question: string; answer: string }[];
 }
 interface Props { config: SeoCategoryConfig; products: ProductItem[]; }
 
