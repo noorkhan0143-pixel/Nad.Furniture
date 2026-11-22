@@ -6,6 +6,7 @@ import { ProductCard } from './ProductCard';
 export interface SeoCategoryConfig {
   slug: string; title: string; h1: string; description: string; intro: string; categories: string[];
   sections?: { heading: string; body: string }[];
+  faqs?: { question: string; answer: string }[];
 }
 interface Props { config: SeoCategoryConfig; products: ProductItem[]; }
 
@@ -53,6 +54,19 @@ export const SeoCategoryPage: React.FC<Props> = ({ config, products }) => {
                 <p className="mt-3 text-[15px] leading-7 text-[#4A5568]">{section.body}</p>
               </article>
             ))}
+          </section>
+        ) : null}
+        {config.faqs?.length ? (
+          <section className="mt-12 max-w-4xl border-t border-gray-100 pt-8" aria-labelledby="category-faq-heading">
+            <h2 id="category-faq-heading" className="text-xl font-bold text-[#1A202C]">Frequently Asked Questions</h2>
+            <div className="mt-5 divide-y divide-gray-200">
+              {config.faqs.map((faq) => (
+                <details key={faq.question} className="py-4">
+                  <summary className="cursor-pointer text-base font-semibold text-[#1A202C]">{faq.question}</summary>
+                  <p className="mt-3 text-[15px] leading-7 text-[#4A5568]">{faq.answer}</p>
+                </details>
+              ))}
+            </div>
           </section>
         ) : null}
         <section className="mt-12 border-t border-gray-100 pt-7">

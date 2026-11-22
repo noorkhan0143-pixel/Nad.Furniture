@@ -52,6 +52,12 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
       { "heading": "Bunk Bed Sizes, Frame Weights and Colours", "body": "Listed models include 190 x 90 cm sleeping dimensions, with model weights shown at 27 kg, 28 kg and 36 kg. Grey, silver and black finishes are listed for selected models. Specifications vary by product, so confirm the exact dimensions, frame weight, colour and included items on the individual product before ordering." },
       { "heading": "Bulk Steel Bunk Bed Supply Across Dubai and the UAE", "body": "For bulk orders, share the required quantity, preferred model, delivery location and project timeline when requesting a quotation. This helps the team confirm model availability and provide the relevant product specifications for staff housing, hostels and commercial accommodation projects." }
     ],
+    "faqs": [
+      { "question": "What sizes are available for NAD steel bunk beds?", "answer": "Listed models include 190 x 90 cm sleeping dimensions. Other models may have different dimensions, so check the individual product specification before ordering." },
+      { "question": "What are the listed bunk bed frame weights?", "answer": "The current catalogue lists several model weights, including 26 kg, 27 kg, 28 kg and 36 kg. Other listed models differ. Confirm the exact model and weight with the team." },
+      { "question": "Can I request a bulk quotation for staff accommodation?", "answer": "Yes. Share the model, quantity, delivery location and required timeline through the quotation or WhatsApp enquiry option. Availability and delivery details will be confirmed for your project." },
+      { "question": "Do bunk beds come in different colours?", "answer": "Grey, silver and black are listed for selected models. Colour availability depends on the chosen model and should be confirmed before placing an order." }
+    ],
     "categories": [
       "bunk-beds"
     ]
@@ -66,6 +72,12 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
       { "heading": "Steel Lockers for Offices, Staff Accommodation and Schools", "body": "Steel lockers provide individual storage for uniforms, bags, personal belongings and workplace items. NAD Furniture lists metal locker cabinets and filing storage for offices, staff accommodation, hostels and commercial facilities. Selected locker models are also suitable for school, gym and shared changing-area storage; confirm the intended use and model specifications before ordering." },
       { "heading": "Locker Configurations and Product Specifications", "body": "The catalogue includes multi-compartment locker configurations such as 4-door, 6-door and 9-door models, as well as steel storage cabinets and metal filing cabinets. Dimensions, locking arrangements, ventilation features and finishes vary by model. Review the individual product specifications to select a configuration that fits the available room space and number of users." },
       { "heading": "Bulk Steel Locker Supply in Dubai and the UAE", "body": "For project quotations, provide the required number of users, preferred locker configuration, approximate room dimensions and delivery location. NAD Furniture can then help identify relevant listed models and confirm availability and current specifications for your office, staff accommodation or institutional requirement." }
+    ],
+    "faqs": [
+      { "question": "Which steel locker configurations are listed?", "answer": "The catalogue includes selected 4-door, 6-door and 9-door locker cabinets, along with other steel storage and filing cabinets. Confirm the exact model and configuration before ordering." },
+      { "question": "What dimensions are available for steel lockers?", "answer": "Several listed multi-door locker models show dimensions around 185 x 90 x 45 cm. Dimensions vary by product, so use the selected product's specification as the final reference." },
+      { "question": "What material are NAD steel lockers made from?", "answer": "Product specifications identify heavy-duty steel or cold-rolled steel on selected models. Materials and finishes vary by item and should be checked on the individual product page." },
+      { "question": "Can I order lockers for an office or staff accommodation project?", "answer": "You can request a bulk quotation by sharing the required configuration, quantity, delivery location and project timeline. The team can confirm model availability and specifications." }
     ],
     "categories": [
       "steel-lockers"
