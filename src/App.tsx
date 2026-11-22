@@ -34,6 +34,7 @@ import { OwnerPortalModal } from './components/OwnerPortalModal';
 import { ProductEditorModal } from './components/ProductEditorModal';
 import { OwnerCatalogManagerModal } from './components/OwnerCatalogManagerModal';
 import { EditableSitePage } from './components/EditableSitePage';
+import { EditableAboutPage } from './components/EditableAboutPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { SeoCategoryPage, SeoCategoryConfig } from './components/SeoCategoryPage';
 
@@ -848,78 +849,7 @@ const openEmailOptions = () => {
         ) : categoryPage ? (
           <SeoCategoryPage config={categoryPage} products={products} />
         ) : <>
-        {/* Dedicated About Us Page (from top left options) */}
-        {currentView === 'about' && (
-          <section className="min-h-[70vh] bg-white py-12 px-6">
-            <div className="mx-auto max-w-[1000px]">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
-                <div className="flex items-center gap-2 text-sm text-[#718096]">
-                  <button
-                    type="button"
-                    onClick={handleHomeClick}
-                    className="hover:text-[#b82105] transition-colors cursor-pointer"
-                  >
-                    Home
-                  </button>
-                  <span>/</span>
-                  <span className="text-[#1A202C] font-semibold">About Us</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleHomeClick}
-                  className="text-xs font-semibold text-[#b82105] hover:underline cursor-pointer"
-                >
-                  ← Back to Home
-                </button>
-              </div>
-
-              <div className="space-y-6">
-                <h1 className="text-[32px] sm:text-[38px] md:text-[42px] font-bold text-[#1A202C] leading-tight">
-                  About Us
-                </h1>
-                <h2 className="text-[20px] sm:text-[24px] md:text-[26px] font-bold text-[#c2171a]">
-                  Your Trusted Furniture Supplier in the UAE
-                </h2>
-
-                <div className="space-y-4 text-[16px] sm:text-[17px] leading-relaxed text-[#2D3748]">
-                  <p>
-                    NAD Furniture is a trusted furniture supplier in the UAE, providing reliable furniture solutions for businesses, contractors, accommodation facilities, offices, retailers and residential customers.
-                  </p>
-                  <p>
-                    As part of the established NAD Group of Companies, we combine extensive industry experience with a wide product selection and strong supply capabilities to meet furniture requirements of all sizes — from individual orders to complete commercial and accommodation projects.
-                  </p>
-                  <p>
-                    With access to 5,000+ furniture products, an established network of showrooms and extensive warehousing facilities, NAD Furniture is well positioned to serve customers across Dubai, Abu Dhabi, Sharjah, Ajman and the wider UAE.
-                  </p>
-                  <p className="font-semibold text-[#1A202C]">
-                    Our focus is simple: quality furniture, competitive pricing, dependable supply and professional customer service.
-                  </p>
-                </div>
-
-{/* Corporate Profile PDF */}
-<div className="mt-8 space-y-4">
-  <h2 className="text-2xl font-bold text-[#1A202C]">
-    NAD Furniture Corporate Profile
-  </h2>
-
-  <iframe
-    src="/corporate-profile.pdf"
-    title="NAD Furniture Corporate Profile"
-    className="w-full h-[700px] border border-gray-200 rounded-lg"
-  />
-
-  <a
-    href="/corporate-profile.pdf"
-    download="NAD_Corporate_Profile.pdf"
-    className="inline-block bg-[#c2171a] text-white px-6 py-3 rounded-lg font-semibold"
-  >
-    Download Corporate Profile (PDF)
-  </a>
-</div>
-                              </div>
-            </div>
-          </section>
-        )}
+        {currentView === 'about' && <EditableAboutPage />}
 
         {currentView === 'projects' && <EditableSitePage pageKey="projects" />}
         {currentView === 'manufacturing' && <EditableSitePage pageKey="manufacturing" />}
