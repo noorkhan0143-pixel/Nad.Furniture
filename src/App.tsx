@@ -42,9 +42,9 @@ type FilterTab = 'all' | ProductCategory;
 const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
   "/steel-bunk-beds-uae": {
     "slug": "steel-bunk-beds-uae",
-    "title": "Steel Bunk Beds UAE | Heavy-Duty Metal Bunk Beds | NAD Furniture",
+    "title": "Steel Bunk Beds UAE | NAD Furniture",
     "h1": "Steel Bunk Beds Supplier in UAE",
-    "description": "Explore heavy-duty steel bunk beds supplied by NAD Furniture for staff accommodation, labour camps, hostels and bulk projects across Dubai and the UAE.",
+    "description": "NAD Furniture supplies heavy-duty steel bunk beds for staff accommodation, labour camps, hostels and bulk projects across Dubai and the UAE.",
     "intro": "NAD Furniture supplies durable steel and metal bunk beds for staff accommodation, labour camps, hostels and commercial projects. Explore available models, sizes and specifications, then request a wholesale quotation for delivery across the UAE.",
     "categories": [
       "bunk-beds"
@@ -52,9 +52,9 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
   },
   "/steel-lockers-uae": {
     "slug": "steel-lockers-uae",
-    "title": "Steel Lockers UAE | Metal Storage Lockers & Cabinets | NAD Furniture",
+    "title": "Steel Lockers UAE | NAD Furniture",
     "h1": "Steel Lockers & Metal Storage Cabinets in UAE",
-    "description": "Shop steel lockers, metal storage cabinets and filing units from NAD Furniture for offices, staff accommodation and commercial facilities across the UAE.",
+    "description": "NAD Furniture supplies steel lockers and metal storage cabinets for offices, staff accommodation and commercial facilities across the UAE.",
     "intro": "Find practical steel lockers and metal storage cabinets for staff facilities, workplaces and commercial environments. NAD Furniture offers a range of storage and filing solutions for bulk and project requirements across Dubai and the UAE.",
     "categories": [
       "steel-lockers"
@@ -62,7 +62,7 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
   },
   "/mattresses-uae": {
     "slug": "mattresses-uae",
-    "title": "Mattresses UAE | Staff Accommodation Mattresses | NAD Furniture",
+    "title": "Mattresses UAE | NAD Furniture",
     "h1": "Mattresses for Staff Accommodation in UAE",
     "description": "Explore single and semi-medicated mattresses from NAD Furniture for staff accommodation, hostels and bulk supply requirements across the UAE.",
     "intro": "NAD Furniture supplies mattress options for staff accommodation, hostels and institutional requirements. Review the available product details and contact our team for bulk quantities and UAE project quotations.",
@@ -72,7 +72,7 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
   },
   "/beds-uae": {
     "slug": "beds-uae",
-    "title": "Metal & Bedroom Beds UAE | Single, Double, Queen & King Beds | NAD Furniture",
+    "title": "Metal & Bedroom Beds UAE | NAD Furniture",
     "h1": "Beds Supplier in UAE – Metal & Bedroom Beds",
     "description": "Explore single, double, queen, king and metal beds from NAD Furniture for homes, accommodation facilities and bulk projects across the UAE.",
     "intro": "Explore a range of beds for residential, staff accommodation and commercial requirements, including single, double, queen and king-size options. Contact NAD Furniture for product specifications, bulk supply and delivery across the UAE.",
@@ -86,7 +86,7 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
   },
   "/office-furniture-uae": {
     "slug": "office-furniture-uae",
-    "title": "Office Furniture UAE | Office Desks & Workstations | NAD Furniture",
+    "title": "Office Furniture UAE | NAD Furniture",
     "h1": "Office Furniture Supplier in UAE",
     "description": "Explore office desks, tables, chairs and workstations from NAD Furniture for business and commercial spaces across Dubai and the UAE.",
     "intro": "Furnish workspaces with practical office desks, tables, chairs and workstations. NAD Furniture supports business and project requirements with commercial office furniture supply across Dubai and the UAE.",
@@ -99,7 +99,7 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
   },
   "/wardrobes-uae": {
     "slug": "wardrobes-uae",
-    "title": "Wardrobes UAE | Bedroom Storage & Wardrobe Cabinets | NAD Furniture",
+    "title": "Wardrobes UAE | NAD Furniture",
     "h1": "Wardrobes & Bedroom Storage in UAE",
     "description": "Explore wooden wardrobes and bedroom storage solutions from NAD Furniture, with options for homes and bulk furnishing projects across the UAE.",
     "intro": "Browse wardrobe and bedroom storage options for homes, staff accommodation and furnishing projects. Contact NAD Furniture for available models, specifications and bulk quotations across the UAE.",
@@ -976,33 +976,33 @@ const openEmailOptions = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
               <div className="flex flex-col items-center">
                 <Warehouse className="h-[24px] w-[24px] text-white mb-2" aria-hidden="true" />
-                <h3 className="font-sans text-[17px] font-bold text-white">
+                <h2 className="font-sans text-[17px] font-bold text-white">
                   UAE Manufactured
-                </h3>
+                </h2>
                 <p className="text-[14px] text-[#CBD5E0]">Quality furniture made locally</p>
               </div>
 
               <div className="flex flex-col items-center">
                 <Truck className="h-[24px] w-[24px] text-white mb-2" aria-hidden="true" />
-                <h3 className="font-sans text-[17px] font-bold text-white">
+                <h2 className="font-sans text-[17px] font-bold text-white">
                   Fast UAE Delivery
-                </h3>
+                </h2>
                 <p className="text-[14px] text-[#CBD5E0]">Direct to your site or project</p>
               </div>
 
               <div className="flex flex-col items-center">
                 <Boxes className="h-[24px] w-[24px] text-white mb-2" aria-hidden="true" />
-                <h3 className="font-sans text-[17px] font-bold text-white">
+                <h2 className="font-sans text-[17px] font-bold text-white">
                   Bulk Order Supply
-                </h3>
+                </h2>
                 <p className="text-[14px] text-[#CBD5E0]">For projects of all sizes</p>
               </div>
 
               <div className="flex flex-col items-center">
                 <LifeBuoy className="h-[24px] w-[24px] text-white mb-2" aria-hidden="true" />
-                <h3 className="font-sans text-[17px] font-bold text-white">
+                <h2 className="font-sans text-[17px] font-bold text-white">
                   24/7 Customer Service
-                </h3>
+                </h2>
                 <p className="text-[14px] text-[#CBD5E0]">Contact us anytime</p>
               </div>
             </div>
