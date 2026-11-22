@@ -175,7 +175,7 @@ function MainAppContent() {
   const navigate = useNavigate();
   // Normalize trailing slashes so direct visits to /about/ etc. select the
   // correct page on the first render (not only after a client-side effect).
-  const normalizedPath = location.pathname.replace(/\\/+$/, '') || '/';
+  const normalizedPath = location.pathname.replace(/\/+$/, '') || '/';
   const getViewFromPath = (path: string): 'home' | 'about' | 'projects' | 'manufacturing' | 'services' => {
     if (path === '/about') return 'about';
     if (path === '/projects') return 'projects';
