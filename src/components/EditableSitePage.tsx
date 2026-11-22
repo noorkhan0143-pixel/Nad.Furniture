@@ -52,6 +52,8 @@ export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' 
   const removeItem = async (index: number) => {
     const item = draft.items[index];
     if (item?.videoPath) setPendingVideoDeletes(current => [...current, item.videoPath!]);
+    const imagePaths = (item?.images || []).map(image => image.path).filter((path): path is string => Boolean(path));
+    if (imagePaths.length) setPendingImageDeletes(current => [...current, ...imagePaths]);
     setDraft(current => ({ ...current, items: current.items.filter((_, i) => i !== index) }));
   };
 
@@ -200,7 +202,8 @@ export const EditableSitePage: React.FC<{ pageKey: 'projects' | 'manufacturing' 
             {loading ? <p className="mt-8 text-sm text-gray-500">Loading content...</p> : content.items.length > 0 ? (
               <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{content.items.map((item, index) => <article key={index} className="overflow-hidden rounded-lg border border-gray-200 bg-white">{(item.images?.length ? item.images : item.image ? [{ url: item.image }] : []).length > 0 && <div className="grid grid-cols-2 gap-1">{(item.images?.length ? item.images : item.image ? [{ url: item.image }] : []).map((image, imageIndex) => <img key={image.path || image.url} src={image.url} alt={(item.title || 'NAD Furniture content') + ' ' + (imageIndex + 1)} className="h-44 w-full object-cover" />)}</div>}{item.videoUrl && <video controls preload="metadata" className="aspect-video w-full bg-black" src={item.videoUrl} aria-label={item.title ? item.title + " video" : "NAD Furniture video " + (index + 1)} />}<div className="p-5"><h2 className="text-xl font-bold text-[#1A202C]">{item.title}</h2><p className="mt-2 whitespace-pre-line text-[15px] leading-relaxed text-[#2D3748]">{item.description}</p></div></article>)}</div>
             ) : isOwner ? <p className="mt-8 text-sm text-gray-500">Use “Edit page content” to add photos, videos and details.</p> : null}
-            {pageKey === 'services' && onQuoteClick && <button type="button" onClick={onQuoteClick} className="mt-8 rounded-md bg-[#b82105] px-6 py-3 text-sm font-semibold text-white hover:bg-[#8f1a05]">Open Furniture Quote Form</button>}\n            {message && <p className="mt-4 text-sm text-gray-600">{message}</p>}
+            {pageKey === 'services' && onQuoteClick && <button type="button" onClick={onQuoteClick} className="mt-8 rounded-md bg-[#b82105] px-6 py-3 text-sm font-semibold text-white hover:bg-[#8f1a05]">Open Furniture Quote Form</button>}
+            {message && <p className="mt-4 text-sm text-gray-600">{message}</p>}
           </div>
         )}
       </div>
