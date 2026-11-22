@@ -46,6 +46,11 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
     "h1": "Steel Bunk Beds Supplier in UAE",
     "description": "NAD Furniture supplies heavy-duty steel bunk beds for staff accommodation, labour camps, hostels and bulk projects across Dubai and the UAE.",
     "intro": "NAD Furniture supplies durable steel and metal bunk beds for staff accommodation, labour camps, hostels and commercial projects. Explore available models, sizes and specifications, then request a wholesale quotation for delivery across the UAE.",
+    "sections": [
+      { "heading": "Steel Bunk Beds for Staff Accommodation and Labour Camps", "body": "Steel bunk beds help accommodation operators make practical use of shared rooms where floor space and sleeping capacity both matter. NAD Furniture lists heavy-duty bunk bed models for staff accommodation, labour camps, hostels and other shared spaces. Buyers can compare the available models and request quantities for UAE projects." },
+      { "heading": "Bunk Bed Sizes, Frame Weights and Colours", "body": "Listed models include 190 x 90 cm sleeping dimensions, with model weights shown at 27 kg, 28 kg and 36 kg. Grey, silver and black finishes are listed for selected models. Specifications vary by product, so confirm the exact dimensions, frame weight, colour and included items on the individual product before ordering." },
+      { "heading": "Bulk Steel Bunk Bed Supply Across Dubai and the UAE", "body": "For bulk orders, share the required quantity, preferred model, delivery location and project timeline when requesting a quotation. This helps the team confirm model availability and provide the relevant product specifications for staff housing, hostels and commercial accommodation projects." }
+    ],
     "categories": [
       "bunk-beds"
     ]
@@ -56,6 +61,11 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
     "h1": "Steel Lockers & Metal Storage Cabinets in UAE",
     "description": "NAD Furniture supplies steel lockers and metal storage cabinets for offices, staff accommodation and commercial facilities across the UAE.",
     "intro": "Find practical steel lockers and metal storage cabinets for staff facilities, workplaces and commercial environments. NAD Furniture offers a range of storage and filing solutions for bulk and project requirements across Dubai and the UAE.",
+    "sections": [
+      { "heading": "Steel Lockers for Offices, Staff Accommodation and Schools", "body": "Steel lockers provide individual storage for uniforms, bags, personal belongings and workplace items. NAD Furniture lists metal locker cabinets and filing storage for offices, staff accommodation, hostels and commercial facilities. Selected locker models are also suitable for school, gym and shared changing-area storage; confirm the intended use and model specifications before ordering." },
+      { "heading": "Locker Configurations and Product Specifications", "body": "The catalogue includes multi-compartment locker configurations such as 4-door, 6-door and 9-door models, as well as steel storage cabinets and metal filing cabinets. Dimensions, locking arrangements, ventilation features and finishes vary by model. Review the individual product specifications to select a configuration that fits the available room space and number of users." },
+      { "heading": "Bulk Steel Locker Supply in Dubai and the UAE", "body": "For project quotations, provide the required number of users, preferred locker configuration, approximate room dimensions and delivery location. NAD Furniture can then help identify relevant listed models and confirm availability and current specifications for your office, staff accommodation or institutional requirement." }
+    ],
     "categories": [
       "steel-lockers"
     ]

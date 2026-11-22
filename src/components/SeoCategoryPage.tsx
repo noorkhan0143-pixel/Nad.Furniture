@@ -5,6 +5,7 @@ import { ProductCard } from './ProductCard';
 
 export interface SeoCategoryConfig {
   slug: string; title: string; h1: string; description: string; intro: string; categories: string[];
+  sections?: { heading: string; body: string }[];
 }
 interface Props { config: SeoCategoryConfig; products: ProductItem[]; }
 
@@ -44,6 +45,16 @@ export const SeoCategoryPage: React.FC<Props> = ({ config, products }) => {
             </div>
           ) : <p className="rounded-lg border border-gray-100 p-6 text-sm text-gray-600">Product details are being updated. Contact NAD Furniture for current availability and specifications.</p>}
         </div>
+        {config.sections?.length ? (
+          <section className="mt-12 max-w-4xl space-y-8" aria-label="Product information">
+            {config.sections.map((section) => (
+              <article key={section.heading}>
+                <h2 className="text-xl font-bold text-[#1A202C]">{section.heading}</h2>
+                <p className="mt-3 text-[15px] leading-7 text-[#4A5568]">{section.body}</p>
+              </article>
+            ))}
+          </section>
+        ) : null}
         <section className="mt-12 border-t border-gray-100 pt-7">
           <h2 className="text-lg font-bold text-[#1A202C]">Explore More NAD Furniture Categories</h2>
           <div className="mt-4 flex flex-wrap gap-3">
