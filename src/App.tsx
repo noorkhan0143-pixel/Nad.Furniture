@@ -1753,7 +1753,7 @@ const openEmailOptions = () => {
         rel="noopener noreferrer"
         aria-label="Chat with NAD Furniture on WhatsApp"
         title="Chat with NAD Furniture on WhatsApp"
-        className="fixed bottom-[20px] lg:bottom-[100px] right-[16px] z-40 w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
+        className="fixed bottom-[0px] lg:bottom-[70px] right-[16px] z-40 w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
       >
         <img
           src={`${import.meta.env.BASE_URL}whatsapp-3d-icon.png`}
