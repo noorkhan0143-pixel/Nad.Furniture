@@ -28,7 +28,7 @@ function getStaticFallbackReply(query: string): string {
   if (q.includes('office') || q.includes('desk') || q.includes('workstation')) {
     return 'Our office furniture range includes executive tables, tables with drawers, L-shaped desks, and 4-person & 6-person modular workstations with UAE-wide delivery.';
   }
-  return 'NAD Furniture UAE (NAD Building, Naif Street, Dubai) offers factory-direct wholesale furniture with prompt delivery across all UAE emirates. Contact info@NAD.furniture or WhatsApp +971 50 631 6560 for an instant quote.';
+  return 'NAD Furniture UAE (25 Al Musalla Rd - Naif - Deira - Dubai) offers factory-direct wholesale furniture with prompt delivery across all UAE emirates. Contact info@NAD.furniture or WhatsApp +971 50 631 6560 for an instant quote.';
 }
 
 export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
