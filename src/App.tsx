@@ -901,7 +901,7 @@ const openEmailOptions = () => {
                     </div>
                   </div>
 
-                  <div className="lg:col-span-4 flex justify-center items-center">
+                  <div className="lg:col-span-4 relative flex justify-center items-center">
                     <img
                       src={`${import.meta.env.BASE_URL}assets/aistudio/image_49ef6ff0.png`}
                       alt="NAD Heavy Duty Bunk Beds"
@@ -916,6 +916,20 @@ const openEmailOptions = () => {
                       }}
                       className="w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[450px] aspect-auto object-contain relative -translate-y-5 sm:-translate-y-8 lg:-translate-y-12 drop-shadow-2xl transition-transform"
                     />
+                    <a
+                      href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Chat with NAD Furniture on WhatsApp"
+                      title="Chat with NAD Furniture on WhatsApp"
+                      className="absolute right-[8px] top-[55%] z-40 w-[68px] h-[68px] sm:w-[76px] sm:h-[76px] hover:scale-110 transition-transform duration-300"
+                    >
+                      <img
+                        src={`${import.meta.env.BASE_URL}whatsapp-3d-icon.png`}
+                        alt="WhatsApp NAD Furniture"
+                        className="w-full h-full object-contain drop-shadow-xl"
+                      />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1745,21 +1759,6 @@ const openEmailOptions = () => {
         </div>
       </footer>
 
-      {/* Floating 3D WhatsApp Chat Button */}
-<a
-  href={`https://wa.me/${WHATSAPP_NUMBER}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Chat with NAD Furniture on WhatsApp"
-  title="Chat with NAD Furniture on WhatsApp"
-  className="fixed bottom-[66px] lg:bottom-[170px] right-[16px] z-40 w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
->
-  <img
-    src={`${import.meta.env.BASE_URL}whatsapp-3d-icon.png`}
-    alt="WhatsApp NAD Furniture"
-    className="w-full h-full object-contain drop-shadow-xl"
-  />
-</a>
       {/* Modals */}
       <BulkQuoteModal
         isOpen={quoteModalOpen}
