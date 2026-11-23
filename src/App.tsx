@@ -838,7 +838,7 @@ const openEmailOptions = () => {
             </div>
 
             <div className="pt-6 border-t border-white/10 space-y-3 text-xs text-[#CBD5E0]">
-              <p>NAD Building, Naif Street, Dubai, UAE</p>
+              <p><a href="https://share.google/OyvQlcsWlBCoUDVdL" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">📍 25 Al Musalla Rd - Naif - Deira - Dubai</a></p>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
@@ -1712,7 +1712,7 @@ const openEmailOptions = () => {
                 Contact NAD Furniture
               </div>
               <p className="text-[14px] sm:text-[15px] text-[#E2E8F0]">
-                📍 NAD Building, Naif Street, Dubai, UAE
+                📍 <a href="https://share.google/OyvQlcsWlBCoUDVdL" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">25 Al Musalla Rd - Naif - Deira - Dubai</a>
               </p>
               <p className="text-[14px] text-[#E2E8F0]">
                 ☎ <strong>Call:</strong> +971 50 631 6560
@@ -1752,7 +1752,7 @@ const openEmailOptions = () => {
   rel="noopener noreferrer"
   aria-label="Chat with NAD Furniture on WhatsApp"
   title="Chat with NAD Furniture on WhatsApp"
-  className="fixed bottom-[76px] lg:bottom-[200px] right-[16px] z-40 w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
+  className="fixed bottom-[66px] lg:bottom-[170px] right-[16px] z-40 w-[76px] h-[76px] hover:scale-110 transition-transform duration-300"
 >
   <img
     src={`${import.meta.env.BASE_URL}whatsapp-3d-icon.png`}
