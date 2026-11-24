@@ -39,7 +39,7 @@ for (const page of pages) {
 
   const pageSchema = {
     '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
+    '@type': page.path.endsWith('-uae') ? 'CollectionPage' : 'WebPage',
     '@id': canonical + '#webpage',
     url: canonical,
     name: page.title,
