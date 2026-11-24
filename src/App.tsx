@@ -1575,7 +1575,7 @@ const openEmailOptions = () => {
                   </svg>
                 </a>
                 <a
-                  href="https://www.pinterest.com/nadfurnituredubai/"
+                  href="https://www.pinterest.com/nadfurniture/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Pinterest"
