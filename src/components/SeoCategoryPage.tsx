@@ -17,6 +17,8 @@ const relatedPages = [
   { href: '/beds-uae/', label: 'Beds' },
   { href: '/wardrobes-uae/', label: 'Wardrobes' },
   { href: '/office-furniture-uae/', label: 'Office Furniture' },
+  { href: '/school-furniture-uae/', label: 'School Furniture' },
+  { href: '/metal-beds-uae/', label: 'Metal Beds' },
 ];
 
 export const SeoCategoryPage: React.FC<Props> = ({ config, products }) => {
