@@ -95,10 +95,10 @@ const SEO_CATEGORY_PAGES: Record<string, SeoCategoryConfig> = {
   },
   "/beds-uae": {
     "slug": "beds-uae",
-    "title": "Metal & Bedroom Beds UAE | NAD Furniture",
-    "h1": "Beds Supplier in UAE – Metal & Bedroom Beds",
-    "description": "Explore single, double, queen, king and metal beds from NAD Furniture for homes, accommodation facilities and bulk projects across the UAE.",
-    "intro": "Explore a range of beds for residential, staff accommodation and commercial requirements, including single, double, queen and king-size options. Contact NAD Furniture for product specifications, bulk supply and delivery across the UAE.",
+    "title": "Metal Beds UAE | Beds Supplier in Dubai & Across UAE | NAD Furniture",
+    "h1": "Metal Beds Supplier in UAE",
+    "description": "Explore metal beds, single beds, double beds, queen beds and king beds from NAD Furniture for homes, staff accommodation and bulk projects across Dubai and the UAE.",
+    "intro": "Explore metal and bedroom beds for residential, staff accommodation and commercial requirements, including single, double, queen and king-size options. Review available models and contact NAD Furniture for specifications, bulk supply and delivery across the UAE.",
     "categories": [
       "beds",
       "king-beds",
